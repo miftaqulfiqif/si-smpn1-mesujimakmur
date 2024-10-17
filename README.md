@@ -10,8 +10,7 @@
 - Laravel Spatie
 
 ## Route
-### GET /admin
-untuk akses halaman admin filament
+- `/admin` : untuk akses halaman admin filament
 
 ## Instalasi project
 
