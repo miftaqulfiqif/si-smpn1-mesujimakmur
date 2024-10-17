@@ -16,6 +16,15 @@
 
 ```base
 > composer install
+> php artisan migrate --seed
 > npm install
 > npm run dev
 > php artisan serve
+```
+
+## Login admin
+
+Setelah instalasi project masuk ke halaman admin filament dan login dengan data berikut:
+```base
+> Email : admin@gmail.com
+> Password : password
