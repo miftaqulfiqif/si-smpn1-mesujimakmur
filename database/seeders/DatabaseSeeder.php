@@ -23,6 +23,10 @@ class DatabaseSeeder extends Seeder
         ]);
 
         $role = Role::create([
+            'name' => 'siswa',
+            'guard_name' => 'web',
+        ]);
+        $role = Role::create([
             'name' => 'admin',
             'guard_name' => 'web',
         ]);
