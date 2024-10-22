@@ -2,9 +2,9 @@
 
 namespace App\Filament\Resources;
 
-use App\Filament\Resources\UserResource\Pages;
-use App\Filament\Resources\UserResource\RelationManagers;
-use App\Models\User;
+use App\Filament\Resources\AppLogoResource\Pages;
+use App\Filament\Resources\AppLogoResource\RelationManagers;
+use App\Models\AppLogo;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
@@ -12,29 +12,32 @@ use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
-use Illuminate\Support\Facades\DB;
+use Livewire\Features\SupportFileUploads\TemporaryUploadedFile;
 
-class UserResource extends Resource
+class AppLogoResource extends Resource
 {
-    protected static ?string $model = User::class;
+    protected static ?string $model = AppLogo::class;
 
-    protected static ?string $navigationLabel = 'Admin';
-    protected static ?string $navigationGroup = 'Manajemen pengguna';
+    protected static ?string $navigationGroup = 'Manajemen Konten';
 
-    protected static ?string $navigationIcon = 'heroicon-o-users';
+    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
 
     public static function form(Form $form): Form
     {
         return $form
             ->schema([
-                Forms\Components\TextInput::make('name')
-                    ->label('Nama')
+                Forms\Components\FileUpload::make('image_url')
+                    ->columnSpanFull()
+                    ->getUploadedFileNameForStorageUsing(
+                        fn(TemporaryUploadedFile $file): string => 'app-logo.' . $file->getExtension(),
+                    )
                     ->required(),
-                Forms\Components\TextInput::make('email')
-                    ->email()
-                    ->required(),
-                Forms\Components\TextInput::make('password')
-                    ->password()
+                Forms\Components\TextInput::make('alt_text'),
+                Forms\Components\Select::make('type')
+                    ->options([
+                        'favicon' => 'Favicon',
+                        'logo' => 'Logo',
+                    ])
                     ->required(),
             ]);
     }
@@ -42,11 +45,14 @@ class UserResource extends Resource
     public static function table(Table $table): Table
     {
         return $table
-            ->query(User::role('admin'))
             ->columns([
-                Tables\Columns\TextColumn::make('name')
+                Tables\Columns\TextColumn::make('editor.name')
+                    ->numeric()
+                    ->sortable(),
+                Tables\Columns\ImageColumn::make('image_url'),
+                Tables\Columns\TextColumn::make('alt_text')
                     ->searchable(),
-                Tables\Columns\TextColumn::make('email')
+                Tables\Columns\TextColumn::make('type')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()
@@ -78,14 +84,13 @@ class UserResource extends Resource
         ];
     }
 
-
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListUsers::route('/'),
-            'create' => Pages\CreateUser::route('/create'),
-            'view' => Pages\ViewUser::route('/{record}'),
-            'edit' => Pages\EditUser::route('/{record}/edit'),
+            'index' => Pages\ListAppLogos::route('/'),
+            'create' => Pages\CreateAppLogo::route('/create'),
+            'view' => Pages\ViewAppLogo::route('/{record}'),
+            'edit' => Pages\EditAppLogo::route('/{record}/edit'),
         ];
     }
 }

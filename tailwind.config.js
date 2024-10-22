@@ -13,6 +13,13 @@ export default {
         extend: {
             fontFamily: {
                 sans: ["Figtree", ...defaultTheme.fontFamily.sans],
+                inter: ["Inter", ...defaultTheme.fontFamily.sans],
+                raleway: ["Raleway", ...defaultTheme.fontFamily.sans],
+                preahvihear: ["Preahvihear", ...defaultTheme.fontFamily.sans],
+            },
+            backgroundImage: {
+                "hero-pattern": "url('assets/images/bg.png')",
+                "footer-texture": "url('/img/footer-texture.png')",
             },
         },
     },
@@ -20,7 +27,7 @@ export default {
         themes: [
             {
                 mytheme: {
-                    primary: "#1d4ed8",
+                    primary: "#7A1CAC",
 
                     secondary: "#9ca3af",
 
@@ -28,7 +35,7 @@ export default {
 
                     neutral: "#67e8f9",
 
-                    "base-100": "#f3f4f6",
+                    "base-100": "#FBF3FF",
 
                     info: "#3b82f6",
 

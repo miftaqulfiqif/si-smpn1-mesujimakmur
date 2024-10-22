@@ -16,5 +16,8 @@ class CreateUser extends CreateRecord
 
     // Remove create another
 
-
+    protected function afterCreate(): void
+    {
+        $this->record->assignRole('admin');
+    }
 }

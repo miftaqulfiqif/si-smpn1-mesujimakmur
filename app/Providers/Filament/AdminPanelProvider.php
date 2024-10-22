@@ -28,8 +28,18 @@ class AdminPanelProvider extends PanelProvider
             ->path('admin')
             ->login()
             ->topNavigation()
+            ->favicon(function () {
+                $appLogo = \App\Models\AppLogo::where('type', 'favicon')->first();
+                return $appLogo ? asset($appLogo->image_url) : null;
+            })
+            ->databaseNotifications()
+            ->databaseNotificationsPolling(10)
             ->colors([
                 'primary' => Color::Blue,
+                'success' => Color::Green,
+                'danger' => Color::Red,
+                'warning' => Color::Yellow,
+                'info' => Color::Cyan,
             ])
             ->discoverResources(in: app_path('Filament/Resources'), for: 'App\\Filament\\Resources')
             ->discoverPages(in: app_path('Filament/Pages'), for: 'App\\Filament\\Pages')
