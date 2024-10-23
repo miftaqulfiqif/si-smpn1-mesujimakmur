@@ -28,10 +28,6 @@ class AdminPanelProvider extends PanelProvider
             ->path('admin')
             ->login()
             ->topNavigation()
-            ->favicon(function () {
-                $appLogo = \App\Models\AppLogo::where('type', 'favicon')->first();
-                return $appLogo ? asset($appLogo->image_url) : null;
-            })
             ->databaseNotifications()
             ->databaseNotificationsPolling(10)
             ->colors([
@@ -47,10 +43,7 @@ class AdminPanelProvider extends PanelProvider
                 Pages\Dashboard::class,
             ])
             ->discoverWidgets(in: app_path('Filament/Widgets'), for: 'App\\Filament\\Widgets')
-            ->widgets([
-                Widgets\AccountWidget::class,
-                Widgets\FilamentInfoWidget::class,
-            ])
+            ->widgets([])
             ->middleware([
                 EncryptCookies::class,
                 AddQueuedCookiesToResponse::class,

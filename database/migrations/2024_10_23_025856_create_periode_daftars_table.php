@@ -11,12 +11,15 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('app_logos', function (Blueprint $table) {
+        Schema::create('periode_daftars', function (Blueprint $table) {
             $table->id();
             $table->foreignId('editor')->constrained('users')->onDelete('cascade');
-            $table->string('image_url');
-            $table->string('alt_text')->nullable()->default('app_logo');
-            $table->enum('type', ['favicon', 'logo']);
+            $table->string('name');
+            $table->date('start_date');
+            $table->date('end_date');
+            $table->boolean('status');
+            $table->integer('jml_pendaftar');
+            $table->integer('kuota');
             $table->timestamps();
         });
     }
@@ -26,6 +29,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('app_logos');
+        Schema::dropIfExists('periode_daftars');
     }
 };

@@ -9,6 +9,4 @@ use Filament\Resources\Pages\CreateRecord;
 class CreatePeriodeDaftar extends CreateRecord
 {
     protected static string $resource = PeriodeDaftarResource::class;
-    protected static ?string $title = "Buat PPDB Baru";
-    protected static bool $canCreateAnother = false;
 }

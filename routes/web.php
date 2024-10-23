@@ -6,7 +6,11 @@ use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
-    return view('homepage');
+    return view('welcome');
+});
+
+Route::get('/login', function () {
+    return view('auth.login');
 });
 
 Route::get('/tes-notif', function () {
