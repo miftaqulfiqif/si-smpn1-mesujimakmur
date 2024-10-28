@@ -13,8 +13,25 @@ class EditPeriodeDaftar extends EditRecord
     protected function getHeaderActions(): array
     {
         return [
-            Actions\ViewAction::make(),
-            Actions\DeleteAction::make(),
+            Actions\ViewAction::make()
+                ->label('Lihat Detail')
+                ->icon('heroicon-o-eye'),
+            Actions\DeleteAction::make()
+                ->label('Hapus')
+                ->icon('heroicon-o-trash'),
         ];
+    }
+
+    protected function getSaveFormAction(): Actions\Action
+    {
+        return parent::getSaveFormAction()
+            ->label('Simpan')
+            ->icon('heroicon-s-document-check');
+    }
+
+    protected function getCancelFormAction(): \Filament\Actions\Action
+    {
+        return parent::getCancelFormAction()
+            ->label('Batal');
     }
 }

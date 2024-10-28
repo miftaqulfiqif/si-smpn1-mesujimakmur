@@ -17,4 +17,14 @@ class PeriodeDaftar extends Model
         'jml_pendaftar',
         'kuota',
     ];
+
+    public function editor()
+    {
+        return $this->belongsTo(User::class, 'id');
+    }
+
+    public function dokumens()
+    {
+        return $this->hasMany(Dokumen::class, 'id_periode');
+    }
 }
