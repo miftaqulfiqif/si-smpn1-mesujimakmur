@@ -3,26 +3,28 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class PeriodeDaftar extends Model
 {
+    protected $table = 'periode_daftars';
+
     protected $fillable = [
-        'nama',
+        'editor',
+        'name',
         'start_date',
         'end_date',
+        'status',
         'jml_pendaftar',
         'kuota',
-        'status',
     ];
 
-    public function dokumen(): HasMany
+    public function editor()
     {
-        return $this->hasMany(DokumenPendaftar::class, 'id_periode');
+        return $this->belongsTo(User::class, 'id');
     }
 
-    public function pendaftars(): HasMany
+    public function dokumens()
     {
-        return $this->hasMany(Pendaftar::class, 'id_periode');
+        return $this->hasMany(Dokumen::class, 'id_periode');
     }
 }
