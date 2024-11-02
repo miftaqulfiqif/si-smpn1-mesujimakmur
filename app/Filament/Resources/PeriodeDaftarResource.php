@@ -2,17 +2,12 @@
 
 namespace App\Filament\Resources;
 
-use App\Filament\Resources\PendaftarReviewedResource\RelationManagers\PeriodeDaftarRelationManager;
 use App\Filament\Resources\PeriodeDaftarResource\Pages;
 use App\Filament\Resources\PeriodeDaftarResource\RelationManagers;
-use App\Filament\Resources\PeriodeDaftarResource\RelationManagers\PendaftarsRelationManager;
 use App\Models\PeriodeDaftar;
 use Filament\Forms;
-use Filament\Forms\Components\Hidden;
-use Filament\Forms\Components\Repeater;
-use Filament\Forms\Components\Section;
 use Filament\Forms\Form;
-use Filament\Resources\Components\Tab;
+use Closure;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
@@ -23,105 +18,110 @@ class PeriodeDaftarResource extends Resource
 {
     protected static ?string $model = PeriodeDaftar::class;
 
+    protected static ?string $navigationIcon = 'heroicon-o-clipboard-document';
     protected static ?string $navigationGroup = 'PPDB';
-    protected static ?string $navigationLabel = 'Periode Daftar';
-    protected static ?string $navigationIcon = 'heroicon-o-paper-clip';
+    protected static ?string $navigationLabel = 'Periode Pendaftaran';
+
 
     public static function form(Form $form): Form
     {
         return $form
             ->schema([
-                Section::make('Periode Pendaftaran')
-                    ->columns([
-                        'sm' => 2,
-                        'lg' => 3,
-                    ])
-                    ->schema([
+                Forms\Components\Section::make()->columns(2)->schema([
+                    Forms\Components\TextInput::make('name')
+                        ->label('Nama periode')
+                        ->placeholder('Contoh: PPDB Gelombang II Periode 2024/2025')
+                        ->required()
+                        ->maxLength(255),
+                    Forms\Components\DatePicker::make('start_date')
+                        ->label('Tanggal Mulai')
+                        ->reactive()
+                        ->placeholder('Pilih tanggal')
+                        ->displayFormat('d F Y')
+                        ->locale('id')
+                        ->timezone('Asia/Jakarta')
+                        ->native(false)
+                        ->required(),
+                    Forms\Components\DatePicker::make('end_date')
+                        ->placeholder('Pilih tanggal')
+                        ->displayFormat('d F Y')
+                        ->locale('id')
+                        ->label('Tanggal Selesai')
+                        ->timezone('Asia/Jakarta')
+                        ->native(false)
+                        ->required(),
+                    Forms\Components\TextInput::make('kuota')
+                        ->placeholder(placeholder: 'Masukkan kuota pendaftaran')
+                        ->required()
+                        ->numeric(),
+                    Forms\Components\ToggleButtons::make('status')
+                        ->options([
+                            1 => 'Aktif',
+                            0 => 'Tidak Aktif',
+                        ])
+                        ->default(1)
+                        ->colors([
+                            1 => 'success',
+                            0 => 'danger',
+                        ])
+                        ->inline()
+                        ->icons([
+                            1 => 'heroicon-o-check-circle',
+                            0 => 'heroicon-o-x-circle',
+                        ])
+                        ->required(),
+                ]),
+                Forms\Components\Section::make()->schema([
+                    Forms\Components\Repeater::make('Dokumen persyaratan')->addActionLabel('Tambah dokumen')->columns(2)->schema([
                         Forms\Components\TextInput::make('nama')
-                            ->required(),
-                        Forms\Components\DatePicker::make('start_date')
-                            ->default(now())
-                            ->label('Tanggal mulai')
-                            ->required(),
-                        Forms\Components\DatePicker::make('end_date')
-                            ->label('Tanggal selesai')
-                            ->required(),
-                        Forms\Components\TextInput::make('kuota')
                             ->required()
-                            ->numeric(),
-                        Forms\Components\ToggleButtons::make('status')
+                            ->placeholder('Contoh: SCAN PDF Ijazah Asli')
+                            ->label('Nama dokumen'),
+                        Forms\Components\ToggleButtons::make('isRequired')
+                            ->required()
+                            ->label('Wajib diisi?')
+                            ->inline()
+                            ->default(1)
                             ->options([
-                                'aktif' => 'Aktif',
-                                'tidak aktif' => 'Tidak aktif',
-                            ])
-                            ->icons([
-                                'aktif' => 'heroicon-o-check-circle',
-                                'tidak aktif' => 'heroicon-o-x-circle',
+                                1 => 'Ya',
+                                0 => 'Tidak',
                             ])
                             ->colors([
-                                'aktif' => 'success',
-                                'tidak aktif' => 'danger',
+                                1 => 'success',
+                                0 => 'danger',
                             ])
-                            ->inline(true)
-                            ->required(),
-                        Hidden::make('jml_pendaftar')
-                            ->default(0),
-                    ]),
-                Section::make('Dokumen Syarat Pendaftaran')
-                    ->description('Dokumen pendaftaran yang diperlukan')
-                    ->schema([
-                        Repeater::make('Dokumen Pendaftaran')
-                            ->columns(2)
-                            ->relationship('dokumen')
-                            ->schema([
-                                Forms\Components\TextInput::make('nama')
-                                    ->placeholder('Contoh: Scan PDF Ijazah Asli')
-                                    ->required(),
-                                Forms\Components\ToggleButtons::make('isRequired')
-                                    ->options([
-                                        1 => 'Ya',
-                                        0 => 'Tidak',
-                                    ])
-                                    ->default('tidak')
-                                    ->colors([
-                                        'ya' => 'success',
-                                        'tidak' => 'danger',
-                                    ])
-                                    ->inline(true)
-                                    ->required(),
+                            ->icons([
+                                1 => 'heroicon-o-check-circle',
+                                0 => 'heroicon-o-x-circle',
                             ])
                     ])
+                ]),
             ]);
     }
 
     public static function table(Table $table): Table
     {
         return $table
+            ->emptyStateHeading(heading: 'Belum ada periode pendaftaran')
             ->columns([
-                Tables\Columns\TextColumn::make('nama')
+                Tables\Columns\TextColumn::make('editor.name')
+                    ->sortable(),
+                Tables\Columns\TextColumn::make('name')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('start_date')
-                    ->label('Mulai')
-                    ->date()
+                    ->date('d F Y', 'Asia/Jakarta')
                     ->sortable(),
                 Tables\Columns\TextColumn::make('end_date')
-                    ->label('Selesai')
-                    ->date()
+                    ->date('d F Y', 'Asia/Jakarta')
                     ->sortable(),
+                Tables\Columns\IconColumn::make('status')
+                    ->boolean(),
                 Tables\Columns\TextColumn::make('jml_pendaftar')
-                    ->label('Jumlah Pendaftar')
                     ->numeric()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('kuota')
                     ->numeric()
                     ->sortable(),
-                Tables\Columns\TextColumn::make('status')
-                    ->badge()
-                    ->colors([
-                        'success' => 1,
-                        'danger' => 0,
-                    ])
-                    ->searchable(),
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()
@@ -148,8 +148,7 @@ class PeriodeDaftarResource extends Resource
     public static function getRelations(): array
     {
         return [
-            PendaftarsRelationManager::class,
-            PeriodeDaftarRelationManager::class,
+            //
         ];
     }
 

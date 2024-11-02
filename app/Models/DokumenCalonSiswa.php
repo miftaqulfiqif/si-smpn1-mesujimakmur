@@ -4,13 +4,14 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class StatusPendaftaran extends Model
+class DokumenCalonSiswa extends Model
 {
-    protected $table = 'status_pendaftarans';
+    protected $table = 'dokumen_calon_siswas';
 
     protected $fillable = [
         'id_data_calon_siswa',
-        'status',
+        'id_dokumen',
+        'path_url',
     ];
 
     public function dataCalonSiswa()

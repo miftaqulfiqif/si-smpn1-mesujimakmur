@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AchievmentController;
+use App\Http\Controllers\PpdbController;
 use Filament\Notifications\Notification;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
@@ -26,6 +27,9 @@ Route::get('/achievment', [AchievmentController::class, "index"]);
 Route::get('/activity', function(){
     return view('activity');
 });
+
+
+Route::get('/ppdb/pendaftaran', [PpdbController::class, 'index'])->name('ppdb.index');
 
 Route::get('/tes-notif', function () {
     try {
