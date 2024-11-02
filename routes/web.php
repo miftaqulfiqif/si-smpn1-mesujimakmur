@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AchievmentController;
 use Filament\Notifications\Notification;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
@@ -18,6 +19,12 @@ Route::get('/register', function(){
 
 Route::get('/home', function(){
     return view('home');
+});
+
+Route::get('/achievment', [AchievmentController::class, "index"]);
+
+Route::get('/activity', function(){
+    return view('activity');
 });
 
 Route::get('/tes-notif', function () {
