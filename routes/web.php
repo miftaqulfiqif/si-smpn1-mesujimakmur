@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AchievmentController;
 use App\Http\Controllers\PpdbController;
 use Filament\Notifications\Notification;
 use Illuminate\Support\Facades\Auth;
@@ -21,9 +22,12 @@ Route::get('/home', function(){
     return view('home');
 });
 
-Route::get('/login', function () {
-    return view('auth.login');
+Route::get('/achievment', [AchievmentController::class, "index"]);
+
+Route::get('/activity', function(){
+    return view('activity');
 });
+
 
 Route::get('/ppdb/pendaftaran', [PpdbController::class, 'index'])->name('ppdb.index');
 
