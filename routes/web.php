@@ -1,19 +1,21 @@
 <?php
 
 use App\Http\Controllers\AchievmentController;
+use App\Http\Controllers\AuthController;
 use App\Http\Controllers\PpdbController;
+use Doctrine\DBAL\Schema\Index;
 use Filament\Notifications\Notification;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Route;
+use League\Csv\Query\Row;
 
 Route::get('/', function () {
     return view('home');
 });
 
-Route::get('/login', function(){
-    return view('auth.login');
-});
+Route::get('/ppdb/login', [AuthController::class, 'index'])->name('auth.login');
+
 Route::get('/register', function(){
     return view('auth.register');
 });
@@ -44,3 +46,7 @@ Route::get('/tes-notif', function () {
         Log::info($e->getMessage());
     }
 });
+
+Route::get('/logout', function(){
+    Auth::logout();
+      return redirect('/login');});

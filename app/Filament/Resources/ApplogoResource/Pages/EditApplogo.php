@@ -1,14 +1,14 @@
 <?php
 
-namespace App\Filament\Resources\DataCalonSiswaResource\Pages;
+namespace App\Filament\Resources\ApplogoResource\Pages;
 
-use App\Filament\Resources\DataCalonSiswaResource;
+use App\Filament\Resources\ApplogoResource;
 use Filament\Actions;
 use Filament\Resources\Pages\EditRecord;
 
-class EditDataCalonSiswa extends EditRecord
+class EditApplogo extends EditRecord
 {
-    protected static string $resource = DataCalonSiswaResource::class;
+    protected static string $resource = ApplogoResource::class;
 
     protected function getHeaderActions(): array
     {

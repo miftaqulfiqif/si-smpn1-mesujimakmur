@@ -7,7 +7,7 @@
             <a href="/activity">Activites</a>
             <a href="#">Information</a>
             <a href="#">Contact</a>
-            <a href="#">PPDB</a>
+            <a href="/ppdb/login">PPDB</a>
         </div>
     </div>
     <img src="{{ asset('assets/images/line.png') }}" alt="" srcset="" class="mx-auto">

@@ -1,14 +1,14 @@
 <?php
 
-namespace App\Filament\Resources\DataCalonSiswaResource\Pages;
+namespace App\Filament\Resources\VisiMisiResource\Pages;
 
-use App\Filament\Resources\DataCalonSiswaResource;
+use App\Filament\Resources\VisiMisiResource;
 use Filament\Actions;
 use Filament\Resources\Pages\EditRecord;
 
-class EditDataCalonSiswa extends EditRecord
+class EditVisiMisi extends EditRecord
 {
-    protected static string $resource = DataCalonSiswaResource::class;
+    protected static string $resource = VisiMisiResource::class;
 
     protected function getHeaderActions(): array
     {

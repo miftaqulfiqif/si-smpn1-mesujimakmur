@@ -1,14 +1,14 @@
 <?php
 
-namespace App\Filament\Resources\DataCalonSiswaResource\Pages;
+namespace App\Filament\Resources\MotoResource\Pages;
 
-use App\Filament\Resources\DataCalonSiswaResource;
+use App\Filament\Resources\MotoResource;
 use Filament\Actions;
 use Filament\Resources\Pages\EditRecord;
 
-class EditDataCalonSiswa extends EditRecord
+class EditMoto extends EditRecord
 {
-    protected static string $resource = DataCalonSiswaResource::class;
+    protected static string $resource = MotoResource::class;
 
     protected function getHeaderActions(): array
     {

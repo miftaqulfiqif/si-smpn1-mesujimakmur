@@ -248,7 +248,6 @@
                 </div>
             </div>
         </div>
-
     </section>
     <section class="max-w-full">
         <div class="mx-auto mt-20 mb-4 text-center">
