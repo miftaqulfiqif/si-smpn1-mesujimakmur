@@ -15,10 +15,13 @@ Route::get('/', function () {
 });
 
 Route::get('/ppdb/login', function () {
+    if (Auth::check()) {
+        return redirect('/ppdb/pendaftaran');
+    }
     return view('auth.login');
 });
-Route::post('/login', AuthController::class, 'login')->name('login');
-Route::post('/logout', AuthController::class, 'logout');
+Route::post('/ppdb/login', [AuthController::class, 'login'])->name('login');
+Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
 Route::get('/ppdb/register', function () {
     return view('auth.register');
@@ -39,7 +42,7 @@ Route::get('/activity', function(){
 });
 
 
-Route::get('/ppdb/pendaftaran', [PpdbController::class, 'index'])->name('ppdb.index');
+Route::get('/ppdb/pendaftaran', [PpdbController::class, 'index'])->middleware('auth')->name('ppdb.index');
 
 Route::get('/tes-notif', function () {
     try {
