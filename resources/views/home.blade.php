@@ -1,6 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
 
+@if (session('success'))
+    <div class="text-green-500">
+        {{ session('success') }}
+    </div>
+@endif
+
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">

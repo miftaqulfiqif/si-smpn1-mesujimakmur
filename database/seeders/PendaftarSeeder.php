@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\DataCalonSiswa;
 use App\Models\Pendaftar;
 use App\Models\PeriodeDaftar;
 use App\Models\User;
@@ -17,8 +18,8 @@ class PendaftarSeeder extends Seeder
     {
         $id_periode = PeriodeDaftar::first()->id;
         $id_user = User::first()->id;
-        Pendaftar::firstOrCreate([
-            'nama' => 'Miftaqul Fiqi Firmansyah',
+        DataCalonSiswa::firstOrCreate([
+            'name' => 'Miftaqul Fiqi Firmansyah',
             'nisn' => '2000018232',
             'nik' => '1237712381',
             'tempat_lahir' => 'Surabaya',
