@@ -14,15 +14,23 @@ Route::get('/', function () {
     return view('home');
 });
 
-Route::get('/ppdb/login', [AuthController::class, 'index'])->name('auth.login');
+Route::get('/ppdb/login', function () {
+    return view('auth.login');
+});
+Route::post('/login', AuthController::class, 'login')->name('login');
+Route::post('/logout', AuthController::class, 'logout');
 
-Route::get('/register', function(){
+Route::get('/ppdb/register', function () {
     return view('auth.register');
 });
 
-Route::get('/home', function(){
+Route::post('/ppdb/register', [AuthController::class, 'register'])->name('register');
+
+
+Route::get('/home', function () {
     return view('home');
-});
+})->name('home');
+
 
 Route::get('/achievment', [AchievmentController::class, "index"]);
 
@@ -35,7 +43,7 @@ Route::get('/ppdb/pendaftaran', [PpdbController::class, 'index'])->name('ppdb.in
 
 Route::get('/tes-notif', function () {
     try {
-        $recipient = auth()->user();
+        $recipient = auth()->Auth::user()();
 
         Notification::make()
             ->title('Saved successfully')
