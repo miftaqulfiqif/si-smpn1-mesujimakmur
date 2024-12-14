@@ -24,9 +24,9 @@
         srcset="">
     <div class="flex space-x-16">
         <ul class="space-x-4 items-center hidden md:flex">
-            <li><a href="{{ route('ppdb.index') }}"
+            {{-- <li><a href="{{ route('ppdb.index') }}"
                     class="px-3 h-8 rounded-md flex items-center shadow hover:shadow-md {{ Route::currentRouteNamed('ppdb.index') ? 'bg-[#7A1CAC] text-white' : 'bg-white text-[#7A1CAC]' }}">Pendaftaran</a>
-            </li>
+            </li> --}}
             <li>
                 <div class="dropdown">
                     <div tabindex="0" role="button"

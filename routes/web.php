@@ -14,25 +14,32 @@ Route::get('/', function () {
     return view('home');
 });
 
+Route::get('/home', function () {
+    return view('home');
+})->name('home');
+
+// ROUTE DAFTAR SISWA
+Route::get('/ppdb/register', function () {
+    return view('auth.register');
+});
+Route::post('/ppdb/register', [AuthController::class, 'register'])->name('register');
+
+// ROUTE PPDB
 Route::get('/ppdb/login', function () {
     if (Auth::check()) {
         return redirect('/ppdb/pendaftaran');
     }
     return view('auth.login');
 });
-Route::post('/ppdb/login', [AuthController::class, 'login'])->name('login');
+Route::post('/login', [AuthController::class, 'login'])->name('login');
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
-Route::get('/ppdb/register', function () {
-    return view('auth.register');
-});
+// ROUTE PENDAFTARAN
+Route::get('/ppdb/pendaftaran', [PpdbController::class, 'showForm'])
+    ->middleware('auth')
+    ->name('ppdb.pendaftaran.biodata-siswa');
+Route::post('/ppdb/pendaftaran', [PpdbController::class, 'saveBiodataSiswa'])->name('ppdb.create');
 
-Route::post('/ppdb/register', [AuthController::class, 'register'])->name('register');
-
-
-Route::get('/home', function () {
-    return view('home');
-})->name('home');
 
 
 Route::get('/achievment', [AchievmentController::class, "index"]);
@@ -42,7 +49,6 @@ Route::get('/activity', function(){
 });
 
 
-Route::get('/ppdb/pendaftaran', [PpdbController::class, 'index'])->middleware('auth')->name('ppdb.index');
 
 Route::get('/tes-notif', function () {
     try {
