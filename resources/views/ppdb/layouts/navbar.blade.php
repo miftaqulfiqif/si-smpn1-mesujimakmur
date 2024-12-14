@@ -20,12 +20,13 @@
             <li><a>Bantuan</a></li>
         </ul>
     </div>
-    <img src="{{ asset('assets/images/logo-dikdasmen 1.png')}}" class="h-10 w-10 hidden md:block" alt="" srcset="">
+    <img src="{{ asset('assets/images/logo-dikdasmen 1.png') }}" class="h-10 w-10 hidden md:block" alt=""
+        srcset="">
     <div class="flex space-x-16">
         <ul class="space-x-4 items-center hidden md:flex">
-            <li><a href="{{ route('ppdb.index') }}"
+            {{-- <li><a href="{{ route('ppdb.index') }}"
                     class="px-3 h-8 rounded-md flex items-center shadow hover:shadow-md {{ Route::currentRouteNamed('ppdb.index') ? 'bg-[#7A1CAC] text-white' : 'bg-white text-[#7A1CAC]' }}">Pendaftaran</a>
-            </li>
+            </li> --}}
             <li>
                 <div class="dropdown">
                     <div tabindex="0" role="button"
@@ -65,7 +66,14 @@
                 <li class="border-b pb-1">
                     <span class="font-bold">Rosyamdani</span>
                 </li>
-                <li><a>Logout</a></li>
+                <li>
+                    <form action="{{ route('logout') }}" method="post" style="display: inline">
+                        @csrf
+                        @method('POST')
+                        <button type="submit"
+                            style="background: none; border: none; color: inherit; cursor: pointer;">Logout</button>
+                    </form>
+                </li>
             </ul>
         </div>
         {{-- <div class="relative" x-data="{ open: false }">

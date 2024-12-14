@@ -17,6 +17,14 @@
             -ms-overflow-style: none;
             scrollbar-width: none;
         }
+
+        .notactive {
+            display: none;
+        }
+
+        .active {
+            display: block
+        }
     </style>
     @yield('style')
 </head>

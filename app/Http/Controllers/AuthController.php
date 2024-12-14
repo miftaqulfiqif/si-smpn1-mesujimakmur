@@ -42,7 +42,6 @@ class AuthController extends Controller
             return redirect()->intended('/ppdb/pendaftaran')->with('success', 'Login berhasil!');
         }
 
-        // Jika login gagal
         return back()->withErrors([
             'nisn' => 'NISN atau password salah.',
         ]);
@@ -54,6 +53,6 @@ class AuthController extends Controller
         $request->session()->invalidate();
         $request->session()->regenerateToken();
 
-        return redirect('/login')->with('success', 'Anda telah logout.');
+        return redirect('/ppdb/login')->with('success', 'Anda telah logout.');
     }
 }
