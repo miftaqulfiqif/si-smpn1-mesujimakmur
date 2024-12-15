@@ -32,7 +32,7 @@ class DataCalonSiswa extends Model
     }
     public function dataOrangtua()
     {
-        return $this->belongsTo(DataOrangtua::class, 'id_data_calon_siswa');
+        return $this->hasOne(DataOrangtua::class, 'id_data_calon_siswa');
     }
 
     public function periode()
@@ -42,11 +42,25 @@ class DataCalonSiswa extends Model
 
     public function dokumenCalonSiswa()
     {
-        return $this->hasMany(DokumenCalonSiswa::class, 'id_data_calon_siswa');
+        return $this->hasMany(DokumenCalonSiswa::class, 'id_calon_siswa');
     }
 
     public function statusPendaftaran()
     {
         return $this->hasOne(StatusPendaftaran::class, 'id_data_calon_siswa');
+    }
+
+    protected static function boot(){
+        parent::boot();
+
+        static::creating(function ($dataCalonSiswa){
+            $activePeriode = PeriodeDaftar::where('status', true)->first();
+
+            if ($activePeriode) {
+                $dataCalonSiswa->id_periode = $activePeriode->id;
+            }else{
+                throw new \Exception("Tidak ada periode aktif yang tersedia");
+            }
+        });
     }
 }

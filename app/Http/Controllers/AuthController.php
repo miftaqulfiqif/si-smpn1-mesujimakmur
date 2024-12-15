@@ -32,6 +32,7 @@ class AuthController extends Controller
 
     public function login(Request $request)
     {
+        
         $request->validate([
             'nisn' => 'required|string',
             'password' => 'required|string',
@@ -39,8 +40,10 @@ class AuthController extends Controller
 
         if (Auth::attempt($request->only('nisn', 'password'))) {
             $request->session()->regenerate();
+
             return redirect()->intended('/ppdb/pendaftaran')->with('success', 'Login berhasil!');
         }
+        
 
         return back()->withErrors([
             'nisn' => 'NISN atau password salah.',

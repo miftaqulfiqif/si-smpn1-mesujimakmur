@@ -7,7 +7,8 @@
 @endsection
 @section('content')
     <section class="w-full h-[100vh] px-3 md:px-10 lg:px-14 pt-16 overflow-hidden">
-        <form class="flex gap-2 flex-col md:flex-row">
+
+        <div class="flex gap-2 flex-col md:flex-row">
             <ul class="flex items-start flex-row md:flex-col bg-base-100 p-4 rounded-md justify-between h-fit">
                 <li class="hidden md:flex flex-col mb-3 justify-start bg-[#F5EBFF] w-full rounded-md p-2">
                     <progress class="progress progress-primary bg-[#7a1cac8f] w-56" value="1" max="100"></progress>
@@ -59,12 +60,12 @@
 
 
             <ul id="biodata-form" class="flex flex-col w-full gap-4 h-screen overflow-y-auto px-5 pb-40 md:pb-28">
-                <form action="{{ route('ppdb.pendaftaran.biodata-siswa') }}" method="post">
+                <form action="{{ route('saveBiodataSiswa') }}" method="POST" enctype="multipart/form-data">
                     @csrf
                     <li class="form-control gap-1">
                         <label for="name" class="label font-medium">Nama Lengkap</label>
                         <input type="text" id="name" name="name" value="{{ $user->name }}"
-                            class="input bg-white input-bordered w-full">
+                            class="input bg-white input-bordered w-full" required maxlength="255">
                         @error('name')
                             <span class="text-red-500 text-sm">{{ $message }}</span>
                         @enderror
@@ -98,7 +99,7 @@
                     </li>
                     <li class="form-control gap-1">
                         <label for="nik" class="label font-medium">NIK</label>
-                        <input type="text" id="nik" name="nik" value="{{ $user->nisn }}"
+                        <input type="text" id="nik" name="nik" placeholder="Masukkan NIK"
                             class="input bg-white input-bordered w-full">
                         @error('nik')
                             <span class="text-red-500 text-sm">{{ $message }}</span>
@@ -113,19 +114,12 @@
                         @enderror
                     </li>
                     <li class="form-control gap-1">
-                        <label for="no_telp" class="label font-medium">No Telpon</label>
-                        <input type="text" id="no_telp" name="no_telp" placeholder="Masukkan Nomor Telpon"
-                            class="input bg-white input-bordered w-full">
-                        @error('notelp')
-                            <span class="text-red-500 text-sm">{{ $message }}</span>
-                        @enderror
-                    </li>
-                    <li class="form-control gap-1">
                         <label for="penerima_kip" class="label font-medium">Penerima KIP?</label>
                         <select id="penerima_kip" name="penerima_kip" class="select select-bordered w-full bg-white">
-                            <option disabled selected>Pilih salah satu</option>
-                            <option value="ya">Ya</option>
-                            <option value="tidak">Tidak</option>
+                            <option value="" {{ old('penerima_kip') == '' ? 'selected' : '' }}>Apakah anda penerima
+                                KIP?</option>
+                            <option value="ya" {{ old('penerima_kip') == 'ya' ? 'selected' : '' }}>Ya</option>
+                            <option value="tidak" {{ old('penerima_kip') == 'tidak' ? 'selected' : '' }}>Tidak</option>
                         </select>
                         @error('penerima_kip')
                             <span class="text-red-500 text-sm">{{ $message }}</span>
@@ -143,26 +137,16 @@
                         <label for="asal_sekolah" class="label font-medium">Asal Sekolah</label>
                         <select id="asal_sekolah" name="asal_sekolah"
                             class="select select2 select-bordered w-full bg-white" style="width: 100% !important;">
-                            <option disabled selected>Pilih salah satu</option>
-                            <option value="sdn_1_kalibata">SDN 1 Kalibata</option>
-                            <option value="sdn_2_kalibata">SDN 2 Kalibata</option>
-                            <option value="sdn_3_kalibata">SDN 3 Kalibata</option>
-                            <option value="sdn_4_kalibata">SDN 4 Kalibata</option>
-                            <option value="sdn_5_kalibata">SDN 5 Kalibata</option>
-                            <option value="sdn_6_kalibata">SDN 6 Kalibata</option>
+                            @foreach ($sekolahPilihan as $sekolah)
+                                <option value="{{ $sekolah }}">{{ $sekolah }}</option>
+                            @endforeach
+
                         </select>
                         @error('asal_sekolah')
                             <span class="text-red-500 text-sm">{{ $message }}</span>
                         @enderror
                     </li>
-                    <li class="form-control gap-1">
-                        <label for="alamat" class="label font-medium">Alamat</label>
-                        <input type="text" id="alamat" name="alamat" placeholder="Masukkan alamat Lengkap"
-                            class="input bg-white input-bordered w-full">
-                        @error('alamat')
-                            <span class="text-red-500 text-sm">{{ $message }}</span>
-                        @enderror
-                    </li>
+
                     <li class="form-control gap-1">
                         <label for="tinggi_badan" class="label font-medium">Tinggi Badan (Berdasarkan cm)</label>
                         <input type="text" id="tinggi_badan" name="tinggi_badan"
@@ -190,7 +174,7 @@
                     </li>
                     <li class="form-control gap-1">
                         <label for="foto" class="label font-medium">Foto</label>
-                        <input type="file" id="foto" name="goto" accept="image/*"
+                        <input type="file" id="foto" name="foto" accept="image/*"
                             class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
                     </li>
                     <li class="flex justify-center">
@@ -198,7 +182,7 @@
                     </li>
                 </form>
             </ul>
-        </form>
+        </div>
     </section>
 @endsection
 @section('script')
