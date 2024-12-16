@@ -33,6 +33,8 @@ Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 Route::get('/ppdb/pendaftaran', [PpdbController::class, 'showForm'])
     ->middleware('auth')
     ->name('ppdb.pendaftaran.biodata-siswa');
+Route::get('/ppdb/pendataran-biodata-orangtua', [PpdbController::class, 'showBiodataOrangtua'])->name('biodata-orangtua');
+Route::post('/ppdb/pendataran-biodata-orangtua', [PpdbController::class, 'saveBiodataOrangtua'])->name('save-biodata-orangtua');
 Route::post('/ppdb/daftar', [PpdbController::class, 'saveBiodataSiswa'])->name('saveBiodataSiswa');
 Route::get('/ppdb/index', [PpdbController::class, 'showPpdbIndex'])->name('ppdb.index');
 

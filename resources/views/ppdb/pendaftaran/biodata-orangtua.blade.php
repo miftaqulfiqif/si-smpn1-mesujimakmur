@@ -55,7 +55,7 @@
                 </li>
             </ul>
             <ul id="biodata-orangtua-form" class="flex flex-col w-full gap-4 h-screen overflow-y-auto px-5 pb-40 md:pb-28">
-                <form action="{{ route('saveBiodataOrangtua') }}" method="POST" enctype="multipart/form-data">
+                <form action="{{ route('save-biodata-orangtua') }}" method="POST" enctype="multipart/form-data">
                     @csrf
                     <li class="form-control gap-1">
                         <label for="nama_ayah" class="label font-medium">Nama Ayah</label>
@@ -160,6 +160,9 @@
                         @error('penghasilan_ibu')
                             <span class="text-red-500 text-sm">{{ $message }}</span>
                         @enderror
+                    </li>
+                    <li class="flex justify-center">
+                        <button type="submit" id="submit" class="btn px-10 bg-slate-950 text-white">Submit</button>
                     </li>
                 </form>
             </ul>
