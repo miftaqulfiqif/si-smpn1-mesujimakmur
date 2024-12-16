@@ -25,17 +25,7 @@ Route::get('/ppdb/register', function () {
 Route::post('/ppdb/register', [AuthController::class, 'register'])->name('register');
 
 // ROUTE PPDB
-Route::get('/ppdb/login', function () {
-    if (Auth::check()) {
-        $user = Auth::user();
-        
-        if (is_null($user->nisn)) {
-            return redirect('/admin');
-        }
-        return redirect('/ppdb/pendaftaran');
-    }
-    return view('auth.login');
-});
+Route::get('/ppdb/login', [AuthController::class, 'showLoginForm'])->name('ppdb.login');
 Route::post('/login', [AuthController::class, 'login'])->name('login');
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
@@ -44,6 +34,7 @@ Route::get('/ppdb/pendaftaran', [PpdbController::class, 'showForm'])
     ->middleware('auth')
     ->name('ppdb.pendaftaran.biodata-siswa');
 Route::post('/ppdb/daftar', [PpdbController::class, 'saveBiodataSiswa'])->name('saveBiodataSiswa');
+Route::get('/ppdb/index', [PpdbController::class, 'showPpdbIndex'])->name('ppdb.index');
 
 
 

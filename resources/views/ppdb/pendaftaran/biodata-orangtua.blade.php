@@ -54,7 +54,115 @@
                         class="ml-2 text-[10px] md:text-[15px] max-w-[70px] text-center md:text-left md:max-w-fit">Dokumen</span>
                 </li>
             </ul>
+            <ul id="biodata-orangtua-form" class="flex flex-col w-full gap-4 h-screen overflow-y-auto px-5 pb-40 md:pb-28">
+                <form action="{{ route('saveBiodataOrangtua') }}" method="POST" enctype="multipart/form-data">
+                    @csrf
+                    <li class="form-control gap-1">
+                        <label for="nama_ayah" class="label font-medium">Nama Ayah</label>
+                        <input type="text" id="nama_ayah" name="nama_ayah" placeholder="Masukkan Nama Ayah"
+                            class="input bg-white input-bordered w-full" required maxlength="255">
+                        @error('nama_ayah')
+                            <span class="text-red-500 text-sm">{{ $message }}</span>
+                        @enderror
+                    </li>
+                    <li class="form-control gap-1">
+                        <label for="nik_ayah" class="label font-medium">NIK Ayah</label>
+                        <input type="text" id="nik_ayah" name="nik_ayah" placeholder="Masukkan NIK Ayah"
+                            class="input bg-white input-bordered w-full" required maxlength="255">
+                        @error('nik_ayah')
+                            <span class="text-red-500 text-sm">{{ $message }}</span>
+                        @enderror
+                    </li>
+                    <li class="form-control gap-1">
+                        <label for="tgl_lahir_ayah" class="label font-medium">Tanggal Lahir Ayah</label>
+                        <input type="date" id="tgl_lahir_ayah" name="tgl_lahir_ayah" placeholder="Pilih Tanggal Lahir"
+                            class="input bg-white input-bordered w-full">
+                        @error('tgl_lahir_ayah')
+                            <span class="text-red-500 text-sm">{{ $message }}</span>
+                        @enderror
+                    </li>
+                    <li class="form-control gap-1">
+                        <label for="pendidikan_ayah" class="label font-medium">Pendidikan Terakhir Ayah</label>
+                        <input type="text" id="pendidikan_ayah" name="pendidikan_ayah"
+                            placeholder="Masukkan Pendidikan Terakhir Ayah" class="input bg-white input-bordered w-full"
+                            required maxlength="255">
+                        @error('pendidikan_ayah')
+                            <span class="text-red-500 text-sm">{{ $message }}</span>
+                        @enderror
+                    </li>
+                    <li class="form-control gap-1">
+                        <label for="pekerjaan_ayah" class="label font-medium">Pendidikan Pekerjaan Ayah</label>
+                        <input type="text" id="pekerjaan_ayah" name="pekerjaan_ayah"
+                            placeholder="Masukkan Pekerjaan Ayah" class="input bg-white input-bordered w-full" required
+                            maxlength="255">
+                        @error('pekerjaan_ayah')
+                            <span class="text-red-500 text-sm">{{ $message }}</span>
+                        @enderror
+                    </li>
+                    <li class="form-control gap-1">
+                        <label for="penghasilan_ayah" class="label font-medium">Penghasilan Ayah</label>
+                        <input type="text" id="penghasilan_ayah" name="penghasilan_ayah"
+                            placeholder="Masukkan Penghasilan Ayah" class="input bg-white input-bordered w-full" required
+                            maxlength="255">
+                        @error('penghasilan_ayah')
+                            <span class="text-red-500 text-sm">{{ $message }}</span>
+                        @enderror
+                    </li>
 
+
+                    <li class="form-control gap-1">
+                        <label for="nama_ibu" class="label font-medium">Nama Ibu</label>
+                        <input type="text" id="nama_ibu" name="nama_ibu" placeholder="Masukkan Nama ibu"
+                            class="input bg-white input-bordered w-full" required maxlength="255">
+                        @error('nama_ibu')
+                            <span class="text-red-500 text-sm">{{ $message }}</span>
+                        @enderror
+                    </li>
+                    <li class="form-control gap-1">
+                        <label for="nik_ibu" class="label font-medium">NIK Ibu</label>
+                        <input type="text" id="nik_ibu" name="nik_ibu" placeholder="Masukkan NIK ibu"
+                            class="input bg-white input-bordered w-full" required maxlength="255">
+                        @error('nik_ibu')
+                            <span class="text-red-500 text-sm">{{ $message }}</span>
+                        @enderror
+                    </li>
+                    <li class="form-control gap-1">
+                        <label for="tgl_lahir_ibu" class="label font-medium">Tanggal Lahir Ibu</label>
+                        <input type="date" id="tgl_lahir_ibu" name="tgl_lahir_ibu" placeholder="Pilih Tanggal Lahir"
+                            class="input bg-white input-bordered w-full">
+                        @error('tgl_lahir_ibu')
+                            <span class="text-red-500 text-sm">{{ $message }}</span>
+                        @enderror
+                    </li>
+                    <li class="form-control gap-1">
+                        <label for="pendidikan_ibu" class="label font-medium">Pendidikan Terakhir Ibu</label>
+                        <input type="text" id="pendidikan_ibu" name="pendidikan_ibu"
+                            placeholder="Masukkan Pendidikan Terakhir ibu" class="input bg-white input-bordered w-full"
+                            required maxlength="255">
+                        @error('pendidikan_ibu')
+                            <span class="text-red-500 text-sm">{{ $message }}</span>
+                        @enderror
+                    </li>
+                    <li class="form-control gap-1">
+                        <label for="pekerjaan_ibu" class="label font-medium">Pendidikan Pekerjaan Ibu</label>
+                        <input type="text" id="pekerjaan_ibu" name="pekerjaan_ibu"
+                            placeholder="Masukkan Pekerjaan ibu" class="input bg-white input-bordered w-full" required
+                            maxlength="255">
+                        @error('pekerjaan_ibu')
+                            <span class="text-red-500 text-sm">{{ $message }}</span>
+                        @enderror
+                    </li>
+                    <li class="form-control gap-1">
+                        <label for="penghasilan_ibu" class="label font-medium">Penghasilan Ibu</label>
+                        <input type="text" id="penghasilan_ibu" name="penghasilan_ibu"
+                            placeholder="Masukkan Penghasilan ibu" class="input bg-white input-bordered w-full" required
+                            maxlength="255">
+                        @error('penghasilan_ibu')
+                            <span class="text-red-500 text-sm">{{ $message }}</span>
+                        @enderror
+                    </li>
+                </form>
+            </ul>
 
 
 
