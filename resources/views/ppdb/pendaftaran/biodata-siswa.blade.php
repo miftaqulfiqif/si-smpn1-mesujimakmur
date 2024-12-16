@@ -74,8 +74,12 @@
                         <label for="jenis_kelamin" class="label font-medium">Jenis Kelamin</label>
                         <select id="jenis_kelamin" name="jenis_kelamin" class="select select-bordered w-full bg-white">
                             <option disabled selected>Pilih Jenis Kelamin</option>
-                            <option value="Laki-laki">Laki-laki</option>
-                            <option value="Perempuan">Perempuan</option>
+                            <option value="Laki-laki"
+                                {{ old('jenis_kelamin', $biodata->jenis_kelamin ?? '') == 'Laki-laki' ? 'selected' : '' }}>
+                                Laki-laki</option>
+                            <option value="Perempuan"
+                                {{ old('jenis_kelamin', $biodata->jenis_kelamin ?? '') == 'Perempuan' ? 'selected' : '' }}>
+                                Perempuan</option>
                         </select>
                         @error('jenis_kelamin')
                             <span class="text-red-500 text-sm">{{ $message }}</span>
@@ -83,15 +87,17 @@
                     </li>
                     <li class="form-control gap-1">
                         <label for="tempat_lahir" class="label font-medium">Tempat Lahir</label>
-                        <input type="text" id="tempat_lahir" name="tempat_lahir" placeholder="Masukkan Tempat Lahir"
-                            class="input bg-white input-bordered w-full">
+                        <input type="text" id="tempat_lahir" name="tempat_lahir"
+                            value="{{ old('tempat_lahir', $biodata->tempat_lahir ?? '') }}"
+                            placeholder="Masukkan Tempat Lahir" class="input bg-white input-bordered w-full">
                         @error('tempat_lahir')
                             <span class="text-red-500 text-sm">{{ $message }}</span>
                         @enderror
                     </li>
                     <li class="form-control gap-1">
                         <label for="tgl_lahir" class="label font-medium">Tanggal Lahir</label>
-                        <input type="date" id="tgl_lahir" name="tgl_lahir" placeholder="Pilih Tanggal Lahir"
+                        <input type="date" id="tgl_lahir" name="tgl_lahir"
+                            value="{{ old('tgl_lahir', $biodata->tgl_lahir ?? '') }}" placeholder="Pilih Tanggal Lahir"
                             class="input bg-white input-bordered w-full">
                         @error('tgl_lahir')
                             <span class="text-red-500 text-sm">{{ $message }}</span>
@@ -99,7 +105,8 @@
                     </li>
                     <li class="form-control gap-1">
                         <label for="nik" class="label font-medium">NIK</label>
-                        <input type="text" id="nik" name="nik" placeholder="Masukkan NIK"
+                        <input type="text" id="nik" name="nik"
+                            value="{{ old('nik', $biodata->nik ?? '') }}" placeholder="Masukkan NIK"
                             class="input bg-white input-bordered w-full">
                         @error('nik')
                             <span class="text-red-500 text-sm">{{ $message }}</span>
@@ -107,7 +114,8 @@
                     </li>
                     <li class="form-control gap-1">
                         <label for="alamat" class="label font-medium">Alamat</label>
-                        <input type="text" id="alamat" name="alamat" placeholder="Masukkan alamat Lengkap"
+                        <input type="text" id="alamat" name="alamat"
+                            value="{{ old('alamat', $biodata->alamat ?? '') }}" placeholder="Masukkan alamat Lengkap"
                             class="input bg-white input-bordered w-full">
                         @error('alamat')
                             <span class="text-red-500 text-sm">{{ $message }}</span>
@@ -116,18 +124,23 @@
                     <li class="form-control gap-1">
                         <label for="penerima_kip" class="label font-medium">Penerima KIP?</label>
                         <select id="penerima_kip" name="penerima_kip" class="select select-bordered w-full bg-white">
-                            <option value="" {{ old('penerima_kip') == '' ? 'selected' : '' }}>Apakah anda penerima
-                                KIP?</option>
-                            <option value="ya" {{ old('penerima_kip') == 'ya' ? 'selected' : '' }}>Ya</option>
-                            <option value="tidak" {{ old('penerima_kip') == 'tidak' ? 'selected' : '' }}>Tidak</option>
+                            <option value="">Apakah Anda penerima KIP?</option>
+                            <option value="ya"
+                                {{ old('penerima_kip', $biodata->penerima_kip ?? '') == 'ya' ? 'selected' : '' }}>Ya
+                            </option>
+                            <option value="tidak"
+                                {{ old('penerima_kip', $biodata->penerima_kip ?? '') == 'tidak' ? 'selected' : '' }}>Tidak
+                            </option>
                         </select>
                         @error('penerima_kip')
                             <span class="text-red-500 text-sm">{{ $message }}</span>
                         @enderror
                     </li>
+
                     <li class="form-control gap-1" id="kip_section" style="display: none;">
                         <label for="nomor_kip" class="label font-medium">Nomor KIP</label>
-                        <input type="text" id="nomor_kip" name="nomor_kip" placeholder="Masukkan Nomor KIP"
+                        <input type="text" id="nomor_kip" name="nomor_kip"
+                            value="{{ old('nomor_kip', $biodata->nomor_kip ?? '') }}" placeholder="Masukkan Nomor KIP"
                             class="input bg-white input-bordered w-full">
                         @error('nomor_kip')
                             <span class="text-red-500 text-sm">{{ $message }}</span>
@@ -138,35 +151,51 @@
                         <select id="asal_sekolah" name="asal_sekolah"
                             class="select select2 select-bordered w-full bg-white" style="width: 100% !important;">
                             @foreach ($sekolahPilihan as $sekolah)
-                                <option value="{{ $sekolah }}">{{ $sekolah }}</option>
+                                <option value="{{ $sekolah }}"
+                                    {{ old('asal_sekolah', $biodata->asal_sekolah ?? '') == $sekolah ? 'selected' : '' }}>
+                                    {{ $sekolah }}
+                                </option>
                             @endforeach
-
                         </select>
                         @error('asal_sekolah')
                             <span class="text-red-500 text-sm">{{ $message }}</span>
                         @enderror
                     </li>
 
-                    <li class="form-control gap-1">
-                        <label for="tinggi_badan" class="label font-medium">Tinggi Badan (Berdasarkan cm)</label>
-                        <input type="text" id="tinggi_badan" name="tinggi_badan"
-                            placeholder="Masukkan Tinggi Badan Berdasarkan Centimeter"
-                            class="input bg-white input-bordered w-full">
-                        @error('tinggi_badan')
-                            <span class="text-red-500 text-sm">{{ $message }}</span>
-                        @enderror
-                    </li>
+                    <div class="flex gap-4">
+                        <li class="form-control flex-1 gap-1">
+                            <label for="tinggi_badan" class="label font-medium">Tinggi Badan (Berdasarkan cm)</label>
+                            <input type="text" id="tinggi_badan" name="tinggi_badan"
+                                value="{{ old('tinggi_badan', $biodata->tinggi_badan ?? '') }}"
+                                placeholder="Masukkan Tinggi Badan" class="input bg-white input-bordered w-full">
+                            @error('tinggi_badan')
+                                <span class="text-red-500 text-sm">{{ $message }}</span>
+                            @enderror
+                        </li>
+                        <li class="form-control flex-1 gap-1">
+                            <label for="berat_badan" class="label font-medium">Berat Badan (Berdasarkan kg)</label>
+                            <input type="text" id="berat_badan" name="berat_badan"
+                                value="{{ old('berat_badan', $biodata->berat_badan ?? '') }}"
+                                placeholder="Masukkan Berat Badan" class="input bg-white input-bordered w-full">
+                            @error('berat_badan')
+                                <span class="text-red-500 text-sm">{{ $message }}</span>
+                            @enderror
+                        </li>
+                    </div>
+
                     <li class="form-control gap-1">
                         <label for="kegemaran" class="label font-medium">Kegamaran atau Hobi</label>
-                        <input type="text" id="kegemaran" name="kegemaran" placeholder="Masukkan Kegemaran atau Hobi"
-                            class="input bg-white input-bordered w-full">
+                        <input type="text" id="kegemaran" name="kegemaran"
+                            value="{{ old('kegemaran', $biodata->kegemaran ?? '') }}"
+                            placeholder="Masukkan Kegemaran atau Hobi" class="input bg-white input-bordered w-full">
                         @error('kegemaran')
                             <span class="text-red-500 text-sm">{{ $message }}</span>
                         @enderror
                     </li>
                     <li class="form-control gap-1">
                         <label for="notelp" class="label font-medium">Nomor Telpon</label>
-                        <input type="text" id="notelp" name="notelp" placeholder="Masukkan Nomor Telepon"
+                        <input type="text" id="notelp" name="notelp"
+                            value="{{ old('notelp', $biodata->notelp ?? '') }}" placeholder="Masukkan Nomor Telepon"
                             class="input bg-white input-bordered w-full">
                         @error('notelp')
                             <span class="text-red-500 text-sm">{{ $message }}</span>
@@ -176,6 +205,10 @@
                         <label for="foto" class="label font-medium">Foto</label>
                         <input type="file" id="foto" name="foto" accept="image/*"
                             class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                        @if ($biodata && $biodata->foto)
+                            <p>Foto Saat Ini: <img src="{{ asset('storage/' . $biodata->foto) }}" alt="Foto"
+                                    width="100"></p>
+                        @endif
                     </li>
                     <li class="flex justify-center">
                         <button type="submit" id="submit" class="btn px-10 bg-slate-950 text-white">Submit</button>
@@ -206,13 +239,17 @@
             const penerimaKip = document.getElementById('penerima_kip');
             const kipSection = document.getElementById('kip_section');
 
-            penerimaKip.addEventListener('change', function() {
-                if (this.value === 'ya') {
+            const toggleKipSection = () => {
+                if (penerimaKip.value === 'ya') {
                     kipSection.style.display = 'block';
                 } else {
                     kipSection.style.display = 'none';
                 }
-            })
-        })
+            };
+
+            toggleKipSection();
+
+            penerimaKip.addEventListener('change', toggleKipSection);
+        });
     </script>
 @endsection

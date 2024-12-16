@@ -10,6 +10,18 @@ use Illuminate\Support\Facades\Log;
 
 class AuthController extends Controller
 {
+    public function showLoginForm() {
+        if (Auth::check()) {
+            $user = Auth::user();
+            
+            if (is_null($user->nisn)) {
+                return redirect('/admin');
+            }
+            return redirect('/ppdb/pendaftaran');
+        }
+        return view('auth.login');
+    }
+
     public function register(Request $request)
     {
         Log::info($request->all());

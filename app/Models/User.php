@@ -54,4 +54,8 @@ class User extends Authenticatable implements FilamentUser
     {
         return $this->hasRole('admin');
     }
+
+    public function dataCalonSiswa(){
+        return $this->hasOne(DataCalonSiswa::class, 'id_user');
+    }
 }
