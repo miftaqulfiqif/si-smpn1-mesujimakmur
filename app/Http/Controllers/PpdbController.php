@@ -21,10 +21,15 @@ class PpdbController extends Controller
     public function showForm(){
         $user = Auth::user();
         $biodata = DataCalonSiswa::where('id_user', $user->id)->first();
+        $biodata->penerima_kip = $biodata->penerima_kip ? 1 : 0;
 
         $sekolahPilihan = ['Pilih asal sekolah! ','SDN 1', 'SDN 2', 'SDN 3', 'SDN 4'];
 
         return view('ppdb.pendaftaran.biodata-siswa', compact('user', 'sekolahPilihan', 'biodata'));
+    }
+
+    public function showBiodataOrangtua(){
+        return view('ppdb.pendaftaran.biodata-orangtua');
     }
 
     public function saveBiodataSiswa(Request $request){
@@ -39,7 +44,7 @@ class PpdbController extends Controller
             'tinggi_badan' => 'required|string',
             'berat_badan' => 'required|string',
             'kegemaran' => 'required|string',
-            'penerima_kip' => 'required|in:ya,tidak',
+            'penerima_kip' => 'required|in:1,0',
             'nomor_kip' => 'nullable|string',
             'foto' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
             'notelp' => 'required|string',            
@@ -49,20 +54,20 @@ class PpdbController extends Controller
         try {
             $user = Auth::user();
 
-            $penerimaKip = $request->penerima_kip === 'ya';
+            $penerimaKip = $request->penerima_kip === '1';
 
             $daftarSekolahPilihan = ['SDN 1', 'SDN 2', 'SDN 3', 'SDN 4'];
             $zonasi = in_array($request->asal_sekolah, $daftarSekolahPilihan);
-
+            
+            $existingData = DataCalonSiswa::where('id_user', $user->id)->first();
+            
+            $periodeAktif = PeriodeDaftar::where('status', 1)->firstOrFail();
+            
             if ($request->hasFile('foto') && $request->file('foto')->isValid()) {
                 $fotoPath = $request->file('foto')->store('uploads/foto', 'public');
             } else {
-                throw new \Exception('File foto tidak valid atau tidak ada.');
-            }            
-
-            $periodeAktif = PeriodeDaftar::where('status', 1)->firstOrFail();
-        
-            $existingData = DataCalonSiswa::where('id_user', $user->id)->first();
+                $fotoPath = $existingData->foto;
+            }         
 
             if ($existingData) {
 
@@ -117,17 +122,7 @@ class PpdbController extends Controller
         }
     }
 
-    public function updateNama(Request $request, $idSiswa){
-        $dataSiswa = DataCalonSiswa::findOrFail($idSiswa);
+    public function saveBiodataOrangtua(Request $request) {
 
-        $request->validate([
-            'name' => 'required|string|max:255',
-        ]);
-
-        $dataSiswa->user->update([
-            'name' => $request->name,
-        ]);
-
-        return back()->with('success', 'Nama Berhasil diperbarui');
     }
 }
