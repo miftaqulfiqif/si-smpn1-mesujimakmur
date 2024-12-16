@@ -10,6 +10,8 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Validation\Rules\Exists;
 
+use function Ramsey\Uuid\v1;
+
 class PpdbController extends Controller
 {
     public function showPpdbIndex(){
@@ -107,7 +109,7 @@ class PpdbController extends Controller
             }
 
             DB::commit();
-            return redirect()->route('ppdb.pendaftaran.biodata-orangtua')->with('success', 'Registrasi berhasil!');
+            return redirect()->route('biodata-orangtua')->with('success', 'Registrasi berhasil!');
         } catch (\Exception $e) {
             DB::rollBack();
             Log::error('Error saving data', ['error' => $e->getMessage()]);

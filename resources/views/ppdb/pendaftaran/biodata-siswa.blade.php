@@ -125,11 +125,11 @@
                         <label for="penerima_kip" class="label font-medium">Penerima KIP?</label>
                         <select id="penerima_kip" name="penerima_kip" class="select select-bordered w-full bg-white">
                             <option value="">Apakah Anda penerima KIP?</option>
-                            <option value="ya"
-                                {{ old('penerima_kip', $biodata->penerima_kip ?? '') == 'ya' ? 'selected' : '' }}>Ya
+                            <option value="1"
+                                {{ old('penerima_kip', $biodata->penerima_kip ?? '') == 1 ? 'selected' : '' }}>Ya
                             </option>
-                            <option value="tidak"
-                                {{ old('penerima_kip', $biodata->penerima_kip ?? '') == 'tidak' ? 'selected' : '' }}>Tidak
+                            <option value="0"
+                                {{ old('penerima_kip', $biodata->penerima_kip ?? '') == 0 ? 'selected' : '' }}>Tidak
                             </option>
                         </select>
                         @error('penerima_kip')
@@ -138,14 +138,16 @@
                     </li>
 
                     <li class="form-control gap-1" id="kip_section" style="display: none;">
-                        <label for="nomor_kip" class="label font-medium">Nomor KIP</label>
-                        <input type="text" id="nomor_kip" name="nomor_kip"
-                            value="{{ old('nomor_kip', $biodata->nomor_kip ?? '') }}" placeholder="Masukkan Nomor KIP"
+                        <label for="no_kip" class="label font-medium">Nomor KIP</label>
+                        <input type="text" id="no_kip" name="nomor_kip"
+                            value="{{ old('no_kip', $biodata->no_kip ?? '') }}" placeholder="Masukkan Nomor KIP"
                             class="input bg-white input-bordered w-full">
-                        @error('nomor_kip')
+                        @error('no_kip')
                             <span class="text-red-500 text-sm">{{ $message }}</span>
                         @enderror
                     </li>
+
+
                     <li class="form-control gap-1">
                         <label for="asal_sekolah" class="label font-medium">Asal Sekolah</label>
                         <select id="asal_sekolah" name="asal_sekolah"
@@ -209,6 +211,9 @@
                             <p>Foto Saat Ini: <img src="{{ asset('storage/' . $biodata->foto) }}" alt="Foto"
                                     width="100"></p>
                         @endif
+                        @error('foto')
+                            <span class="text-red-500 text-sm">{{ $message }}</span>
+                        @enderror
                     </li>
                     <li class="flex justify-center">
                         <button type="submit" id="submit" class="btn px-10 bg-slate-950 text-white">Submit</button>
@@ -240,7 +245,7 @@
             const kipSection = document.getElementById('kip_section');
 
             const toggleKipSection = () => {
-                if (penerimaKip.value === 'ya') {
+                if (penerimaKip.value === '1') {
                     kipSection.style.display = 'block';
                 } else {
                     kipSection.style.display = 'none';
