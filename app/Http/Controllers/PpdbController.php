@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\DataCalonSiswa;
+use App\Models\DataOrangtua;
 use App\Models\PeriodeDaftar;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -30,6 +31,10 @@ class PpdbController extends Controller
 
     public function showBiodataOrangtua(){
         return view('ppdb.pendaftaran.biodata-orangtua');
+    }
+
+    public function showFormInputNilai(){
+        return view('ppdb.pendaftaran.input-nilai');
     }
 
     public function saveBiodataSiswa(Request $request){
@@ -124,5 +129,79 @@ class PpdbController extends Controller
 
     public function saveBiodataOrangtua(Request $request) {
 
+        try {
+            $request->validate([
+                'id_data_calon_siswa' => 'required|exists:data_calon_siswas,id',
+                'nama_ayah' => 'required|string',
+                'nik_ayah' => 'required|string',
+                'tgl_lahir_ayah' => 'required|date',
+                'pekerjaan_ayah' => 'required|string',
+                'pendidikan_ayah' => 'required|string',
+                'penghasilan_ayah' => 'required|string',
+                'nama_ibu' => 'required|string',
+                'nik_ibu' => 'required|string',
+                'tgl_lahir_ibu' => 'required|date',
+                'pekerjaan_ibu' => 'required|string',
+                'pendidikan_ibu' => 'required|string',
+                'penghasilan_ibu' => 'required|string',
+            ]);    
+            Log::info('Validasi berhasil');
+        } catch (\Illuminate\Validation\ValidationException $e) {
+            Log::error('Validasi gagal', $e->errors());
+            return back()->withErrors($e->errors());
+        }
+        
+        
+        Log::info('Request data:', $request->all());
+
+        DB::beginTransaction();
+        try {
+            $idSiswa = DataCalonSiswa::findOrFail($request->id_data_calon_siswa);
+
+            $existingData = DataOrangtua::where('id_data_calon_siswa', $idSiswa->id)->first();
+
+            if ($existingData) {
+
+                $existingData->update([
+                    'nama_ayah' => $request->nama_ayah,
+                    'nik_ayah' => $request->nik_ayah,
+                    'tgl_lahir_ayah' => $request->tgl_lahir_ayah,
+                    'pekerjaan_ayah' => $request->pekerjaan_ayah,
+                    'pendidikan_ayah' => $request->pendidikan_ayah,
+                    'penghasilan_ayah' => $request->penghasilan_ayah,
+                    'nama_ibu' => $request->nama_ibu,
+                    'nik_ibu' => $request->nik_ibu,
+                    'tgl_lahir_ibu' => $request->tgl_lahir_ibu,
+                    'pekerjaan_ibu' => $request->pekerjaan_ibu,
+                    'pendidikan_ibu' => $request->pendidikan_ibu,
+                    'penghasilan_ibu' => $request->penghasilan_ibu,
+                ]);
+
+            } else {
+                DataOrangtua::create([
+                    'id_data_calon_siswa' => $idSiswa->id,
+                    'nama_ayah' => $request->nama_ayah,
+                    'nik_ayah' => $request->nik_ayah,
+                    'tgl_lahir_ayah' => $request->tgl_lahir_ayah,
+                    'pekerjaan_ayah' => $request->pekerjaan_ayah,
+                    'pendidikan_ayah' => $request->pendidikan_ayah,
+                    'penghasilan_ayah' => $request->penghasilan_ayah,
+                    'nama_ibu' => $request->nama_ibu,
+                    'nik_ibu' => $request->nik_ibu,
+                    'tgl_lahir_ibu' => $request->tgl_lahir_ibu,
+                    'pekerjaan_ibu' => $request->pekerjaan_ibu,
+                    'pendidikan_ibu' => $request->pendidikan_ibu,
+                    'penghasilan_ibu' => $request->penghasilan_ibu,
+                ]);
+            }
+
+            DB::commit();
+            return redirect()->route('input-nilai')->with('success', 'Registrasi berhasil!');
+
+        } catch (\Exception $e) {
+            DB::rollBack();
+            Log::error('Error saving data', ['error' => $e->getMessage()]);
+            return back()->withErrors(['error' => 'Terjadi kesalahan saat menyimpan data']);
+        }
     }
 }

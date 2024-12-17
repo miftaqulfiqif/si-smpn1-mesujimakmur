@@ -22,7 +22,7 @@ class DataOrangtua extends Model
         'pekerjaan_ibu',
         'pendidikan_ibu',
         'penghasilan_ibu',
-        'id_data_calon_siswa',
+        'id_user',
     ];
 
     public function dataCalonSiswa()
