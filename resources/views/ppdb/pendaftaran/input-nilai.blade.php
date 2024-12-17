@@ -7,7 +7,7 @@
 @endsection
 @section('content')
     <section class="w-full h-[100vh] px-3 md:px-10 lg:px-14 pt-16 overflow-hidden">
-        <form class="flex gap-2 flex-col md:flex-row">
+        <div class="flex gap-2 flex-col md:flex-row">
             <ul class="flex items-start flex-row md:flex-col bg-base-100 p-4 rounded-md justify-between h-fit">
                 <li class="hidden md:flex flex-col mb-3 justify-start bg-[#F5EBFF] w-full rounded-md p-2">
                     <progress class="progress progress-primary bg-[#7a1cac8f] w-56" value="50" max="100"></progress>
@@ -55,10 +55,70 @@
                 </li>
             </ul>
 
+            <ul id="input-nilai-form" class="flex flex-col w-full gap-4 h-screen overflow-y-auto px-5 pb-40 md:pb-28">
+                <form action="{{ route('save-nilai') }}" method="POST" enctype="multipart/form-data">
+                    @csrf
+                    <input type="hidden" name="id_data_calon_siswa" value="{{ $calonSiswa->id }}">
+
+                    <li class="form-control gap-1">
+                        <label for="semester_ganjil_kelas_4" class="label font-medium">Nilai Kelas 4 (Semester
+                            Ganjil)</label>
+                        <input type="number" id="semester_ganjil_kelas_4" name="semester_ganjil_kelas_4"
+                            value="{{ old('semester_ganjil_kelas_4', $data->semester_ganjil_kelas_4 ?? '') }}"
+                            class="input bg-white input-bordered w-full" required>
+                        @error('semester_ganjil_kelas_4')
+                            <span class="text-red-500 text-sm">{{ $message }}</span>
+                        @enderror
+                    </li>
+                    <li class="form-control gap-1">
+                        <label for="semester_genap_kelas_4" class="label font-medium">Nilai Kelas 4 (Semester
+                            Genap)</label>
+                        <input type="number" id="semester_genap_kelas_4" name="semester_genap_kelas_4"
+                            value="{{ old('semester_genap_kelas_4', $data->semester_genap_kelas_4 ?? '') }}"
+                            class="input bg-white input-bordered w-full" required maxlength="255">
+                        @error('semester_genap_kelas_4')
+                            <span class="text-red-500 text-sm">{{ $message }}</span>
+                        @enderror
+                    </li>
+                    <li class="form-control gap-1">
+                        <label for="semester_ganjil_kelas_5" class="label font-medium">Nilai Kelas 5 (Semester
+                            Ganjil)</label>
+                        <input type="number" id="semester_ganjil_kelas_5" name="semester_ganjil_kelas_5"
+                            value="{{ old('semester_ganjil_kelas_5', $data->semester_ganjil_kelas_5 ?? '') }}"
+                            class="input bg-white input-bordered w-full" required maxlength="255">
+                        @error('semester_ganjil_kelas_5')
+                            <span class="text-red-500 text-sm">{{ $message }}</span>
+                        @enderror
+                    </li>
+                    <li class="form-control gap-1">
+                        <label for="semester_genap_kelas_5" class="label font-medium">Nilai Kelas 5 (Semester
+                            Genap)</label>
+                        <input type="number" id="semester_genap_kelas_5" name="semester_genap_kelas_5"
+                            value="{{ old('semester_genap_kelas_5', $data->semester_genap_kelas_5 ?? '') }}"
+                            class="input bg-white input-bordered w-full" required maxlength="255">
+                        @error('semester_genap_kelas_5')
+                            <span class="text-red-500 text-sm">{{ $message }}</span>
+                        @enderror
+                    </li>
+                    <li class="form-control gap-1">
+                        <label for="semester_ganjil_kelas_6" class="label font-medium">Nilai Kelas 6 (Semester
+                            Ganjil)</label>
+                        <input type="number" id="semester_ganjil_kelas_6" name="semester_ganjil_kelas_6"
+                            value="{{ old('semester_ganjil_kelas_6', $data->semester_ganjil_kelas_6 ?? '') }}"
+                            class="input bg-white input-bordered w-full" required maxlength="255">
+                        @error('semester_ganjil_kelas_6')
+                            <span class="text-red-500 text-sm">{{ $message }}</span>
+                        @enderror
+                    </li>
+                    <li class="flex justify-center">
+                        <button type="submit" id="submit" class="btn px-10 bg-slate-950 text-white">Submit</button>
+                    </li>
+                </form>
+            </ul>
 
 
 
-        </form>
+        </div>
     </section>
 @endsection
 @section('script')
@@ -72,23 +132,5 @@
                 navbar.classList.remove('shadow-md');
             }
         });
-        $(".select2").select2({
-            tags: "true",
-            placeholder: "Pilih salah satu atau ketik manual",
-            allowClear: true
-        });
-
-        document.addEventListener('DOMContentLoaded', function() {
-            const penerimaKip = document.getElementById('penerima_kip');
-            const kipSection = document.getElementById('kip_section');
-
-            penerimaKip.addEventListener('change', function() {
-                if (this.value === 'ya') {
-                    kipSection.style.display = 'block';
-                } else {
-                    kipSection.style.display = 'none';
-                }
-            })
-        })
     </script>
 @endsection

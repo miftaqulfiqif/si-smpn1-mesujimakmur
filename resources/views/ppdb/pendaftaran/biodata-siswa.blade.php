@@ -147,7 +147,6 @@
                         @enderror
                     </li>
 
-
                     <li class="form-control gap-1">
                         <label for="asal_sekolah" class="label font-medium">Asal Sekolah</label>
                         <select id="asal_sekolah" name="asal_sekolah"

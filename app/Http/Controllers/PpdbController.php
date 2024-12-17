@@ -4,11 +4,14 @@ namespace App\Http\Controllers;
 
 use App\Models\DataCalonSiswa;
 use App\Models\DataOrangtua;
+use App\Models\DokumenCalonSiswa;
+use App\Models\NilaiRapot;
 use App\Models\PeriodeDaftar;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Redis;
 use Illuminate\Validation\Rules\Exists;
 
 use function Ramsey\Uuid\v1;
@@ -29,12 +32,30 @@ class PpdbController extends Controller
         return view('ppdb.pendaftaran.biodata-siswa', compact('user', 'sekolahPilihan', 'biodata'));
     }
 
-    public function showBiodataOrangtua(){
-        return view('ppdb.pendaftaran.biodata-orangtua');
+    public function showBiodataOrangtua(Request $request){
+        $idDataCalonSiswa = $request->query('id_data_calon_siswa');
+        $calonSiswa = DataCalonSiswa::findOrFail($idDataCalonSiswa);
+
+        $biodata = DataOrangtua::where('id_data_calon_siswa', $calonSiswa->id)->first();
+
+        return view('ppdb.pendaftaran.biodata-orangtua', compact('calonSiswa', 'biodata'));
     }
 
-    public function showFormInputNilai(){
-        return view('ppdb.pendaftaran.input-nilai');
+    public function showFormInputNilai(Request $request){
+        $idDataCalonSiswa = $request->query('id_data_calon_siswa');
+        $calonSiswa = DataCalonSiswa::findOrFail($idDataCalonSiswa);
+
+        $data = NilaiRapot::where('id_data_calon_siswa', $calonSiswa->id)->first();
+        return view('ppdb.pendaftaran.input-nilai', compact('calonSiswa', 'data'));
+    }
+
+    public function showFormUploadDocument(Request $request){
+        $idDataCalonSiswa = $request->query('id_data_calon_siswa');
+        $calonSiswa = DataCalonSiswa::findOrFail($idDataCalonSiswa);
+
+        $data = DokumenCalonSiswa::where('id_data_calon_siswa', $calonSiswa->id)->first();
+        return view('ppdb.pendaftaran.upload-document', compact('calonSiswa', 'data'));
+
     }
 
     public function saveBiodataSiswa(Request $request){
@@ -97,8 +118,9 @@ class PpdbController extends Controller
                     'zonasi' => $zonasi,
                     'notelp' => $request->notelp,
                 ]);
+                $idCalonSiswa = $existingData->id;
             } else {
-                DataCalonSiswa::create([
+                $dataCalonSiswa = DataCalonSiswa::create([
                     'id_user' => $user->id,
                     'id_periode' => $periodeAktif->id,
                     'jenis_kelamin' => $request->jenis_kelamin,
@@ -116,10 +138,11 @@ class PpdbController extends Controller
                     'zonasi' => $zonasi,
                     'notelp' => $request->notelp,
                 ]);
+                $idCalonSiswa = $dataCalonSiswa->id;
             }
 
             DB::commit();
-            return redirect()->route('biodata-orangtua')->with('success', 'Registrasi berhasil!');
+            return redirect()->route('biodata-orangtua', ['id_data_calon_siswa' => $idCalonSiswa])->with('success', 'Registrasi berhasil!');
         } catch (\Exception $e) {
             DB::rollBack();
             Log::error('Error saving data', ['error' => $e->getMessage()]);
@@ -129,29 +152,22 @@ class PpdbController extends Controller
 
     public function saveBiodataOrangtua(Request $request) {
 
-        try {
-            $request->validate([
-                'id_data_calon_siswa' => 'required|exists:data_calon_siswas,id',
-                'nama_ayah' => 'required|string',
-                'nik_ayah' => 'required|string',
-                'tgl_lahir_ayah' => 'required|date',
-                'pekerjaan_ayah' => 'required|string',
-                'pendidikan_ayah' => 'required|string',
-                'penghasilan_ayah' => 'required|string',
-                'nama_ibu' => 'required|string',
-                'nik_ibu' => 'required|string',
-                'tgl_lahir_ibu' => 'required|date',
-                'pekerjaan_ibu' => 'required|string',
-                'pendidikan_ibu' => 'required|string',
-                'penghasilan_ibu' => 'required|string',
-            ]);    
-            Log::info('Validasi berhasil');
-        } catch (\Illuminate\Validation\ValidationException $e) {
-            Log::error('Validasi gagal', $e->errors());
-            return back()->withErrors($e->errors());
-        }
-        
-        
+        $request->validate([
+            'id_data_calon_siswa' => 'required|exists:data_calon_siswas,id',
+            'nama_ayah' => 'required|string',
+            'nik_ayah' => 'required|string',
+            'tgl_lahir_ayah' => 'required|date',
+            'pekerjaan_ayah' => 'required|string',
+            'pendidikan_ayah' => 'required|string',
+            'penghasilan_ayah' => 'required|string',
+            'nama_ibu' => 'required|string',
+            'nik_ibu' => 'required|string',
+            'tgl_lahir_ibu' => 'required|date',
+            'pekerjaan_ibu' => 'required|string',
+            'pendidikan_ibu' => 'required|string',
+            'penghasilan_ibu' => 'required|string',
+        ]);    
+    
         Log::info('Request data:', $request->all());
 
         DB::beginTransaction();
@@ -176,7 +192,6 @@ class PpdbController extends Controller
                     'pendidikan_ibu' => $request->pendidikan_ibu,
                     'penghasilan_ibu' => $request->penghasilan_ibu,
                 ]);
-
             } else {
                 DataOrangtua::create([
                     'id_data_calon_siswa' => $idSiswa->id,
@@ -196,7 +211,7 @@ class PpdbController extends Controller
             }
 
             DB::commit();
-            return redirect()->route('input-nilai')->with('success', 'Registrasi berhasil!');
+            return redirect()->route('input-nilai', ['id_data_calon_siswa' => $idSiswa->id])->with('success', 'Registrasi berhasil!');
 
         } catch (\Exception $e) {
             DB::rollBack();
@@ -204,4 +219,69 @@ class PpdbController extends Controller
             return back()->withErrors(['error' => 'Terjadi kesalahan saat menyimpan data']);
         }
     }
+
+    public function saveNilai(Request $request){
+        try {
+            $request->validate([
+                'id_data_calon_siswa' => 'required|exists:data_calon_siswas,id',
+                'semester_ganjil_kelas_4' => 'required|numeric',
+                'semester_genap_kelas_4' => 'required|numeric',
+                'semester_ganjil_kelas_5' => 'required|numeric',
+                'semester_genap_kelas_5' => 'required|numeric',
+                'semester_ganjil_kelas_6' => 'required|numeric',
+            ]);
+    
+            DB::beginTransaction();
+    
+            $idSiswa = DataCalonSiswa::findOrFail($request->id_data_calon_siswa);
+    
+            $existingData = NilaiRapot::where('id_data_calon_siswa', $idSiswa->id)->first();
+    
+            if ($existingData) {
+                $average = ($request->semester_ganjil_kelas_4 
+                            + $request->semester_genap_kelas_4 
+                            + $request->semester_ganjil_kelas_5 
+                            + $request->semester_genap_kelas_5 
+                            + $request->semester_ganjil_kelas_6) / 5;
+    
+                $existingData->update([
+                    'semester_ganjil_kelas_4' => $request->semester_ganjil_kelas_4,
+                    'semester_genap_kelas_4' => $request->semester_genap_kelas_4,
+                    'semester_ganjil_kelas_5' => $request->semester_ganjil_kelas_5,
+                    'semester_genap_kelas_5' => $request->semester_genap_kelas_5,
+                    'semester_ganjil_kelas_6' => $request->semester_ganjil_kelas_6,
+                    'average' => $average
+                ]);
+            } else {
+                $average = ($request->semester_ganjil_kelas_4 
+                            + $request->semester_genap_kelas_4 
+                            + $request->semester_ganjil_kelas_5 
+                            + $request->semester_genap_kelas_5 
+                            + $request->semester_ganjil_kelas_6) / 5;
+    
+                NilaiRapot::create([
+                    'id_data_calon_siswa' => $idSiswa->id,
+                    'semester_ganjil_kelas_4' => $request->semester_ganjil_kelas_4,
+                    'semester_genap_kelas_4' => $request->semester_genap_kelas_4,
+                    'semester_ganjil_kelas_5' => $request->semester_ganjil_kelas_5,
+                    'semester_genap_kelas_5' => $request->semester_genap_kelas_5,
+                    'semester_ganjil_kelas_6' => $request->semester_ganjil_kelas_6,
+                    'average' => $average
+                ]);
+            }
+    
+            DB::commit();
+            return redirect()->route('upload-document', ['id_data_calon_siswa' => $idSiswa->id])->with('success', 'Registrasi berhasil!');
+    
+        } catch (\Exception $e) {
+            DB::rollBack();
+            Log::error('Error saving data', ['error' => $e->getMessage()]);
+            return back()->withErrors(['error' => 'Terjadi kesalahan saat menyimpan data']);
+        }
+    }
+
+    public function saveDocument(Request $request){
+        
+    }
+    
 }
