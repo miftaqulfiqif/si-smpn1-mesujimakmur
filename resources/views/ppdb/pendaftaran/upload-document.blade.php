@@ -7,7 +7,7 @@
 @endsection
 @section('content')
     <section class="w-full h-[100vh] px-3 md:px-10 lg:px-14 pt-16 overflow-hidden">
-        <form class="flex gap-2 flex-col md:flex-row">
+        <div class="flex gap-2 flex-col md:flex-row">
             <ul class="flex items-start flex-row md:flex-col bg-base-100 p-4 rounded-md justify-between h-fit">
                 <li class="hidden md:flex flex-col mb-3 justify-start bg-[#F5EBFF] w-full rounded-md p-2">
                     <progress class="progress progress-primary bg-[#7a1cac8f] w-56" value="75" max="100"></progress>
@@ -55,7 +55,7 @@
                 </li>
             </ul>
 
-        </form>
+        </div>
     </section>
 @endsection
 @section('script')
