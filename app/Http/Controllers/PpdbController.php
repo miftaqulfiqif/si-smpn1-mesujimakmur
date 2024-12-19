@@ -7,11 +7,13 @@ use App\Models\DataOrangtua;
 use App\Models\DokumenCalonSiswa;
 use App\Models\NilaiRapot;
 use App\Models\PeriodeDaftar;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Redis;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Validation\Rules\Exists;
 
 use function Ramsey\Uuid\v1;
@@ -25,7 +27,10 @@ class PpdbController extends Controller
     public function showForm(){
         $user = Auth::user();
         $biodata = DataCalonSiswa::where('id_user', $user->id)->first();
-        $biodata->penerima_kip = $biodata->penerima_kip ? 1 : 0;
+
+        if($biodata && $biodata->penerima_kip !== null){
+            $biodata->penerima_kip = $biodata->penerima_kip ? 1 : 0;
+        }
 
         $sekolahPilihan = ['Pilih asal sekolah! ','SDN 1', 'SDN 2', 'SDN 3', 'SDN 4'];
 
@@ -59,6 +64,9 @@ class PpdbController extends Controller
     }
 
     public function saveBiodataSiswa(Request $request){
+        $user = Auth::user();
+
+        $existingData = DataCalonSiswa::where('id_user', $user->id)->first();
 
         $request->validate([
             'jenis_kelamin' => 'required|in:Laki-laki,Perempuan',
@@ -72,28 +80,33 @@ class PpdbController extends Controller
             'kegemaran' => 'required|string',
             'penerima_kip' => 'required|in:1,0',
             'nomor_kip' => 'nullable|string',
-            'foto' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'foto' => $existingData ? 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048' : 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'foto_lama' => 'nullable|string',
             'notelp' => 'required|string',            
         ]);
 
         DB::beginTransaction();
         try {
-            $user = Auth::user();
-
             $penerimaKip = $request->penerima_kip === '1';
 
             $daftarSekolahPilihan = ['SDN 1', 'SDN 2', 'SDN 3', 'SDN 4'];
             $zonasi = in_array($request->asal_sekolah, $daftarSekolahPilihan);
             
-            $existingData = DataCalonSiswa::where('id_user', $user->id)->first();
-            
             $periodeAktif = PeriodeDaftar::where('status', 1)->firstOrFail();
             
             if ($request->hasFile('foto') && $request->file('foto')->isValid()) {
+                // Jika file baru diunggah dan valid, simpan file baru
                 $fotoPath = $request->file('foto')->store('uploads/foto', 'public');
+                
+                // Hapus foto lama jika ada
+                if ($existingData && $existingData->foto && Storage::exists('public/' . $existingData->foto)) {
+                    Storage::delete('public/' . $existingData->foto);
+                }
             } else {
-                $fotoPath = $existingData->foto;
-            }         
+                // Jika tidak ada file baru, gunakan foto lama
+                $fotoPath = $request->foto_lama ?? ($existingData ? $existingData->foto : null);
+            }
+                 
 
             if ($existingData) {
 
