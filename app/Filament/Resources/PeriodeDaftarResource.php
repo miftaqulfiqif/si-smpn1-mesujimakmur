@@ -72,7 +72,7 @@ class PeriodeDaftarResource extends Resource
                         ->required(),
                 ]),
                 Forms\Components\Section::make()->schema([
-                    Forms\Components\Repeater::make('Dokumen persyaratan')->addActionLabel('Tambah dokumen')->columns(2)->schema([
+                    Forms\Components\Repeater::make('Dokumen persyaratan')->relationship('dokumens')->addActionLabel('Tambah dokumen')->columns(2)->schema([
                         Forms\Components\TextInput::make('nama')
                             ->required()
                             ->placeholder('Contoh: SCAN PDF Ijazah Asli')

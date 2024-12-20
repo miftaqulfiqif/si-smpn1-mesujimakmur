@@ -55,31 +55,57 @@
                 </li>
             </ul>
 
-            <ul id="input-nilai-form" class="flex flex-col w-full gap-4 h-screen overflow-y-auto px-5 pb-40 md:pb-28">
-                <form action="{{ route('save-nilai') }}" method="POST" enctype="multipart/form-data">
+            <ul id="upload-document-form" class="flex flex-col w-full gap-4 h-screen overflow-y-auto px-5 pb-40 md:pb-28">
+                <form action="{{ route('save-document') }}" method="POST" enctype="multipart/form-data">
                     @csrf
                     <input type="hidden" name="id_data_calon_siswa" value="{{ $calonSiswa->id }}">
 
-                    <label for="uploadFile1"
-                        class="bg-white text-gray-500 font-semibold text-base rounded max-w-md h-52 flex flex-col items-center justify-center cursor-pointer border-2 border-gray-300 border-dashed mx-auto font-[sans-serif]">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="w-11 mb-2 fill-gray-500" viewBox="0 0 32 32">
-                            <path
-                                d="M23.75 11.044a7.99 7.99 0 0 0-15.5-.009A8 8 0 0 0 9 27h3a1 1 0 0 0 0-2H9a6 6 0 0 1-.035-12 1.038 1.038 0 0 0 1.1-.854 5.991 5.991 0 0 1 11.862 0A1.08 1.08 0 0 0 23 13a6 6 0 0 1 0 12h-3a1 1 0 0 0 0 2h3a8 8 0 0 0 .75-15.956z"
-                                data-original="#000000" />
-                            <path
-                                d="M20.293 19.707a1 1 0 0 0 1.414-1.414l-5-5a1 1 0 0 0-1.414 0l-5 5a1 1 0 0 0 1.414 1.414L15 16.414V29a1 1 0 0 0 2 0V16.414z"
-                                data-original="#000000" />
-                        </svg>
-                        Upload file
+                    @foreach ($documents as $index => $document)
+                        <div class="flex flex-col items-center justify-center">
+                            {{-- Input file --}}
+                            <label for="uploadFile{{ $index }}"
+                                class="mt-2 mb-4 bg-white text-gray-500 font-semibold text-base rounded max-w-md h-52 flex flex-col items-center justify-center cursor-pointer border-2 border-gray-300 border-dashed font-[sans-serif]">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="w-11 mb-2 fill-gray-500" viewBox="0 0 32 32">
+                                    <path
+                                        d="M23.75 11.044a7.99 7.99 0 0 0-15.5-.009A8 8 0 0 0 9 27h3a1 1 0 0 0 0-2H9a6 6 0 0 1-.035-12 1.038 1.038 0 0 0 1.1-.854 5.991 5.991 0 0 1 11.862 0A1.08 1.08 0 0 0 23 13a6 6 0 0 1 0 12h-3a1 1 0 0 0 0 2h3a8 8 0 0 0 .75-15.956z" />
+                                    <path
+                                        d="M20.293 19.707a1 1 0 0 0 1.414-1.414l-5-5a1 1 0 0 0-1.414 0l-5 5a1 1 0 0 0 1.414 1.414L15 16.414V29a1 1 0 0 0 2 0V16.414z" />
+                                </svg>
+                                {{ $document->nama }} ({{ $document->isRequired ? 'Wajib' : 'Opsional' }})
+                                <input type="file" id="uploadFile{{ $index }}" name="files[{{ $document->id }}]"
+                                    class="hidden" />
+                                <p class="text-xs font-medium text-gray-400 mt-2">PNG, JPG, SVG, WEBP, and GIF are allowed.
+                                </p>
+                            </label>
+                            {{-- Tampilkan error untuk dokumen wajib --}}
+                            @error("files.{$document->id}")
+                                <span class="text-red-500 text-sm">{{ $message }}</span>
+                            @enderror
+                        </div>
 
-                        <input type="file" id='uploadFile1' class="hidden" />
-                        <p class="text-xs font-medium text-gray-400 mt-2">PNG, JPG SVG, WEBP, and GIF are Allowed.</p>
-                    </label>
+                        {{-- Tampilkan dokumen yang sudah diunggah --}}
+                        @php
+                            $uploadedDocument = $data->where('id_dokumen', $document->id)->first();
+                        @endphp
+                        @if ($uploadedDocument && $uploadedDocument->path_url)
+                            <div class="mt-2 text-center">
+                                <a href="{{ asset('storage/' . $uploadedDocument->path_url) }}" target="_blank"
+                                    class="text-blue-500 underline">
+                                    Lihat {{ $document->nama }}
+                                </a>
+                            </div>
+                        @endif
+                    @endforeach
+
+
+
+                    {{-- Tombol Submit --}}
                     <li class="flex justify-center">
                         <button type="submit" id="submit" class="btn px-10 bg-slate-950 text-white">Submit</button>
                     </li>
                 </form>
             </ul>
+
 
         </div>
     </section>
@@ -95,23 +121,17 @@
                 navbar.classList.remove('shadow-md');
             }
         });
-        $(".select2").select2({
-            tags: "true",
-            placeholder: "Pilih salah satu atau ketik manual",
-            allowClear: true
-        });
 
-        document.addEventListener('DOMContentLoaded', function() {
-            const penerimaKip = document.getElementById('penerima_kip');
-            const kipSection = document.getElementById('kip_section');
+        function showSelectedFileName(event, index) {
+            const fileInput = event.target;
+            const fileNameDisplay = document.getElementById(`selectedFileName${index}`);
 
-            penerimaKip.addEventListener('change', function() {
-                if (this.value === 'ya') {
-                    kipSection.style.display = 'block';
-                } else {
-                    kipSection.style.display = 'none';
-                }
-            })
-        })
+            if (fileInput.files.length > 0) {
+                fileNameDisplay.textContent = `File yang dipilih: ${fileInput.files[0].name}`;
+                fileNameDisplay.classList.add('text-green-500');
+            } else {
+                fileNameDisplay.textContent = '';
+            }
+        }
     </script>
 @endsection

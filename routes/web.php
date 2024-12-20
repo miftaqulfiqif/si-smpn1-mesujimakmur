@@ -38,8 +38,9 @@ Route::post('/ppdb/pendataran-biodata-orangtua', [PpdbController::class, 'saveBi
 Route::get('/ppdb/input-nilai', [PpdbController::class, 'showFormInputNilai'])->name('input-nilai');
 Route::post('/ppdb/input-nilai',[PpdbController::class, 'saveNilai'])->name('save-nilai');
 Route::get('/ppdb/upload-document', [PpdbController::class, 'showFormUploadDocument'])->name('upload-document');
+Route::post('/ppdb/upload-document', [PpdbController::class, 'saveDocument'])->name('save-document');
 Route::post('/ppdb/daftar', [PpdbController::class, 'saveBiodataSiswa'])->name('saveBiodataSiswa');
-Route::get('/ppdb/index', [PpdbController::class, 'showPpdbIndex'])->name('ppdb.index');
+Route::get('/ppdb/index', [PpdbController::class, 'showPpdbIndex'])->name('ppdb-index');
 
 
 

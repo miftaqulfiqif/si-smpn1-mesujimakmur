@@ -18,4 +18,8 @@ class DokumenCalonSiswa extends Model
     {
         return $this->belongsTo(DataCalonSiswa::class, 'id');
     }
+
+    public function dokumen(){
+        return $this->belongsTo(Dokumen::class, 'id_dokumen');
+    }
 }
