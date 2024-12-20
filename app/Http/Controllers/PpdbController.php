@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\DataCalonSiswa;
 use App\Models\DataOrangtua;
+use App\Models\Dokumen;
 use App\Models\DokumenCalonSiswa;
 use App\Models\NilaiRapot;
 use App\Models\PeriodeDaftar;
@@ -40,7 +41,6 @@ class PpdbController extends Controller
     public function showBiodataOrangtua(Request $request){
         $idDataCalonSiswa = $request->query('id_data_calon_siswa');
         $calonSiswa = DataCalonSiswa::findOrFail($idDataCalonSiswa);
-
         $biodata = DataOrangtua::where('id_data_calon_siswa', $calonSiswa->id)->first();
 
         return view('ppdb.pendaftaran.biodata-orangtua', compact('calonSiswa', 'biodata'));
@@ -49,17 +49,18 @@ class PpdbController extends Controller
     public function showFormInputNilai(Request $request){
         $idDataCalonSiswa = $request->query('id_data_calon_siswa');
         $calonSiswa = DataCalonSiswa::findOrFail($idDataCalonSiswa);
-
         $data = NilaiRapot::where('id_data_calon_siswa', $calonSiswa->id)->first();
+
         return view('ppdb.pendaftaran.input-nilai', compact('calonSiswa', 'data'));
     }
 
     public function showFormUploadDocument(Request $request){
         $idDataCalonSiswa = $request->query('id_data_calon_siswa');
         $calonSiswa = DataCalonSiswa::findOrFail($idDataCalonSiswa);
+        $documents = Dokumen::where('id_periode', $calonSiswa->id_periode)->get();
+        $data = DokumenCalonSiswa::where('id_data_calon_siswa', $calonSiswa->id)->get();
 
-        $data = DokumenCalonSiswa::where('id_data_calon_siswa', $calonSiswa->id)->first();
-        return view('ppdb.pendaftaran.upload-document', compact('calonSiswa', 'data'));
+        return view('ppdb.pendaftaran.upload-document', compact('calonSiswa', 'data', 'documents'));
 
     }
 
@@ -234,18 +235,18 @@ class PpdbController extends Controller
     }
 
     public function saveNilai(Request $request){
+        $request->validate([
+            'id_data_calon_siswa' => 'required|exists:data_calon_siswas,id',
+            'semester_ganjil_kelas_4' => 'required|numeric',
+            'semester_genap_kelas_4' => 'required|numeric',
+            'semester_ganjil_kelas_5' => 'required|numeric',
+            'semester_genap_kelas_5' => 'required|numeric',
+            'semester_ganjil_kelas_6' => 'required|numeric',
+        ]);
+
+        DB::beginTransaction();
+        
         try {
-            $request->validate([
-                'id_data_calon_siswa' => 'required|exists:data_calon_siswas,id',
-                'semester_ganjil_kelas_4' => 'required|numeric',
-                'semester_genap_kelas_4' => 'required|numeric',
-                'semester_ganjil_kelas_5' => 'required|numeric',
-                'semester_genap_kelas_5' => 'required|numeric',
-                'semester_ganjil_kelas_6' => 'required|numeric',
-            ]);
-    
-            DB::beginTransaction();
-    
             $idSiswa = DataCalonSiswa::findOrFail($request->id_data_calon_siswa);
     
             $existingData = NilaiRapot::where('id_data_calon_siswa', $idSiswa->id)->first();
@@ -293,8 +294,78 @@ class PpdbController extends Controller
         }
     }
 
-    public function saveDocument(Request $request){
-        
-    }
-    
+    public function saveDocument(Request $request)
+    {
+        // Pastikan data calon siswa ada
+        $calonSiswa = DataCalonSiswa::findOrFail($request->id_data_calon_siswa);
+
+        // Ambil semua ID dokumen dari file yang diunggah
+        $uploadedFiles = $request->file('files') ?? [];
+        $documents = Dokumen::where('id_periode', $calonSiswa->id_periode)->get();
+
+        // Validasi input
+        $errors = [];
+        foreach ($documents as $document) {
+            // Periksa dokumen wajib
+            if ($document->is_required) {
+                // Jika dokumen wajib belum diunggah dan belum ada di database, tambahkan error
+                $existingDocument = DokumenCalonSiswa::where('id_data_calon_siswa', $calonSiswa->id)
+                    ->where('id_dokumen', $document->id)
+                    ->first();
+
+                // Jika tidak ada file di request dan juga tidak ada file di database, beri error
+                if (!isset($uploadedFiles[$document->id]) && !$existingDocument) {
+                    $errors["files.{$document->id}"] = "Dokumen {$document->nama} wajib diunggah.";
+                }
+            }
+        }
+
+        // Jika ada error, tampilkan kembali form dengan error
+        if (!empty($errors)) {
+            return back()->withErrors($errors)->withInput();
+        }
+
+        // Mulai transaksi database
+        DB::beginTransaction();
+
+        try {
+            foreach ($documents as $document) {
+                $file = $uploadedFiles[$document->id] ?? null;
+
+                if ($file) {
+                    // Jika ada file yang diunggah, simpan file baru
+                    $newFilePath = $file->store('uploads/documents', 'public');
+                } else {
+                    // Jika tidak ada file baru, gunakan file yang sudah ada (jika ada)
+                    $existingDocument = DokumenCalonSiswa::where('id_data_calon_siswa', $calonSiswa->id)
+                        ->where('id_dokumen', $document->id)
+                        ->first();
+
+                    // Ambil path file yang sudah ada
+                    $newFilePath = $existingDocument ? $existingDocument->path_url : null;
+                }
+
+                // Update atau buat data dokumen calon siswa
+                DokumenCalonSiswa::updateOrCreate(
+                    [
+                        'id_data_calon_siswa' => $calonSiswa->id,
+                        'id_dokumen' => $document->id,
+                    ],
+                    [
+                        'path_url' => $newFilePath,
+                    ]
+                );
+            }
+
+            // Commit transaksi
+            DB::commit();
+            return redirect()->route('ppdb-index', ['id_data_calon_siswa' => $calonSiswa->id])
+                ->with('success', 'Dokumen berhasil tersimpan.');
+        } catch (\Exception $e) {
+            // Rollback transaksi jika terjadi error
+            DB::rollBack();
+            Log::error('Error saving document', ['error' => $e->getMessage()]);
+            return back()->withErrors(['error' => 'Terjadi kesalahan saat menyimpan dokumen.']);
+        }
+    }    
 }

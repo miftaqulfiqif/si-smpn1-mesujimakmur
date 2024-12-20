@@ -9,7 +9,7 @@ class Dokumen extends Model
     protected $fillable = [
         'id_periode',
         'nama',
-        'is_required',
+        'isRequired',
     ];
 
     public function periode()
