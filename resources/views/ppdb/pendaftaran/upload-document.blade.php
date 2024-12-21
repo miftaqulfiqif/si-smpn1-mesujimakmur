@@ -61,10 +61,12 @@
                     <input type="hidden" name="id_data_calon_siswa" value="{{ $calonSiswa->id }}">
 
                     @foreach ($documents as $index => $document)
-                        <div class="flex flex-col items-center justify-center">
+                        <div>
+                            <label for="" class="label font-medium"> {{ $document->nama }}</label>
+
                             {{-- Input file --}}
                             <label for="uploadFile{{ $index }}"
-                                class="mt-2 mb-4 bg-white text-gray-500 font-semibold text-base rounded max-w-md h-52 flex flex-col items-center justify-center cursor-pointer border-2 border-gray-300 border-dashed font-[sans-serif]">
+                                class="bg-white text-gray-500 font-semibold text-base rounded max-w h-52 flex flex-col items-center justify-center cursor-pointer border-2 border-gray-300 border-dashed font-[sans-serif]">
                                 <svg xmlns="http://www.w3.org/2000/svg" class="w-11 mb-2 fill-gray-500" viewBox="0 0 32 32">
                                     <path
                                         d="M23.75 11.044a7.99 7.99 0 0 0-15.5-.009A8 8 0 0 0 9 27h3a1 1 0 0 0 0-2H9a6 6 0 0 1-.035-12 1.038 1.038 0 0 0 1.1-.854 5.991 5.991 0 0 1 11.862 0A1.08 1.08 0 0 0 23 13a6 6 0 0 1 0 12h-3a1 1 0 0 0 0 2h3a8 8 0 0 0 .75-15.956z" />
@@ -74,34 +76,33 @@
                                 {{ $document->nama }} ({{ $document->isRequired ? 'Wajib' : 'Opsional' }})
                                 <input type="file" id="uploadFile{{ $index }}" name="files[{{ $document->id }}]"
                                     class="hidden" />
-                                <p class="text-xs font-medium text-gray-400 mt-2">PNG, JPG, SVG, WEBP, and GIF are allowed.
+                                <p id="selectedFileName{{ $index }}" class="text-xs font-medium text-gray-400 mt-2">
                                 </p>
                             </label>
+
                             {{-- Tampilkan error untuk dokumen wajib --}}
                             @error("files.{$document->id}")
                                 <span class="text-red-500 text-sm">{{ $message }}</span>
                             @enderror
+
+                            {{-- Tampilkan dokumen yang sudah diunggah --}}
+                            @php
+                                $uploadedDocument = $data->where('id_dokumen', $document->id)->first();
+                            @endphp
+                            @if ($uploadedDocument && $uploadedDocument->path_url)
+                                <div class="mt-2 text-center">
+                                    <a href="{{ asset('storage/' . $uploadedDocument->path_url) }}" target="_blank"
+                                        class="text-blue-500 underline">
+                                        Lihat {{ $document->nama }}
+                                    </a>
+                                </div>
+                            @endif
                         </div>
-
-                        {{-- Tampilkan dokumen yang sudah diunggah --}}
-                        @php
-                            $uploadedDocument = $data->where('id_dokumen', $document->id)->first();
-                        @endphp
-                        @if ($uploadedDocument && $uploadedDocument->path_url)
-                            <div class="mt-2 text-center">
-                                <a href="{{ asset('storage/' . $uploadedDocument->path_url) }}" target="_blank"
-                                    class="text-blue-500 underline">
-                                    Lihat {{ $document->nama }}
-                                </a>
-                            </div>
-                        @endif
                     @endforeach
-
-
 
                     {{-- Tombol Submit --}}
                     <li class="flex justify-center">
-                        <button type="submit" id="submit" class="btn px-10 bg-slate-950 text-white">Submit</button>
+                        <button type="submit" id="submit" class="btn px-10 bg-slate-950 text-white mt-4">Submit</button>
                     </li>
                 </form>
             </ul>
@@ -122,16 +123,31 @@
             }
         });
 
-        function showSelectedFileName(event, index) {
-            const fileInput = event.target;
-            const fileNameDisplay = document.getElementById(`selectedFileName${index}`);
+        // function showSelectedFileName(event, index) {
+        //     const fileInput = event.target;
+        //     const fileNameDisplay = document.getElementById(`selectedFileName${index}`);
 
-            if (fileInput.files.length > 0) {
-                fileNameDisplay.textContent = `File yang dipilih: ${fileInput.files[0].name}`;
-                fileNameDisplay.classList.add('text-green-500');
-            } else {
-                fileNameDisplay.textContent = '';
-            }
-        }
+        //     if (fileInput.files.length > 0) {
+        //         fileNameDisplay.textContent = `File yang dipilih: ${fileInput.files[0].name}`;
+        //         fileNameDisplay.classList.add('text-green-500');
+        //     } else {
+        //         fileNameDisplay.textContent = '';
+        //     }
+        // }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            document.querySelectorAll('input[type="file"]').forEach(input => {
+                input.addEventListener('change', function() {
+                    const fileNameDisplay = document.getElementById('selectedFileName' + this.id
+                        .replace('uploadFile', ''));
+                    if (this.files && this.files[0]) {
+                        fileNameDisplay.textContent = this.files[0].name;
+                    } else {
+                        fileNameDisplay.textContent =
+                            '';
+                    }
+                });
+            });
+        });
     </script>
 @endsection

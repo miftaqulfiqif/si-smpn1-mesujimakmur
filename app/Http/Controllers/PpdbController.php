@@ -8,6 +8,7 @@ use App\Models\Dokumen;
 use App\Models\DokumenCalonSiswa;
 use App\Models\NilaiRapot;
 use App\Models\PeriodeDaftar;
+use App\Models\StatusPendaftaran;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -357,6 +358,11 @@ class PpdbController extends Controller
                 );
             }
 
+            StatusPendaftaran::updateOrCreate([
+                'id_data_calon_siswa' => $calonSiswa->id,
+                'status' => 'processing'
+            ]);
+
             // Commit transaksi
             DB::commit();
             return redirect()->route('ppdb-index', ['id_data_calon_siswa' => $calonSiswa->id])
@@ -367,5 +373,5 @@ class PpdbController extends Controller
             Log::error('Error saving document', ['error' => $e->getMessage()]);
             return back()->withErrors(['error' => 'Terjadi kesalahan saat menyimpan dokumen.']);
         }
-    }    
+    } 
 }
