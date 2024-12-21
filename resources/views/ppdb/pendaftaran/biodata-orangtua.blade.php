@@ -176,7 +176,8 @@
                         @enderror
                     </li>
                     <li class="flex justify-center">
-                        <button type="submit" id="submit" class="btn px-10 bg-slate-950 text-white">Submit</button>
+                        <button type="submit" id="submit"
+                            class="btn px-10 bg-slate-950 text-white mt-4">Submit</button>
                     </li>
                 </form>
             </ul>

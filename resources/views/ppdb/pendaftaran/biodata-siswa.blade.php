@@ -203,8 +203,19 @@
                         @enderror
                     </li>
                     <li class="form-control gap-1">
+                        <div id="imagePreview" class="mt-4">
+                            @if ($biodata && $biodata->foto)
+                                <p>Preview Foto :</p>
+                                <input type="hidden" name="foto_lama" value="{{ $biodata->foto }}">
+                                <img id="previewImg" src="{{ asset('storage/' . $biodata->foto) }}"
+                                    alt="Preview Foto Lama" width="100" />
+                            @else
+                                <img id="previewImg" src="" alt="Preview Foto Baru" width="100"
+                                    style="display: none;" />
+                            @endif
+                        </div>
                         <label for="foto"
-                            class="mt-10 bg-white text-gray-500 font-semibold text-base rounded max-w-md h-52 flex flex-col items-center justify-center cursor-pointer border-2 border-gray-300 border-dashed font-[sans-serif]">
+                            class="mt-4 bg-white text-gray-500 font-semibold text-base rounded max-w h-52 flex flex-col items-center justify-center cursor-pointer border-2 border-gray-300 border-dashed font-[sans-serif]">
                             <svg xmlns="http://www.w3.org/2000/svg" class="w-11 mb-2 fill-gray-500" viewBox="0 0 32 32">
                                 <path
                                     d="M23.75 11.044a7.99 7.99 0 0 0-15.5-.009A8 8 0 0 0 9 27h3a1 1 0 0 0 0-2H9a6 6 0 0 1-.035-12 1.038 1.038 0 0 0 1.1-.854 5.991 5.991 0 0 1 11.862 0A1.08 1.08 0 0 0 23 13a6 6 0 0 1 0 12h-3a1 1 0 0 0 0 2h3a8 8 0 0 0 .75-15.956z"
@@ -218,22 +229,14 @@
                             <input type="file" id='foto' name="foto" class="hidden" accept="image/*" />
                             <p class="text-xs font-medium text-gray-400 mt-2">PNG, JPG and JPEG are Allowed.</p>
                         </label>
-                        <div id="imagePreview" class="mt-4">
-                            @if ($biodata && $biodata->foto)
-                                <input type="hidden" name="foto_lama" value="{{ $biodata->foto }}">
-                                <img id="previewImg" src="{{ asset('storage/' . $biodata->foto) }}"
-                                    alt="Preview Foto Lama" width="100" />
-                            @else
-                                <img id="previewImg" src="" alt="Preview Foto Baru" width="100"
-                                    style="display: none;" />
-                            @endif
-                        </div>
+
                         @error('foto')
                             <span class="text-red-500 text-sm">{{ $message }}</span>
                         @enderror
                     </li>
                     <li class="flex justify-center">
-                        <button type="submit" id="submit" class="btn px-10 bg-slate-950 text-white">Submit</button>
+                        <button type="submit" id="submit"
+                            class="btn px-10 bg-slate-950 text-white mt-4">Submit</button>
                     </li>
                 </form>
             </ul>
