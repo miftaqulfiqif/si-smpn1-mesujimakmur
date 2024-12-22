@@ -3,6 +3,7 @@
 use App\Http\Controllers\AchievmentController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\PpdbController;
+use App\Http\Controllers\SistemInformasiController;
 use Doctrine\DBAL\Schema\Index;
 use Filament\Notifications\Notification;
 use Illuminate\Support\Facades\Auth;
@@ -10,13 +11,10 @@ use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Route;
 use League\Csv\Query\Row;
 
-Route::get('/', function () {
-    return view('home');
-});
+// ROUTE SISTEM INFORMASI
+Route::get('/', [SistemInformasiController::class, 'showData'])->name('moto');
+Route::get('/achievment', [AchievmentController::class, "showPrestasi"])->name('prestasi');
 
-Route::get('/home', function () {
-    return view('home');
-})->name('home');
 
 // ROUTE DAFTAR SISWA
 Route::get('/ppdb/register', function () {
@@ -44,7 +42,6 @@ Route::get('/ppdb/index', [PpdbController::class, 'showPpdbIndex'])->name('ppdb-
 
 
 
-Route::get('/achievment', [AchievmentController::class, "index"]);
 
 Route::get('/activity', function(){
     return view('activity');

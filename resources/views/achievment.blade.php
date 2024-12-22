@@ -68,27 +68,37 @@
         <img src="{{ asset('assets/images/ball.png') }}" alt="" srcset=""
             class="absolute left-[315px] top-[492px]">
     </section>
+
     <section class="mx-20 ">
-        <p class="text-2xl font-bold mt-[94px] mb-[44px]">{{ $data }}</p>
+        <p class="text-2xl font-bold mt-[94px] mb-[44px]"> Prestasi Siswa </p>
         <div class="flex flex-col gap-10">
-            <div class="flex bg-[#6A138F] rounded-2xl p-10 h-[385px] gap-10">
-                <img src="{{ asset('assets/images/cup.png') }}" alt="" srcset="" class="max-w-fit h-10">
-                <div class="text-white">
-                    <p class="font-bold mb-2 text-2xl">Lorem ipsum dolor sit amet consectetur</p>
-                    <p class="mb-10">Lorem ipsum dolor sit amet consectetur adipisicing elit. Dignissimos alias iure ab
-                        sint veniam ipsum fugit mollitia minima. Ipsam modi cum voluptatem reiciendis ea enim quis
-                        laborum tenetur atque eos dolorem praesentium quos aliquam, voluptates exercitationem rerum
-                        quisquam saepe? Similique!</p>
-                    <div class="flex items-center">
-                        <p class="mr-4">Baca Selengkapnya</p>
-                        <img src="{{ asset('assets/images/send.png') }}" alt="" srcset="">
+            @if ($prestasis->isNotEmpty())
+                @foreach ($prestasis as $index => $prestasi)
+                    <div class="flex bg-[#6A138F] rounded-2xl p-10 h-[385px] gap-10">
+                        <img src="{{ asset('assets/images/cup.png') }}" alt="" srcset=""
+                            class="max-w-fit h-10">
+                        <div class="text-white">
+                            <p class="font-bold mb-2 text-2xl">{{ $prestasi->nama }}</p>
+                            <p class="mb-10">
+                                {{ $prestasi->konten }}
+                            </p>
+                            <div class="flex items-center">
+                                <p class="mr-4">Baca Selengkapnya</p>
+                                <img src="{{ asset('assets/images/send.png') }}" alt="" srcset="">
+                            </div>
+                        </div>
+                        <div class="self-end h-full">
+                            <img src="{{ asset('storage/' . $prestasi->main_image) }}" alt="" srcset=""
+                                class="h-full w-[1642px] rounded-2xl">
+                        </div>
                     </div>
+                @endforeach
+            @else
+                <div class="col-span-3 items-center">
+                    <p> Data Prestasi Belum Ada</p>
                 </div>
-                <div class="self-end h-full">
-                    <img src="{{ asset('assets/images/prestasi1.png') }}" alt="" srcset=""
-                        class="h-full w-[1642px] rounded-2xl">
-                </div>
-            </div>
+            @endif
+
         </div>
     </section>
 

@@ -7,11 +7,33 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Document</title>
     @vite('resources/css/app.css')
+    <style>
+        .relative {
+            position: relative;
+        }
+
+        .gradient-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            /* Sesuaikan tinggi gradien */
+            background: linear-gradient(to bottom, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 1) 100%);
+            z-index: 1;
+        }
+
+        .content {
+            position: relative;
+            z-index: 2;
+            /* Agar konten berada di atas gradien */
+        }
+    </style>
 </head>
 
 <body>
     <x-navbar />
-    <section class="mt-[73px]">
+    <section class="my-20">
         <div class="flex mx-20 items-center">
             <div class="my-auto basis-1/2">
                 <img src="{{ asset('assets/images/aktivitas.png') }}" alt="" srcset="">
@@ -33,27 +55,24 @@
     </section>
     <section>
         <div class="flex mx-20 items-center max-w-full">
-            <div class="grid grid-rows-3 grid-flow-col gap-4">
-                <div class="max-w-xs">
-                    <img src="{{ asset('assets/images/aktivitas1.png') }}" alt="" srcset="">
-                    <div class="flex flex-col gap-2 mt-2 bg-white">
-                        <p class="font-bold">Newest Activity Title</p>
-                        <p class="font-semibold">By Writer</p>
-                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Placeat nulla in distinctio dicta
-                            iure
-                            incidunt voluptates amet. Non repellendus nemo quidem voluptas deleniti inventore cumque
-                            nulla modi
-                            ea perferendis iste autem recusandae quos similique voluptate sequi temporibus.</p>
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mx-auto max-w-7xl">
+                <div class="relative max-w-xs shadow-xl">
+                    <!-- Gambar -->
+                    <img src="{{ asset('assets/images/aktivitas1.png') }}" alt="Activity Image" class="w-full h-auto">
+
+                    <!-- Overlay Gradien -->
+                    <div class="gradient-overlay"></div>
+
+                    <!-- Konten -->
+                    <div class="content bg-white p-4 gap-4">
+                        <p class="font-bold text-xl py-2">Activities Title</p>
+                        <p class="font-semibold text-sm pb-2">By Writer</p>
+                        <p class="text-sm">
+                            Short Descripting, Short Descripting, Short Descripting, Short Descripting, Short
+                            Descripting.
+                        </p>
                     </div>
                 </div>
-                <div class="h-10">02</div>
-                <div class="h-10">03</div>
-                <div class="h-10">04</div>
-                <div class="h-10">05</div>
-                <div class="h-10">06</div>
-                <div class="h-10">07</div>
-                <div class="h-10">08</div>
-                <div class="h-10">09</div>
             </div>
         </div>
     </section>
