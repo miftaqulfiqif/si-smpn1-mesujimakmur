@@ -23,8 +23,13 @@
     <section class="max-w-full">
         <div class="mx-auto py-2 sm:px-6">
             <div class="mx-auto max-w-full text-center py-[47px] lg:mx-0 lg:flex-auto">
-                <h2 class="text-balance text-3xl font-semibold tracking-tight text-[#2E073F] sm:text-4xl">Membangun Masa
-                    Depan Gemilang Bersama Kami.</h2>
+                <h2 class="text-balance text-3xl font-semibold tracking-tight text-[#2E073F] sm:text-4xl">
+                    @if ($moto)
+                        {{ $moto->konten }}
+                    @else
+                        Data Tidak Ditemukan
+                    @endif
+                </h2>
                 <p
                     class="mt-6 text-pretty text-lg/8 font-bold  text-[#590E7A] bg-white p-1 max-w-lg mx-auto rounded-2xl shadow-lg">
                     Menginspirasi
@@ -83,249 +88,121 @@
             <img src="{{ asset('assets/images/Component 2.png') }}" alt="">
         </div>
     </section>
+
+    {{-- VISI dan MISI --}}
     <section class="max-w-full">
         <div class="bg-gradient-to-b from-[#7C18CD] to-[#38085F] h-auto rounded-3xl mx-20">
-            <div class="flex justify-between mt-10 gap-2 p-10">
+            <div class="flex gap-4 mt-10 p-10">
                 <div class="max-w-sm">
-                    <p class="text-white font-bold text-2xl h-[100px]">
-                        Visi & Misi
+                    <p class="text-white font-bold text-2xl mb-4">
+                        Visi
                     </p>
-                    <p class="text-white">Lorem ipsum dolor sit amet consectetur adipisicing elit. Eius veritatis
-                        corporis
-                        veniam sed ipsum
-                        possimus fuga, iure unde! Sequi, odit!</p>
+                    <p class="text-white">
+                        @if ($visi)
+                            {{ $visi->konten }}
+                        @else
+                            Visi Masih Kosong
+                        @endif
+                    </p>
                 </div>
                 <img src="{{ asset('assets/images/Line 17.png') }}" alt="">
-                <div class="max-w-sm">
-                    <img src="{{ asset('assets/images/book 1.png') }}" alt="">
-                    <p class="text-white">Lorem ipsum dolor sit amet consectetur adipisicing elit. Eius veritatis
-                        corporis
-                        veniam sed ipsum
-                        possimus fuga, iure unde! Sequi, odit!</p>
-                </div>
-                <img src="{{ asset('assets/images/Line 17.png') }}" alt="">
-                <div class="max-w-sm">
-                    <img src="{{ asset('assets/images/book 2.png') }}" alt="">
-                    <p class="text-white">Lorem ipsum dolor sit amet consectetur adipisicing elit. Eius veritatis
-                        corporis
-                        veniam sed ipsum
-                        possimus fuga, iure unde! Sequi, odit!</p>
-                </div>
-                <img src="{{ asset('assets/images/Line 17.png') }}" alt="">
-                <div class="max-w-sm">
-                    <img src="{{ asset('assets/images/cap 1.png') }}" alt="">
-                    <p class="text-white">Lorem ipsum dolor sit amet consectetur adipisicing elit. Eius veritatis
-                        corporis
-                        veniam sed ipsum
-                        possimus fuga, iure unde! Sequi, odit!</p>
+                <div class="max-w-full">
+                    <p class="text-white font-bold text-2xl mb-4">
+                        Misi
+                    </p>
+                    <p class="text-white">
+                        @if ($misi)
+                            {{ $misi->konten }}
+                        @else
+                            Misi Masih Kosong
+                        @endif
+                    </p>
                 </div>
             </div>
-            <div class="mx-auto pr-10 pb-10">
+            {{-- <div class="mx-auto pr-10 pb-10">
                 <div class="flex items-center justify-end ">
                     <p class="text-white mr-2">Selengkapnya </p>
                     <img src="{{ asset('assets/images/arrow_right.png') }}" alt="" srcset=""
                         class="h-[11px]">
                 </div>
-            </div>
+            </div> --}}
         </div>
-
     </section>
+
+    {{-- PRESTASI --}}
     <section class="max-w-full">
         <div class="mx-auto mt-20 mb-10 text-center">
-            <p class="font-semibold text-3xl"> Prestasi </p>
-            <p class="text-2xl"> Source Of Achievment</p>
+            <p class="font-semibold text-3xl">Prestasi</p>
+            <p class="text-2xl">Prestasi Siswa</p>
         </div>
         <div class="mx-auto max-w-7xl">
             <div class="flex justify-end mr-20 mb-2">
-                <p class="underline">Lihat Semua </p>
+                <p class="underline">Lihat Semua</p>
             </div>
             <div class="grid grid-cols-3 gap-4">
+                @if ($prestasis->isNotEmpty())
+                    @foreach ($prestasis as $index => $prestasi)
+                        <div
+                            class="border-2 border-[#AD49E1] p-6 rounded-xl {{ $index % 3 == 2 ? 'col-span-2' : '' }}">
+                            <div class="bg-cover bg-center h-64 rounded-lg"
+                                style="background-image: url('{{ asset('storage/' . $prestasi->main_image) }}')">
+                            </div>
+                            <div class="my-5">
+                                <div class="flex">
+                                    <img src="{{ asset('storage/' . $prestasi->images) }}" alt=""
+                                        class="h-8">
+                                    <div class="ml-2">
+                                        <p class="text-xl">{{ $prestasi->nama }}</p>
+                                        <p class="text-sm">{{ $prestasi->konten }}</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    @endforeach
+                @else
+                    <div class="col-span-3 text-center">
+                        <p>Data Prestasi Masih Kosong</p>
+                    </div>
+                @endif
 
-                <div class="border-2 border-[#AD49E1] p-6 rounded-xl">
-                    <div class="bg-cover bg-center h-64 rounded-lg"
-                        style="background-image: url('{{ asset('assets/images/prestasi1.png') }}')">
-                    </div>
-                    <div class="my-5">
-                        <div class="flex">
-                            <img src="{{ asset('assets/images/Shoes.png') }}" alt="" srcset=""
-                                class="h-8">
-                            <div class="ml-2">
-                                <p class="text-xl">Piala Presiden, Juara 1</p>
-                                <p class="text-sm">Lorem ipsum dolor, sit amet consectetur adipisicing elit. Quas,
-                                    veniam.</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="border-2 border-[#AD49E1] p-6 rounded-xl">
-                    <div class="bg-cover bg-center h-64 rounded-lg"
-                        style="background-image: url('{{ asset('assets/images/prestasi2.png') }}')">
-                    </div>
-                    <div class="my-5">
-                        <div class="flex">
-                            <img src="{{ asset('assets/images/Drawing Compass.png') }}" alt=""
-                                srcset="" class="h-8">
-                            <div class="ml-2">
-                                <p class="text-xl">Piala Presiden, Juara 1</p>
-                                <p class="text-sm">Lorem ipsum dolor, sit amet consectetur adipisicing elit. Quas,
-                                    veniam.</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="border-2 border-[#AD49E1] p-6 rounded-xl">
-                    <div class="bg-cover bg-center h-64 rounded-lg"
-                        style="background-image: url('{{ asset('assets/images/prestasi3.png') }}')">
-                    </div>
-                    <div class="my-5">
-                        <div class="flex">
-                            <img src="{{ asset('assets/images/Drawing Compass.png') }}" alt=""
-                                srcset="" class="h-8">
-                            <div class="ml-2">
-                                <p class="text-xl">Piala Presiden, Juara 1</p>
-                                <p class="text-sm">Lorem ipsum dolor, sit amet consectetur adipisicing elit. Quas,
-                                    veniam.</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-span-2 border-2 border-[#AD49E1] p-6 rounded-xl">
-                    <div class="bg-cover bg-center h-64 rounded-lg"
-                        style="background-image: url('{{ asset('assets/images/x_prestasi1.png') }}')">
-                    </div>
-                    <div class="my-5">
-                        <div class="flex">
-                            <img src="{{ asset('assets/images/Drawing Compass.png') }}" alt=""
-                                srcset="" class="h-8">
-                            <div class="ml-2">
-                                <p class="text-xl">Piala Presiden, Juara 1</p>
-                                <p class="text-sm">Lorem ipsum dolor, sit amet consectetur adipisicing elit. Quas,
-                                    veniam.</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="border-2 border-[#AD49E1] p-6 rounded-xl">
-                    <div class="bg-cover bg-center h-64 rounded-lg"
-                        style="background-image: url('{{ asset('assets/images/prestasi4.png') }}')">
-                    </div>
-                    <div class="my-5">
-                        <div class="flex">
-                            <img src="{{ asset('assets/images/Drawing Compass.png') }}" alt=""
-                                srcset="" class="h-8">
-                            <div class="ml-2">
-                                <p class="text-xl">Piala Presiden, Juara 1</p>
-                                <p class="text-sm">Lorem ipsum dolor, sit amet consectetur adipisicing elit. Quas,
-                                    veniam.</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="border-2 border-[#AD49E1] p-6 rounded-xl">
-                    <div class="bg-cover bg-center h-64 rounded-lg"
-                        style="background-image: url('{{ asset('assets/images/prestasi5.png') }}')">
-                    </div>
-                    <div class="my-5">
-                        <div class="flex">
-                            <img src="{{ asset('assets/images/Drawing Compass.png') }}" alt=""
-                                srcset="" class="h-8">
-                            <div class="ml-2">
-                                <p class="text-xl">Piala Presiden, Juara 1</p>
-                                <p class="text-sm">Lorem ipsum dolor, sit amet consectetur adipisicing elit. Quas,
-                                    veniam.</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-span-2 border-2 border-[#AD49E1] p-6 rounded-xl">
-                    <div class="bg-cover bg-center h-64 rounded-lg"
-                        style="background-image: url('{{ asset('assets/images/x_pretstasi2.png') }}')">
-                    </div>
-                    <div class="my-5">
-                        <div class="flex">
-                            <img src="{{ asset('assets/images/Drawing Compass.png') }}" alt=""
-                                srcset="" class="h-8">
-                            <div class="ml-2">
-                                <p class="text-xl">Piala Presiden, Juara 1</p>
-                                <p class="text-sm">Lorem ipsum dolor, sit amet consectetur adipisicing elit. Quas,
-                                    veniam.</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
             </div>
         </div>
     </section>
+
+    {{-- INFORMASI SEKOLAH --}}
     <section class="max-w-full">
         <div class="mx-auto mt-20 mb-4 text-center">
             <p class="font-semibold text-3xl"> Informasi </p>
-            <p class="text-2xl"> Source Of Information</p>
+            <p class="text-2xl"> Informasi Sekolah</p>
         </div>
         <div class="mx-auto max-w-7xl">
             <div class="flex justify-end mr-20 mb-2">
                 <p class="underline">Lihat Semua </p>
             </div>
             <div class="grid grid-cols-4 gap-10">
-                <div
-                    class="border-2 bg-[conic-gradient(at_bottom_right,_var(--tw-gradient-stops))] from-[#2E073F] to-[#4A0B66] p-6 rounded-xl">
-                    <div class="bg-cover bg-center h-52 rounded-lg"
-                        style="background-image: url('{{ asset('assets/images/informasi1.png') }}')">
-                    </div>
-                    <div class="my-5 text-white">
-                        <p class="text-sm font-bold mb-2">PPDB Periode 2024 - 2025</p>
-                        <div class="relative flex h-12">
-                            <p class="text-xs">Lorem ipsum dolor, sit amet consectetur adipisicing elit. Quas, veniam.
-                            </p>
-                            <img src="{{ asset('assets/images/arrow-square-right.svg') }}" alt=""
-                                class="absolute bottom-0 right-0">
+                @if ($informasis->isNotEmpty());
+                    @foreach ($informasis as $index => $prestasi)
+                        <div
+                            class="border-2 bg-[conic-gradient(at_bottom_right,_var(--tw-gradient-stops))] from-[#2E073F] to-[#4A0B66] p-6 rounded-xl">
+                            <div class="bg-cover bg-center h-52 rounded-lg"
+                                style="background-image: url('{{ asset('assets/images/informasi1.png') }}')">
+                            </div>
+                            <div class="my-5 text-white">
+                                <p class="text-sm font-bold mb-2">{{ $prestasi->nama }}</p>
+                                <div class="relative flex h-12">
+                                    <p class="text-xs">{{ $prestasi->konten }}
+                                    </p>
+                                    <img src="{{ asset('storage/' . $prestasi->main_image) }}" alt=""
+                                        class="absolute bottom-0 right-0">
+                                </div>
+                            </div>
                         </div>
+                    @endforeach
+                @else
+                    <div class="col-span-4 text-center">
+                        <p>Data Informasi Sekolah Masih Kosong</p>
                     </div>
-                </div>
-                <div
-                    class="border-2 bg-[conic-gradient(at_bottom_right,_var(--tw-gradient-stops))] from-[#2E073F] to-[#4A0B66] p-6 rounded-xl">
-                    <div class="bg-cover bg-center h-52 rounded-lg"
-                        style="background-image: url('{{ asset('assets/images/informasi2.png') }}')">
-                    </div>
-                    <div class="my-5 text-white">
-                        <p class="text-sm font-bold mb-2">Peserta didik Lolos Seleksi</p>
-                        <div class="relative flex h-12">
-                            <p class="text-xs">Lorem ipsum dolor, sit amet consectetur adipisicing elit. Quas, veniam.
-                            </p>
-                            <img src="{{ asset('assets/images/arrow-square-right.svg') }}" alt=""
-                                class="absolute bottom-0 right-0">
-                        </div>
-                    </div>
-                </div>
-                <div
-                    class="border-2 bg-[conic-gradient(at_bottom_right,_var(--tw-gradient-stops))] from-[#2E073F] to-[#4A0B66] p-6 rounded-xl">
-                    <div class="bg-cover bg-center h-52 rounded-lg"
-                        style="background-image: url('{{ asset('assets/images/informasi3.png') }}')">
-                    </div>
-                    <div class="my-5 text-white">
-                        <p class="text-sm font-bold mb-2">Peserta didik Lolos Seleksi</p>
-                        <div class="relative flex h-12">
-                            <p class="text-xs">Lorem ipsum dolor, sit amet consectetur adipisicing elit. Quas, veniam.
-                            </p>
-                            <img src="{{ asset('assets/images/arrow-square-right.svg') }}" alt=""
-                                class="absolute bottom-0 right-0">
-                        </div>
-                    </div>
-                </div>
-                <div
-                    class="border-2 bg-[conic-gradient(at_bottom_right,_var(--tw-gradient-stops))] from-[#2E073F] to-[#4A0B66] p-6 rounded-xl">
-                    <div class="bg-cover bg-center h-52 rounded-lg"
-                        style="background-image: url('{{ asset('assets/images/informasi4.png') }}')">
-                    </div>
-                    <div class="my-5 text-white">
-                        <p class="text-sm font-bold mb-2">Peserta didik Lolos Seleksi</p>
-                        <div class="relative flex h-12">
-                            <p class="text-xs">Lorem ipsum dolor, sit amet consectetur adipisicing elit. Quas, veniam.
-                            </p>
-                            <img src="{{ asset('assets/images/arrow-square-right.svg') }}" alt=""
-                                class="absolute bottom-0 right-0">
-                        </div>
-                    </div>
-                </div>
+                @endif
             </div>
         </div>
     </section>

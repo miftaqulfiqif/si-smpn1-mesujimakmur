@@ -2,11 +2,11 @@
     <div class="navbar
     bg-base-100">
         <div class="gap-5 text-[#2E073F] mx-auto font-semibold">
-            <a href="/home">Home</a>
-            <a href="/achievment">Achievment</a>
-            <a href="/activity">Activites</a>
-            <a href="#">Information</a>
-            <a href="#">Contact</a>
+            <a href="/">Home</a>
+            <a href="/achievment">Prestasi</a>
+            <a href="/activity">Kegiatan</a>
+            <a href="#">Informasi</a>
+            <a href="#">Kontak</a>
             <a href="/ppdb/login">PPDB</a>
         </div>
     </div>

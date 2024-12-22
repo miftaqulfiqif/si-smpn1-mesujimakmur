@@ -2,14 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Prestasi;
 use Illuminate\Http\Request;
 
 class AchievmentController extends Controller
 {
-    public function index(){
+    public function showPrestasi(){
+        $prestasis = Prestasi::all();
 
-        $data = "Prestasi Sekolah";
-
-        return view("achievment", compact("data"));
+        return view('achievment', compact('prestasis'));
     }
 }
