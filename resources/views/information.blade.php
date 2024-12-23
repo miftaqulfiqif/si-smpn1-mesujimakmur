@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Kegiatan Sekolah</title>
+    <title>Informasi Sekolah</title>
     @vite('resources/css/app.css')
     <style>
         .relative {
@@ -34,16 +34,16 @@
 <body>
     <x-navbar />
     <section class="my-20">
-        @if ($newActivity)
+        @if ($newInformation)
             <div class="flex mx-20 items-center gap-4">
                 <div class="bg-cover bg-center w-[600px] h-[400px] my-auto basis-1/2 rounded-xl"
-                    style="background-image: url('{{ asset('storage/' . $newActivity->main_image) }}')">
+                    style="background-image: url('{{ asset('storage/' . $newInformation->main_image) }}')">
                 </div>
                 <div class="relative justify-center h-96 max-h-full basis-1/2">
-                    <p class="text-3xl font-bold mb-4 font-[#2E073F]">{{ $newActivity->nama }}</p>
-                    <p class="font-semibold mb-4">{{ $newActivity->editor }}</p>
+                    <p class="text-3xl font-bold mb-4 font-[#2E073F]">{{ $newInformation->nama }}</p>
+                    <p class="font-semibold mb-4">{{ $newInformation->editor }}</p>
                     <p>
-                        {{ $newActivity->deskripsi }}
+                        {{ $newInformation->deskripsi }}
                     </p>
                     <div class="absolute flex items-center bottom-0">
                         <p class="mr-4">Baca Selengkapnya</p>
@@ -54,7 +54,7 @@
         @else
             <div class="flex items-center mx-auto">
                 <p>
-                    Data Kegiatan Terbaru Kosong
+                    Data Informasi Terbaru Kosong
                 </p>
             </div>
         @endif
@@ -63,12 +63,12 @@
         <img src="{{ asset('assets/images/line.png') }}" alt="" srcset="" class="mx-auto">
         <div class="flex mx-20 items-center max-w-full mt-20">
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mx-auto max-w-7xl">
-                @if ($activities->isNotEmpty())
-                    @foreach ($activities as $index => $activity)
+                @if ($informations->isNotEmpty())
+                    @foreach ($informations as $index => $information)
                         <div class="relative max-w-xs shadow-xl mb-10">
                             <!-- Gambar -->
                             <div class="bg-cover bg-center w-[300px] h-[250px]"
-                                style="background-image: url('{{ asset('storage/' . $activity->main_image) }}')">
+                                style="background-image: url('{{ asset('storage/' . $information->main_image) }}')">
                             </div>
 
                             <!-- Overlay Gradien -->
@@ -77,17 +77,17 @@
                             <!-- Konten -->
                             <div class="content bg-white p-4 gap-4">
 
-                                <p class="font-bold text-xl py-2">{{ $activity->nama }}</p>
-                                <p class="font-semibold text-sm pb-2">{{ $activity->editor }}</p>
+                                <p class="font-bold text-xl py-2">{{ $information->nama }}</p>
+                                <p class="font-semibold text-sm pb-2">{{ $information->editor }}</p>
                                 <p class="text-sm mb-8">
-                                    {{ $activity->deskripsi }}
+                                    {{ $information->deskripsi }}
                                 </p>
                             </div>
                         </div>
                     @endforeach
                 @else
                     <div class="relative items-center">
-                        Data Kegiatan Masih Kosong
+                        Data Informasi Masih Kosong
                     </div>
                 @endif
             </div>

@@ -17,6 +17,10 @@ class Informasi extends Model
         'tanggal',
     ];
 
+    protected $casts = [
+        'images' => 'array',
+    ];
+
     protected static function boot(){
         parent::boot();
 
