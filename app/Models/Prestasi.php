@@ -17,6 +17,10 @@ class Prestasi extends Model
         'konten',
     ];
 
+    protected $casts = [
+        'images' => 'array',
+    ];
+
     protected static function boot()
     {
         parent::boot();

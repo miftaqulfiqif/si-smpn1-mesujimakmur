@@ -12,13 +12,25 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    @vite('resources/css/app.css')
+    @vite('resources/css/app.css') // framework tailwindcss
     <title>Home</title>
 </head>
 
 <body class="" style="">
-    <img src="{{ asset('assets/images/Photo.png') }}" alt="" class="absolute mt-[300px]">
-    <img src="{{ asset('assets/images/Photo1.png') }}" alt="" class="absolute mt-[185px] right-0">
+    <img src="{{ asset('assets/images/Photo.png') }}" alt="" class="absolute mt-[300px] hidden lg:block">
+    <img src="{{ asset('assets/images/Photo1.png') }}" alt=""
+        class="absolute mt-[185px] right-0 hidden lg:block ">
+
+    {{-- <div class="relative">
+        <!-- Gambar pertama -->
+        <img src="{{ asset('assets/images/Photo.png') }}" alt=""
+            class="absolute mt-[300px] hidden lg:block md:w-[70%] sm:w-[50%] w-[30%]">
+
+        <!-- Gambar kedua -->
+        <img src="{{ asset('assets/images/Photo1.png') }}" alt=""
+            class="absolute mt-[185px] right-0 hidden lg:block md:w-[70%] sm:w-[50%] w-[30%]">
+    </div> --}}
+
     <x-navbar />
     <section class="max-w-full">
         <div class="mx-auto py-2 sm:px-6">
@@ -137,10 +149,12 @@
         </div>
         <div class="mx-auto max-w-7xl">
             <div class="flex justify-end mr-20 mb-2">
-                <p class="underline">Lihat Semua</p>
+                <a href="/achievment">
+                    <p class="underline">Lihat Semua</p>
+                </a>
             </div>
             <div class="grid grid-cols-3 gap-4">
-                @if ($prestasis->isNotEmpty())
+                @if ($prestasis)
                     @foreach ($prestasis as $index => $prestasi)
                         <div
                             class="border-2 border-[#AD49E1] p-6 rounded-xl {{ $index % 3 == 2 ? 'col-span-2' : '' }}">
@@ -149,8 +163,7 @@
                             </div>
                             <div class="my-5">
                                 <div class="flex">
-                                    <img src="{{ asset('storage/' . $prestasi->images) }}" alt=""
-                                        class="h-8">
+                                    <img src="{{ asset('assets/images/Shoes.png') }}" alt="" class="h-8">
                                     <div class="ml-2">
                                         <p class="text-xl">{{ $prestasi->nama }}</p>
                                         <p class="text-sm">{{ $prestasi->konten }}</p>
@@ -177,22 +190,24 @@
         </div>
         <div class="mx-auto max-w-7xl">
             <div class="flex justify-end mr-20 mb-2">
-                <p class="underline">Lihat Semua </p>
+                <a href="/information">
+                    <p class="underline">Lihat Semua </p>
+                </a>
             </div>
             <div class="grid grid-cols-4 gap-10">
-                @if ($informasis->isNotEmpty());
+                @if ($informasis);
                     @foreach ($informasis as $index => $prestasi)
                         <div
                             class="border-2 bg-[conic-gradient(at_bottom_right,_var(--tw-gradient-stops))] from-[#2E073F] to-[#4A0B66] p-6 rounded-xl">
                             <div class="bg-cover bg-center h-52 rounded-lg"
-                                style="background-image: url('{{ asset('assets/images/informasi1.png') }}')">
+                                style="background-image: url('{{ asset('storage/' . $prestasi->main_image) }}')">
                             </div>
                             <div class="my-5 text-white">
                                 <p class="text-sm font-bold mb-2">{{ $prestasi->nama }}</p>
                                 <div class="relative flex h-12">
-                                    <p class="text-xs">{{ $prestasi->konten }}
+                                    <p class="text-xs">{{ $prestasi->deskripsi }}
                                     </p>
-                                    <img src="{{ asset('storage/' . $prestasi->main_image) }}" alt=""
+                                    <img src="{{ asset('assets/images/arrow-square-right.svg') }}" alt=""
                                         class="absolute bottom-0 right-0">
                                 </div>
                             </div>

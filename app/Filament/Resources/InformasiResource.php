@@ -26,7 +26,7 @@ class InformasiResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\Fieldset::make('Kegiatan')
+                Forms\Components\Fieldset::make('Informasi')
                     ->extraAttributes([
                         'class' => 'bg-white shadow overflow-hidden sm:rounded-lg',
                     ])
@@ -43,6 +43,10 @@ class InformasiResource extends Resource
                             ->required(),
                         Forms\Components\FileUpload::make('main_image')
                             ->required(),
+                        Forms\Components\FileUpload::make('images')
+                            ->label('Upload Gambar')
+                            ->multiple()
+                            ->directory('uploads/informasi/images'),
                     ])
             ]);
     }

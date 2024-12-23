@@ -69,27 +69,27 @@
             class="absolute left-[315px] top-[492px]">
     </section>
 
-    <section class="mx-20 ">
-        <p class="text-2xl font-bold mt-[94px] mb-[44px]"> Prestasi Siswa </p>
+    <section class="mx-6 lg:mx-20 md:mx-10">
+        <p class="text-2xl font-bold mt-[40px] mb-[44px]"> Prestasi Siswa </p>
         <div class="flex flex-col gap-10">
             @if ($prestasis->isNotEmpty())
                 @foreach ($prestasis as $index => $prestasi)
-                    <div class="flex bg-[#6A138F] rounded-2xl p-10 h-[385px] gap-10">
+                    <div class="flex bg-[#6A138F] rounded-2xl p-10 h-[385px] gap-2">
                         <img src="{{ asset('assets/images/cup.png') }}" alt="" srcset=""
-                            class="max-w-fit h-10">
-                        <div class="text-white">
+                            class="flex-none w-14 max-w-fit h-10 mr-2 hidden lg:block">
+                        <div class="flex-1 w-64 text-white">
                             <p class="font-bold mb-2 text-2xl">{{ $prestasi->nama }}</p>
                             <p class="mb-10">
                                 {{ $prestasi->konten }}
                             </p>
-                            <div class="flex items-center">
+                            <div class="flex items-center w-[40%]">
                                 <p class="mr-4">Baca Selengkapnya</p>
-                                <img src="{{ asset('assets/images/send.png') }}" alt="" srcset="">
+                                <img src="{{ asset('assets/images/send.png') }}" alt="" srcset=""
+                                    class="hidden lg:block">
                             </div>
                         </div>
-                        <div class="self-end h-full">
-                            <img src="{{ asset('storage/' . $prestasi->main_image) }}" alt="" srcset=""
-                                class="h-full w-[1642px] rounded-2xl">
+                        <div class=" flex-1 self-end bg-cover bg-center w-full h-full rounded-xl"
+                            style="background-image: url('{{ asset('storage/' . $prestasi->main_image) }}')">
                         </div>
                     </div>
                 @endforeach

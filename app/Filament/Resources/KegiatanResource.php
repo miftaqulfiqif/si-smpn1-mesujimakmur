@@ -43,6 +43,10 @@ class KegiatanResource extends Resource
                             ->required(),
                         Forms\Components\FileUpload::make('main_image')
                             ->required(),
+                        Forms\Components\FileUpload::make('images')
+                            ->label('Upload Gambar')
+                            ->multiple()
+                            ->directory('uploads/kegiatan/images')
                     ])
             ]);
     }

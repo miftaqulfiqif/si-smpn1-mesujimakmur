@@ -1,7 +1,9 @@
 <?php
 
 use App\Http\Controllers\AchievmentController;
+use App\Http\Controllers\ActivityController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\InformationController;
 use App\Http\Controllers\PpdbController;
 use App\Http\Controllers\SistemInformasiController;
 use Doctrine\DBAL\Schema\Index;
@@ -14,6 +16,8 @@ use League\Csv\Query\Row;
 // ROUTE SISTEM INFORMASI
 Route::get('/', [SistemInformasiController::class, 'showData'])->name('moto');
 Route::get('/achievment', [AchievmentController::class, "showPrestasi"])->name('prestasi');
+Route::get('/activities', [ActivityController::class, "showActivity"])->name('activity');
+Route::get('/information', [InformationController::class, 'showInformation'])->name('information');
 
 
 // ROUTE DAFTAR SISWA
@@ -39,15 +43,6 @@ Route::get('/ppdb/upload-document', [PpdbController::class, 'showFormUploadDocum
 Route::post('/ppdb/upload-document', [PpdbController::class, 'saveDocument'])->name('save-document');
 Route::post('/ppdb/daftar', [PpdbController::class, 'saveBiodataSiswa'])->name('saveBiodataSiswa');
 Route::get('/ppdb/index', [PpdbController::class, 'showPpdbIndex'])->name('ppdb-index');
-
-
-
-
-Route::get('/activity', function(){
-    return view('activity');
-});
-
-
 
 Route::get('/tes-notif', function () {
     try {

@@ -41,6 +41,11 @@ class PrestasiResource extends Resource
                             ->columnSpanFull(),
                         Forms\Components\FileUpload::make('main_image')
                             ->required(),
+                        Forms\Components\FileUpload::make('images')
+                            ->label('Unggah Gambar')
+                            ->multiple()
+                            ->directory('uploads/prestasi/images')
+                            ->required(),
                     ])
             ]);
     }
