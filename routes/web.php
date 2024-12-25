@@ -3,6 +3,7 @@
 use App\Http\Controllers\AchievmentController;
 use App\Http\Controllers\ActivityController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\DetailContentController;
 use App\Http\Controllers\InformationController;
 use App\Http\Controllers\PpdbController;
 use App\Http\Controllers\SistemInformasiController;
@@ -18,6 +19,8 @@ Route::get('/', [SistemInformasiController::class, 'showData'])->name('moto');
 Route::get('/achievment', [AchievmentController::class, "showPrestasi"])->name('prestasi');
 Route::get('/activities', [ActivityController::class, "showActivity"])->name('activity');
 Route::get('/information', [InformationController::class, 'showInformation'])->name('information');
+
+Route::get('/detail-content', [DetailContentController::class, 'showContent'])->name('detail-content');
 
 
 // ROUTE DAFTAR SISWA
