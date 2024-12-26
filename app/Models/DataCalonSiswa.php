@@ -40,6 +40,10 @@ class DataCalonSiswa extends Model
         return $this->belongsTo(PeriodeDaftar::class, 'id_periode');
     }
 
+    public function nilaiRapot(){
+        return $this->hasMany(NilaiRapot::class, 'id_data_calon_siswa');
+    }
+
     public function dokumenCalonSiswa()
     {
         return $this->hasMany(DokumenCalonSiswa::class, 'id_calon_siswa');

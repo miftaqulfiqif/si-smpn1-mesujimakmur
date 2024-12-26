@@ -22,8 +22,19 @@ use function Ramsey\Uuid\v1;
 
 class PpdbController extends Controller
 {
-    public function showPpdbIndex(){
-        return view('ppdb.index');
+    public function ppdbValidation()
+    {
+        $user = Auth::user();
+        $biodata = DataCalonSiswa::where('id_user', $user->id)->first();
+        if (!$biodata) {
+            return redirect()->route('ppdb.pendaftaran.biodata-siswa')
+                ->with('error', 'Biodata tidak ditemukan. Silakan lengkapi biodata terlebih dahulu.');
+        }
+        $statusPendaftaran = StatusPendaftaran::where('id_data_calon_siswa', $biodata->id)->first();
+        if ($statusPendaftaran && $statusPendaftaran->status == 'processing') {
+            return redirect()->route('ppdb-index');
+        }
+        return view('ppdb.pendaftaran.biodata-siswa', compact('user', 'biodata'));
     }
 
     public function showForm(){
@@ -39,10 +50,12 @@ class PpdbController extends Controller
         return view('ppdb.pendaftaran.biodata-siswa', compact('user', 'sekolahPilihan', 'biodata'));
     }
 
-    public function showBiodataOrangtua(Request $request){
-        $idDataCalonSiswa = $request->query('id_data_calon_siswa');
-        $calonSiswa = DataCalonSiswa::findOrFail($idDataCalonSiswa);
-        $biodata = DataOrangtua::where('id_data_calon_siswa', $calonSiswa->id)->first();
+    public function showBiodataOrangtua(){
+        $user = Auth::user();
+
+        $calonSiswa = DataCalonSiswa::where('id_user', $user->id)->first();
+        $idDataCalonSiswa = $calonSiswa->id;
+        $biodata = DataOrangtua::where('id_data_calon_siswa', $idDataCalonSiswa)->first();
 
         return view('ppdb.pendaftaran.biodata-orangtua', compact('calonSiswa', 'biodata'));
     }

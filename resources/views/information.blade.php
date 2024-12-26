@@ -46,7 +46,11 @@
                         {{ $newInformation->deskripsi }}
                     </p>
                     <div class="absolute flex items-center bottom-0">
-                        <p class="mr-4">Baca Selengkapnya</p>
+                        <a
+                            href="{{ route('detail-content', ['content' => 'informasi', 'id' => $newInformation->id]) }}">
+                            <p class="mr-4">Baca Selengkapnya</p>
+
+                        </a>
                         <img src="{{ asset('assets/images/send.png') }}" alt="" srcset="">
                     </div>
                 </div>
@@ -65,25 +69,27 @@
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mx-auto max-w-7xl">
                 @if ($informations->isNotEmpty())
                     @foreach ($informations as $index => $information)
-                        <div class="relative max-w-xs shadow-xl mb-10">
-                            <!-- Gambar -->
-                            <div class="bg-cover bg-center w-[300px] h-[250px]"
-                                style="background-image: url('{{ asset('storage/' . $information->main_image) }}')">
+                        <a href="{{ route('detail-content', ['content' => 'informasi', 'id' => $information->id]) }}">
+                            <div class="relative max-w-xs shadow-xl mb-10">
+                                <!-- Gambar -->
+                                <div class="bg-cover bg-center w-[300px] h-[250px]"
+                                    style="background-image: url('{{ asset('storage/' . $information->main_image) }}')">
+                                </div>
+
+                                <!-- Overlay Gradien -->
+                                <div class="gradient-overlay"></div>
+
+                                <!-- Konten -->
+                                <div class="content bg-white p-4 gap-4">
+
+                                    <p class="font-bold text-xl py-2">{{ $information->nama }}</p>
+                                    <p class="font-semibold text-sm pb-2">{{ $information->editor }}</p>
+                                    <p class="text-sm mb-8">
+                                        {{ $information->deskripsi }}
+                                    </p>
+                                </div>
                             </div>
-
-                            <!-- Overlay Gradien -->
-                            <div class="gradient-overlay"></div>
-
-                            <!-- Konten -->
-                            <div class="content bg-white p-4 gap-4">
-
-                                <p class="font-bold text-xl py-2">{{ $information->nama }}</p>
-                                <p class="font-semibold text-sm pb-2">{{ $information->editor }}</p>
-                                <p class="text-sm mb-8">
-                                    {{ $information->deskripsi }}
-                                </p>
-                            </div>
-                        </div>
+                        </a>
                     @endforeach
                 @else
                     <div class="relative items-center">

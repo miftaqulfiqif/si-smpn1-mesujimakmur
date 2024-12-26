@@ -97,7 +97,7 @@
                     consectetur ullam magnam vel ducimus dolorem reiciendis.
                 </p>
             </div>
-            <img src="{{ asset('assets/images/Component 2.png') }}" alt="">
+            <img src="{{ asset('storage/' . $fotoSekolah->image) }}" alt="" class="max-h-fit">
         </div>
     </section>
 
@@ -122,13 +122,15 @@
                     <p class="text-white font-bold text-2xl mb-4">
                         Misi
                     </p>
-                    <p class="text-white">
-                        @if ($misi)
-                            {{ $misi->konten }}
-                        @else
-                            Misi Masih Kosong
-                        @endif
-                    </p>
+                    @if ($misi->isNotEmpty())
+                        @foreach ($misi as $item)
+                            <p class="text-white">
+                                {{ $loop->iteration }}. {{ $item->konten }}
+                            </p>
+                        @endforeach
+                    @else
+                        Misi Masih Kosong
+                    @endif
                 </div>
             </div>
             {{-- <div class="mx-auto pr-10 pb-10">
@@ -156,21 +158,24 @@
             <div class="grid grid-cols-3 gap-4">
                 @if ($prestasis)
                     @foreach ($prestasis as $index => $prestasi)
-                        <div
-                            class="border-2 border-[#AD49E1] p-6 rounded-xl {{ $index % 3 == 2 ? 'col-span-2' : '' }}">
-                            <div class="bg-cover bg-center h-64 rounded-lg"
-                                style="background-image: url('{{ asset('storage/' . $prestasi->main_image) }}')">
-                            </div>
-                            <div class="my-5">
-                                <div class="flex">
-                                    <img src="{{ asset('assets/images/Shoes.png') }}" alt="" class="h-8">
-                                    <div class="ml-2">
-                                        <p class="text-xl">{{ $prestasi->nama }}</p>
-                                        <p class="text-sm">{{ $prestasi->konten }}</p>
+                        <a href="{{ route('detail-content', ['content' => 'prestasi', 'id' => $prestasi->id]) }}">
+                            <div
+                                class="border-2 border-[#AD49E1] p-6 rounded-xl {{ $index % 3 == 2 ? 'col-span-2' : '' }}">
+                                <div class="bg-cover bg-center h-64 rounded-lg"
+                                    style="background-image: url('{{ asset('storage/' . $prestasi->main_image) }}')">
+                                </div>
+                                <div class="my-5">
+                                    <div class="flex">
+                                        <img src="{{ asset('assets/images/Shoes.png') }}" alt=""
+                                            class="h-8">
+                                        <div class="ml-2">
+                                            <p class="text-xl">{{ $prestasi->nama }}</p>
+                                            <p class="text-sm">{{ $prestasi->konten }}</p>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
+                        </a>
                     @endforeach
                 @else
                     <div class="col-span-3 text-center">
@@ -196,22 +201,24 @@
             </div>
             <div class="grid grid-cols-4 gap-10">
                 @if ($informasis);
-                    @foreach ($informasis as $index => $prestasi)
-                        <div
-                            class="border-2 bg-[conic-gradient(at_bottom_right,_var(--tw-gradient-stops))] from-[#2E073F] to-[#4A0B66] p-6 rounded-xl">
-                            <div class="bg-cover bg-center h-52 rounded-lg"
-                                style="background-image: url('{{ asset('storage/' . $prestasi->main_image) }}')">
-                            </div>
-                            <div class="my-5 text-white">
-                                <p class="text-sm font-bold mb-2">{{ $prestasi->nama }}</p>
-                                <div class="relative flex h-12">
-                                    <p class="text-xs">{{ $prestasi->deskripsi }}
-                                    </p>
-                                    <img src="{{ asset('assets/images/arrow-square-right.svg') }}" alt=""
-                                        class="absolute bottom-0 right-0">
+                    @foreach ($informasis as $index => $informasi)
+                        <a href="{{ route('detail-content', ['content' => 'informasi', 'id' => $informasi->id]) }}">
+                            <div
+                                class="border-2 bg-[conic-gradient(at_bottom_right,_var(--tw-gradient-stops))] from-[#2E073F] to-[#4A0B66] p-6 rounded-xl">
+                                <div class="bg-cover bg-center h-52 rounded-lg"
+                                    style="background-image: url('{{ asset('storage/' . $informasi->main_image) }}')">
+                                </div>
+                                <div class="my-5 text-white">
+                                    <p class="text-sm font-bold mb-2">{{ $informasi->nama }}</p>
+                                    <div class="relative flex h-12">
+                                        <p class="text-xs">{{ $informasi->deskripsi }}
+                                        </p>
+                                        <img src="{{ asset('assets/images/arrow-square-right.svg') }}" alt=""
+                                            class="absolute bottom-0 right-0">
+                                    </div>
                                 </div>
                             </div>
-                        </div>
+                        </a>
                     @endforeach
                 @else
                     <div class="col-span-4 text-center">

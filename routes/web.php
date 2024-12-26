@@ -6,6 +6,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DetailContentController;
 use App\Http\Controllers\InformationController;
 use App\Http\Controllers\PpdbController;
+use App\Http\Controllers\PpdbIndexController;
 use App\Http\Controllers\SistemInformasiController;
 use Doctrine\DBAL\Schema\Index;
 use Filament\Notifications\Notification;
@@ -20,7 +21,7 @@ Route::get('/achievment', [AchievmentController::class, "showPrestasi"])->name('
 Route::get('/activities', [ActivityController::class, "showActivity"])->name('activity');
 Route::get('/information', [InformationController::class, 'showInformation'])->name('information');
 
-Route::get('/detail-content', [DetailContentController::class, 'showContent'])->name('detail-content');
+Route::get('detail-content/{content}/{id}', [DetailContentController::class, 'showContent'])->name('detail-content');
 
 
 // ROUTE DAFTAR SISWA
@@ -29,15 +30,16 @@ Route::get('/ppdb/register', function () {
 });
 Route::post('/ppdb/register', [AuthController::class, 'register'])->name('register');
 
-// ROUTE PPDB
+// ROUTE AUTH PPDB
 Route::get('/ppdb/login', [AuthController::class, 'showLoginForm'])->name('ppdb.login');
 Route::post('/login', [AuthController::class, 'login'])->name('login');
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
 // ROUTE PENDAFTARAN
-Route::get('/ppdb/pendaftaran', [PpdbController::class, 'showForm'])
+Route::get('/ppdb/pendaftaran', [PpdbController::class, 'ppdbValidation'])
     ->middleware('auth')
-    ->name('ppdb.pendaftaran.biodata-siswa');
+    ->name('ppdb.validate');
+Route::get('/ppdb/pendaftaran-biodata-siswa', [PpdbController::class, 'showForm'])->name('ppdb.pendaftaran.biodata-siswa');
 Route::get('/ppdb/pendataran-biodata-orangtua', [PpdbController::class, 'showBiodataOrangtua'])->name('biodata-orangtua');
 Route::post('/ppdb/pendataran-biodata-orangtua', [PpdbController::class, 'saveBiodataOrangtua'])->name('save-biodata-orangtua');
 Route::get('/ppdb/input-nilai', [PpdbController::class, 'showFormInputNilai'])->name('input-nilai');
@@ -45,7 +47,10 @@ Route::post('/ppdb/input-nilai',[PpdbController::class, 'saveNilai'])->name('sav
 Route::get('/ppdb/upload-document', [PpdbController::class, 'showFormUploadDocument'])->name('upload-document');
 Route::post('/ppdb/upload-document', [PpdbController::class, 'saveDocument'])->name('save-document');
 Route::post('/ppdb/daftar', [PpdbController::class, 'saveBiodataSiswa'])->name('saveBiodataSiswa');
-Route::get('/ppdb/index', [PpdbController::class, 'showPpdbIndex'])->name('ppdb-index');
+
+// ROUTE PPDB INDEX
+Route::get('/ppdb/index', [PpdbIndexController::class, 'showPpdbIndex'])->name('ppdb-index');
+Route::get('/ppdb/peringkat', [PpdbIndexController::class, 'listRangkingSiswa'])->name('rangking-siswa');
 
 Route::get('/tes-notif', function () {
     try {
