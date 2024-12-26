@@ -27,4 +27,8 @@ class PeriodeDaftar extends Model
     {
         return $this->hasMany(Dokumen::class, 'id_periode');
     }
+
+    public function siswas(){
+        return $this->hasMany(DataCalonSiswa::class, 'id_periode');
+    }
 }

@@ -83,7 +83,11 @@
                                 {{ $prestasi->konten }}
                             </p>
                             <div class="flex items-center w-[40%]">
-                                <p class="mr-4">Baca Selengkapnya</p>
+                                <a
+                                    href="{{ route('detail-content', ['content' => 'prestasi', 'id' => $prestasi->id]) }}">
+                                    <p class="mr-4">Baca Selengkapnya</p>
+
+                                </a>
                                 <img src="{{ asset('assets/images/send.png') }}" alt="" srcset=""
                                     class="hidden lg:block">
                             </div>

@@ -2,41 +2,38 @@
 
 namespace App\Filament\Resources;
 
+use App\Filament\Resources\VisiResource\Pages;
+use App\Filament\Resources\VisiResource\RelationManagers;
+use App\Models\Visi;
 use Filament\Forms;
-use Filament\Tables;
-use App\Models\VisiMisi;
 use Filament\Forms\Form;
-use Filament\Tables\Table;
 use Filament\Resources\Resource;
-use Illuminate\Database\Eloquent\Builder;
-use Filament\Infolists\Components\Fieldset;
-use App\Filament\Resources\VisiMisiResource\Pages;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
-use App\Filament\Resources\VisiMisiResource\RelationManagers;
-use Filament\Forms\Components\Textarea;
-use Filament\Forms\Components\TextInput;
+use Filament\Tables;
 use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Table;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\SoftDeletingScope;
 
-class VisiMisiResource extends Resource
+class VisiResource extends Resource
 {
-    protected static ?string $model = VisiMisi::class;
+    protected static ?string $model = Visi::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
-    protected static ?string $navigationLabel = 'Visi Misi';
+    protected static ?string $navigationLabel = 'Visi';
     protected static ?string $navigationGroup = 'Sistem Informasi';
 
     public static function form(Form $form): Form
     {
         return $form
             ->schema([
-                Forms\Components\Fieldset::make('Visi Misi')
+                Forms\Components\Fieldset::make('Visi')
                     ->extraAttributes([
-                        'class' => 'bg-white shadow overflow-hidden sm:rounded-lg'
+                        'class' => 'bg-white shadow overflow-hidden sm:rounded-lg',
                     ])
                     ->schema([
-                        Textarea::make('konten')
-                            ->required()
-                            ->columnSpanFull(),
+                        Forms\Components\TextInput::make('konten')
+                            ->placeholder('Masukkan Visi')
+                            ->required(),
                     ])
             ]);
     }
@@ -44,15 +41,18 @@ class VisiMisiResource extends Resource
     public static function table(Table $table): Table
     {
         return $table
-            ->emptyStateHeading('Tidak ada data Visi Misi')
+            ->emptyStateHeading('Tidak ada data misi')
             ->columns([
-                TextColumn::make('editor')->sortable(),
-                TextColumn::make('konten')->searchable(),
-                TextColumn::make('created_at')
+                Tables\Columns\TextColumn::make('editor')
+                    ->searchable()
+                    ->sortable(),
+                Tables\Columns\TextColumn::make('konten')
+                    ->searchable(),
+                Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
-                TextColumn::make('updated_at')
+                Tables\Columns\TextColumn::make('updated_at')
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
@@ -85,10 +85,10 @@ class VisiMisiResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListVisiMisis::route('/'),
-            'create' => Pages\CreateVisiMisi::route('/create'),
-            'view' => Pages\ViewVisiMisi::route('/{record}'),
-            'edit' => Pages\EditVisiMisi::route('/{record}/edit'),
+            'index' => Pages\ListVisis::route('/'),
+            'create' => Pages\CreateVisi::route('/create'),
+            'view' => Pages\ViewVisi::route('/{record}'),
+            'edit' => Pages\EditVisi::route('/{record}/edit'),
         ];
     }
 }

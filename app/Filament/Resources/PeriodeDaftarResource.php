@@ -95,7 +95,7 @@ class PeriodeDaftarResource extends Resource
                                 0 => 'heroicon-o-x-circle',
                             ])
                     ])
-                ]),
+                ])
             ]);
     }
 

@@ -107,7 +107,7 @@ class DataCalonSiswaResource extends Resource
             ->searchPlaceholder('Cari data calon siswa...')
             ->emptyStateHeading('Tidak ada data calon siswa')
             ->columns([
-                Tables\Columns\TextColumn::make('periode.nama')
+                Tables\Columns\TextColumn::make('periode.name')
                     ->sortable(),
                 Tables\Columns\TextColumn::make('jenis_kelamin'),
                 Tables\Columns\TextColumn::make('tgl_lahir')
