@@ -10,7 +10,7 @@
         <ul tabindex="0" class="menu menu-sm dropdown-content bg-white rounded-box z-[10] mt-3 w-52 p-2 shadow">
             <li><a href="/ppdb/index">Home</a></li>
             <li><a href="/ppdb/pendaftaran-biodata-siswa">Ubah Data</a></li>
-            <li><a href="/ppdb/peringkat">Cek Peringkat Saya</a></li>
+            <li><a href="/ppdb/peringkat">Cek Peringkat</a></li>
             {{-- <li><a>Bantuan</a></li> --}}
             <li>
                 <form action="{{ route('logout') }}" method="post" style="display: inline">
@@ -42,7 +42,7 @@
             </li>
             <li><a href="/ppdb/peringkat"
                     class="px-3 h-8 rounded-md flex items-center shadow hover:shadow-md {{ Route::currentRouteNamed('ppdb.aktifitas') ? 'bg-[#7A1CAC] text-white' : 'bg-white text-[#7A1CAC]' }}">Cek
-                    Peringkat Saya</a>
+                    Peringkat</a>
             </li>
             {{-- <li><a href=""
                     class="px-3 h-8 rounded-md flex items-center shadow hover:shadow-md {{ Route::currentRouteNamed('ppdb.bantuan') ? 'bg-[#7A1CAC] text-white' : 'bg-white text-[#7A1CAC]' }}">Bantuan</a>

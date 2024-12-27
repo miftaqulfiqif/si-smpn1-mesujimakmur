@@ -12,6 +12,8 @@ use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use App\Filament\Resources\DataCalonSiswaResource\RelationManagers\DataOrangtuaRelationManager;
+use App\Filament\Resources\DataOrangtuaResource\RelationManagers\DataOrangtuaRelationManager as RelationManagersDataOrangtuaRelationManager;
 
 class DataCalonSiswaResource extends Resource
 {
@@ -98,6 +100,22 @@ class DataCalonSiswaResource extends Resource
                             ->required()
                             ->columnSpanFull(),
                     ]),
+                Forms\Components\Fieldset::make('Data Orang Tua')
+                ->schema([
+                    Forms\Components\TextInput::make('dataOrangtua.nama_ayah')
+                        ->label('Nama Ayah')
+                        ->disabled(),
+                    Forms\Components\TextInput::make('dataOrangtua.nik_ayah')
+                        ->label('NIK Ayah')
+                        ->disabled(),
+                    Forms\Components\TextInput::make('dataOrangtua.nama_ibu')
+                        ->label('Nama Ibu')
+                        ->disabled(),
+                    Forms\Components\TextInput::make('dataOrangtua.nik_ibu')
+                        ->label('NIK Ibu')
+                        ->disabled(),
+                ]),
+
             ]);
     }
 
@@ -165,7 +183,7 @@ class DataCalonSiswaResource extends Resource
     public static function getRelations(): array
     {
         return [
-            //
+            RelationManagersDataOrangtuaRelationManager::class,
         ];
     }
 

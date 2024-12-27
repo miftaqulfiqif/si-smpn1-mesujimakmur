@@ -51,6 +51,8 @@ Route::post('/ppdb/daftar', [PpdbController::class, 'saveBiodataSiswa'])->name('
 // ROUTE PPDB INDEX
 Route::get('/ppdb/index', [PpdbIndexController::class, 'showPpdbIndex'])->name('ppdb-index');
 Route::get('/ppdb/peringkat', [PpdbIndexController::class, 'listRangkingSiswa'])->name('rangking-siswa');
+Route::get('/ppdb/bayar-daftar-ulang', [PpdbIndexController::class, 'showFormBayar'])->name('bayar-daftar-ulang');
+Route::post('/ppdb/bayar-daftar-ulang', [PpdbIndexController::class, 'saveBuktiBayar'])->name('upload-bukti-bayar');
 
 Route::get('/tes-notif', function () {
     try {

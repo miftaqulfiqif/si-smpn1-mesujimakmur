@@ -24,10 +24,16 @@
             </div>
         </div>
 
-        <p>{{ $periodeDaftar->name }}</p>
+        <p class="text-xl mx-10">Periode saat ini adalah : <br>{{ $periodeDaftar->name }}</p>
         <table class="w-full text-sm text-left mt-10 rtl:text-right text-gray-500">
             <thead class="text-xs text-gray-700 uppercase bg-gray-50">
                 <tr>
+                    <th scope="col" class="px-6 py-3">
+                        Nama
+                    </th>
+                    <th scope="col" class="px-6 py-3">
+                        NISN
+                    </th>
                     <th scope="col" class="px-6 py-3">
                         Nama
                     </th>
@@ -47,6 +53,9 @@
                     <tr class="bg-white border-b hover:bg-gray-50">
                         <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">
                             {{ $siswa->user->name }}
+                        </th>
+                        <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">
+                            {{ $siswa->user->nisn }}
                         </th>
                         <td class="px-6 py-4">
                             {{ $siswa->asal_sekolah }}
