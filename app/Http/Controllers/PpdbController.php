@@ -61,16 +61,19 @@ class PpdbController extends Controller
     }
 
     public function showFormInputNilai(Request $request){
-        $idDataCalonSiswa = $request->query('id_data_calon_siswa');
-        $calonSiswa = DataCalonSiswa::findOrFail($idDataCalonSiswa);
-        $data = NilaiRapot::where('id_data_calon_siswa', $calonSiswa->id)->first();
+        $user = Auth::user();
+
+        $calonSiswa = DataCalonSiswa::where('id_user', $user->id)->first();
+        $idDataCalonSiswa = $calonSiswa->id;
+        $data = NilaiRapot::where('id_data_calon_siswa', $idDataCalonSiswa)->first();
 
         return view('ppdb.pendaftaran.input-nilai', compact('calonSiswa', 'data'));
     }
 
     public function showFormUploadDocument(Request $request){
-        $idDataCalonSiswa = $request->query('id_data_calon_siswa');
-        $calonSiswa = DataCalonSiswa::findOrFail($idDataCalonSiswa);
+        $user = Auth::user();
+        $calonSiswa = DataCalonSiswa::where('id_user', $user->id)->first();
+        $idDataCalonSiswa = $calonSiswa->id;
         $documents = Dokumen::where('id_periode', $calonSiswa->id_periode)->get();
         $data = DokumenCalonSiswa::where('id_data_calon_siswa', $calonSiswa->id)->get();
 
@@ -170,7 +173,7 @@ class PpdbController extends Controller
             }
 
             DB::commit();
-            return redirect()->route('biodata-orangtua', ['id_data_calon_siswa' => $idCalonSiswa])->with('success', 'Registrasi berhasil!');
+            return redirect()->route('biodata-orangtua')->with('success', 'Registrasi berhasil!');
         } catch (\Exception $e) {
             DB::rollBack();
             Log::error('Error saving data', ['error' => $e->getMessage()]);
@@ -239,7 +242,7 @@ class PpdbController extends Controller
             }
 
             DB::commit();
-            return redirect()->route('input-nilai', ['id_data_calon_siswa' => $idSiswa->id])->with('success', 'Registrasi berhasil!');
+            return redirect()->route('input-nilai')->with('success', 'Registrasi berhasil!');
 
         } catch (\Exception $e) {
             DB::rollBack();
@@ -299,7 +302,7 @@ class PpdbController extends Controller
             }
     
             DB::commit();
-            return redirect()->route('upload-document', ['id_data_calon_siswa' => $idSiswa->id])->with('success', 'Registrasi berhasil!');
+            return redirect()->route('upload-document')->with('success', 'Registrasi berhasil!');
     
         } catch (\Exception $e) {
             DB::rollBack();
@@ -378,7 +381,7 @@ class PpdbController extends Controller
 
             // Commit transaksi
             DB::commit();
-            return redirect()->route('ppdb-index', ['id_data_calon_siswa' => $calonSiswa->id])
+            return redirect()->route('ppdb-index')
                 ->with('success', 'Dokumen berhasil tersimpan.');
         } catch (\Exception $e) {
             // Rollback transaksi jika terjadi error

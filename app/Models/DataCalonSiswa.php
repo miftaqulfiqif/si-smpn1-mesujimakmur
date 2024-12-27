@@ -54,6 +54,10 @@ class DataCalonSiswa extends Model
         return $this->hasOne(StatusPendaftaran::class, 'id_data_calon_siswa');
     }
 
+    public function buktiPembayaran(){
+        return $this->hasOne(BuktiPembayaran::class, 'id_data_calon_siswa');
+    }
+
     protected static function boot(){
         parent::boot();
 
