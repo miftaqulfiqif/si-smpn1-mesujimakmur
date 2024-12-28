@@ -97,7 +97,8 @@
                     consectetur ullam magnam vel ducimus dolorem reiciendis.
                 </p>
             </div>
-            <img src="{{ asset('storage/' . $fotoSekolah->image) }}" alt="" class="max-h-fit">
+            <img src="{{ asset('storage/' . $fotoSekolah->image) }}"
+                alt="{{ asset('assets/images/Component 2.png') }}" class="max-h-fit">
         </div>
     </section>
 

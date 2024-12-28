@@ -11,19 +11,21 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('bukti_pembayaran', function (Blueprint $table) {
+        Schema::create('pesan_kesalahan', function (Blueprint $table) {
             $table->id();
             $table->foreignId('id_data_calon_siswa')->constrained('data_calon_siswas')->onDelete('cascade');
-            $table->string('bukti_bayar');
+            $table->text('pesan');
             $table->timestamps();
         });
+
     }
 
     /**
      * Reverse the migrations.
      */
     public function down(): void
-    {
-        Schema::dropIfExists('bukti_pembayaran');
-    }
+{
+    Schema::dropIfExists('pesan_kesalahan'); // Menghapus tabel pesan_kesalahan
+}
+
 };

@@ -27,7 +27,8 @@ class DataCalonSiswaResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\Fieldset::make('Data Calon Siswa')
+                Forms\Components\Section::make()->columns(2)->schema([
+                    Forms\Components\Fieldset::make('Data Calon Siswa')
                     ->extraAttributes([
                         'class' => 'bg-white shadow overflow-hidden sm:rounded-lg',
                     ])
@@ -100,22 +101,76 @@ class DataCalonSiswaResource extends Resource
                             ->required()
                             ->columnSpanFull(),
                     ]),
-                Forms\Components\Fieldset::make('Data Orang Tua')
-                ->schema([
-                    Forms\Components\TextInput::make('dataOrangtua.nama_ayah')
-                        ->label('Nama Ayah')
-                        ->disabled(),
-                    Forms\Components\TextInput::make('dataOrangtua.nik_ayah')
-                        ->label('NIK Ayah')
-                        ->disabled(),
-                    Forms\Components\TextInput::make('dataOrangtua.nama_ibu')
-                        ->label('Nama Ibu')
-                        ->disabled(),
-                    Forms\Components\TextInput::make('dataOrangtua.nik_ibu')
-                        ->label('NIK Ibu')
-                        ->disabled(),
                 ]),
+                Forms\Components\Section::make()->schema([
+                    Forms\Components\Repeater::make('Data Orang Tua')->relationship('dataOrangtua')->columns(2)->schema([
+                        Forms\Components\TextInput::make('nama_ayah')
+                            ->required()
+                            ->maxLength(255),
+                        Forms\Components\TextInput::make('nik_ayah')
+                            ->required()
+                            ->maxLength(255),
+                        Forms\Components\DatePicker::make('tgl_lahir_ayah')
+                            ->required(),
+                        Forms\Components\TextInput::make('pendidikan_ayah')
+                            ->required()
+                            ->maxLength(255),
+                        Forms\Components\TextInput::make('pekerjaan_ayah')
+                            ->required()
+                            ->maxLength(255),
+                        Forms\Components\TextInput::make('penghasilan_ayah')
+                            ->required()
+                            ->maxLength(255),
+                        Forms\Components\TextInput::make('nama_ibu')
+                            ->required()
+                            ->maxLength(255),
+                        Forms\Components\TextInput::make('nik_ibu')
+                            ->required()
+                            ->maxLength(255),
+                        Forms\Components\DatePicker::make('tgl_lahir_ibu')
+                            ->required(),
+                        Forms\Components\TextInput::make('pendidikan_ibu')
+                            ->required()
+                            ->maxLength(255),
+                        Forms\Components\TextInput::make('pekerjaan_ibu')
+                            ->required()
+                            ->maxLength(255),
+                        Forms\Components\TextInput::make('penghasilan_ibu')
+                            ->required()
+                            ->maxLength(255),
+                    ])
+                ]),
+                Forms\Components\Section::make()->schema([
+                    Forms\Components\Repeater::make('Data Nilai Siswa')->relationship('nilaiRapot')->columns(2)->schema([
+                        Forms\Components\TextInput::make('semester_ganjil_kelas_4')
+                            ->required()
+                            ->maxLength(255),
+                        Forms\Components\TextInput::make('semester_genap_kelas_4')
+                            ->required()
+                            ->maxLength(255),
+                        Forms\Components\TextInput::make('semester_ganjil_kelas_5')
+                            ->required()
+                            ->maxLength(255),
+                        Forms\Components\TextInput::make('semester_genap_kelas_5')
+                            ->required()
+                            ->maxLength(255),
+                        Forms\Components\TextInput::make('semester_ganjil_kelas_6')
+                            ->required()
+                            ->maxLength(255),
+                        Forms\Components\TextInput::make('average')
+                            ->required()
+                            ->maxLength(255),
+                    ])
+                ]),
+                Forms\Components\Section::make()->schema([
+                    Forms\Components\Repeater::make('Dokumen Persyaratan')->relationship('dokumenCalonSiswa')->columns(2)->schema([
+                        Forms\Components\TextInput::make('nama')
+                            ->required(),
+                        Forms\Components\FileUpload::make('path_url')
+                            ->required(),
 
+                    ])
+                ])
             ]);
     }
 
@@ -183,7 +238,7 @@ class DataCalonSiswaResource extends Resource
     public static function getRelations(): array
     {
         return [
-            RelationManagersDataOrangtuaRelationManager::class,
+            //code
         ];
     }
 

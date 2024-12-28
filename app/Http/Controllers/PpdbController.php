@@ -31,10 +31,13 @@ class PpdbController extends Controller
                 ->with('error', 'Biodata tidak ditemukan. Silakan lengkapi biodata terlebih dahulu.');
         }
         $statusPendaftaran = StatusPendaftaran::where('id_data_calon_siswa', $biodata->id)->first();
-        if ($statusPendaftaran && $statusPendaftaran->status == 'processing') {
+        if ($statusPendaftaran && $statusPendaftaran->status != null) {
             return redirect()->route('ppdb-index');
         }
-        return view('ppdb.pendaftaran.biodata-siswa', compact('user', 'biodata'));
+
+        $sekolahPilihan = ['Pilih asal sekolah! ','SDN 1', 'SDN 2', 'SDN 3', 'SDN 4'];
+
+        return view('ppdb.pendaftaran.biodata-siswa', compact('user', 'biodata', 'sekolahPilihan'));
     }
 
     public function showForm(){
@@ -374,10 +377,19 @@ class PpdbController extends Controller
                 );
             }
 
-            StatusPendaftaran::updateOrCreate([
-                'id_data_calon_siswa' => $calonSiswa->id,
-                'status' => 'processing'
-            ]);
+            $statusPendaftaran = StatusPendaftaran::where('id_data_calon_siswa', $calonSiswa->id)->first();
+
+            if($statusPendaftaran && $statusPendaftaran->status == 'processing'){
+                StatusPendaftaran::updateOrCreate([
+                    'id_data_calon_siswa' => $calonSiswa->id,
+                    'status' => 'processing'
+                ]);
+            } else {
+                StatusPendaftaran::updateOrCreate([
+                    'id_data_calon_siswa' => $calonSiswa->id,
+                    'status' => 'pending'
+                ]);
+            }
 
             // Commit transaksi
             DB::commit();

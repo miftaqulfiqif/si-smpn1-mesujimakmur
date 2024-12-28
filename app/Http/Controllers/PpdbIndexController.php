@@ -7,6 +7,7 @@ use App\Models\DataCalonSiswa;
 use App\Models\DataOrangtua;
 use App\Models\NilaiRapot;
 use App\Models\PeriodeDaftar;
+use App\Models\PesanKesalahan;
 use App\Models\StatusPendaftaran;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -23,8 +24,8 @@ class PpdbIndexController extends Controller
         
         $dataCalonSiswa = DataCalonSiswa::where('id_user', $user->id)->first();
         $idDataCalonSiswa = $dataCalonSiswa->id;
-        // $idDataCalonSiswa = $request->query('id_data_calon_siswa');
-        // $dataCalonSiswa = DataCalonSiswa::findOrFail($idDataCalonSiswa);
+        
+        $pesanKesalahan = PesanKesalahan::where('id_data_calon_siswa', $idDataCalonSiswa)->first();
 
         $user = User::where('id', $dataCalonSiswa->id_user)->first();
         $nameSiswa = $user->name;
@@ -33,7 +34,7 @@ class PpdbIndexController extends Controller
 
         $statusPendaftaran = StatusPendaftaran::where('id_data_calon_siswa', $dataCalonSiswa->id)->first();
 
-        return view('ppdb.index', compact('idDataCalonSiswa', 'dataCalonSiswa', 'nameSiswa','periodeDaftar', 'statusPendaftaran'));
+        return view('ppdb.index', compact('idDataCalonSiswa', 'dataCalonSiswa', 'nameSiswa','periodeDaftar', 'statusPendaftaran', 'pesanKesalahan'));
     }
 
     public function listRangkingSiswa()
