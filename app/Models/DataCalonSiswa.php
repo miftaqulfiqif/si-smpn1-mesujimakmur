@@ -46,7 +46,7 @@ class DataCalonSiswa extends Model
 
     public function dokumenCalonSiswa()
     {
-        return $this->hasMany(DokumenCalonSiswa::class, 'id_calon_siswa');
+        return $this->hasMany(DokumenCalonSiswa::class, 'id_data_calon_siswa');
     }
 
     public function statusPendaftaran()
@@ -56,6 +56,10 @@ class DataCalonSiswa extends Model
 
     public function buktiPembayaran(){
         return $this->hasOne(BuktiPembayaran::class, 'id_data_calon_siswa');
+    }
+
+    public function pesanKesalahan(){
+        return $this->hasMany(PesanKesalahan::class, 'id_data_calon_siswa');
     }
 
     protected static function boot(){

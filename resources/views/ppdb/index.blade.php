@@ -10,11 +10,13 @@
     <section class="w-full px-3 md:px-10 lg:px-14 pt-16 overflow-hidden">
 
         {{-- PESAN --}}
-        <div class="bg-[#ff252579] border-red-500 max-w-full p-6 rounded-3xl flex flex-row mt-10">
-            <p>
-                Terdapat kesalahan upload dokumen Ijazah, Silahkan ubah data
-            </p>
-        </div>
+        @if ($pesanKesalahan)
+            <div class="bg-[#ff252579] border-red-500 max-w-full p-6 rounded-3xl flex flex-row mt-10">
+                <p>
+                    {{ $pesanKesalahan->pesan }}
+                </p>
+            </div>
+        @endif
 
         <div class="my-5">
             <p>Selamat Datang</p>
@@ -54,14 +56,22 @@
                     <p class="text-lg font-bold">Status Pendaftaran </p>
                     <p class="text-md">Anda Terdaftar pada periode <span class="font-bold">{{ $periodeDaftar->name }}</span>
                     </p>
-                    @if ($statusPendaftaran->status == 'processing')
-                        <p class="text-lg bg-[#5cff3b65] px-4 py-2 rounded-2xl max-w-fit">Sedang Dalam Proses ...</p>
+                    @if ($statusPendaftaran->status == 'pending')
+                        <p class="text-lg bg-[#5cff3b65] px-4 py-2 rounded-2xl max-w-fit">Sedang Dalam Pengecekan Berkas ...
+                        </p>
+                    @elseif ($statusPendaftaran->status == 'processing')
+                        <p class="text-lg bg-[#5cff3b65] px-4 py-2 rounded-2xl max-w-fit">Sedang Dalam Proses Perangkingan
+                        </p>
+                        <p class="mt-4">Silahkan mengecek peringkat secara berkala</p>
+                    @elseif ($statusPendaftaran->status == 'accepted')
+                        <p class="text-lg bg-[#5cff3b65] px-4 py-2 rounded-2xl max-w-fit">Selamat Anda Diterima</p>
                         <p class="mt-4">Silahkan membayar daftar ulang dengan mengeklik tombol ini</p>
                         <a href="/ppdb/bayar-daftar-ulang">
                             <p class="text-sm bg-blue-500 text-white px-3 py-2 rounded-2xl max-w-fit">Bayar Daftar Ulang</p>
                         </a>
-                    @elseif ($statusPendaftaram->status == 'accepted')
-                        <p class="text-lg bg-[#5cff3b65] px-4 py-2 rounded-2xl max-w-fit">Selamat Anda Diterima</p>
+                    @elseif ($statusPendaftaran->status == 'rejected')
+                        <p class="text-lg bg-[#fa000485] px-4 py-2 rounded-2xl max-w-fit">Maaf, Anda belum di terima</p>
+                        <p class="mt-4">Tetap Semangat dan Jangan Putus Asa </p>
                     @else
                         <p class="text-lg bg-[#fa000485] px-4 py-2 rounded-2xl max-w-fit">Gagal ...
                         </p>
