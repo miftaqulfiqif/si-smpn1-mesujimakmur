@@ -36,44 +36,56 @@ class DataCalonSiswaResource extends Resource
                         Forms\Components\Select::make('id_periode')
                             ->label('Periode')
                             ->relationship('periode', 'name')
-                            ->required(),
+                            ->required()
+                            ->disabled(),
                         Forms\Components\Select::make('id_user')
                             ->relationship('user', 'name')
                             ->label('Nama')
-                            ->required(),
+                            ->required()
+                            ->disabled(),
                         Forms\Components\Select::make('jenis_kelamin')
                             ->label('Jenis Kelamin')
                             ->options([
                                 'Laki-laki' => 'Laki-laki',
                                 'Perempuan' => 'Perempuan',
                             ])
-                            ->required(),
+                            ->required()
+                            ->disabled(),
                         Forms\Components\DatePicker::make('tgl_lahir')
                             ->native(false)
                             ->label('Tanggal lahir')
                             ->placeholder('Pilih tanggal lahir')
-                            ->required(),
+                            ->required()
+                            ->disabled(),
                         Forms\Components\TextInput::make('tempat_lahir')
                             ->placeholder('Masukkan tempat lahir')
                             ->required()
-                            ->maxLength(255),
+                            ->maxLength(255)
+                            ->disabled(),
                         Forms\Components\TextInput::make('nik')
                             ->label('NIK')
                             ->placeholder('Masukkan NIK')
                             ->required()
-                            ->maxLength(255),
+                            ->maxLength(255)
+                            ->disabled(),
                         Forms\Components\TextInput::make('asal_sekolah')
                             ->placeholder('Masukkan asal sekolah')
                             ->required()
-                            ->maxLength(255),
+                            ->maxLength(255)
+                            ->disabled(),
+                        Forms\Components\Toggle::make('zonasi')
+                            ->required()
+                            ->disabled(),
                         Forms\Components\TextInput::make('tinggi_badan')
                             ->placeholder('Masukkan tinggi badan')
                             ->required()
-                            ->numeric(),
+                            ->numeric()
+                            ->disabled(),
                         Forms\Components\TextInput::make('berat_badan')
                             ->placeholder('Masukkan berat badan')
                             ->required()
-                            ->numeric(),
+                            ->numeric()
+                            ->disabled(),
                         Forms\Components\Select::make('kegemaran')
                             ->options([
                                 'Technology' => 'Technology',
@@ -84,93 +96,124 @@ class DataCalonSiswaResource extends Resource
                                 return $input;
                             })
                             ->searchable()
-                            ->required(),
+                            ->required()
+                            ->disabled(),
                         Forms\Components\Toggle::make('penerima_kip')
-                            ->required(),
+                            ->required()
+                            ->disabled(),
                         Forms\Components\TextInput::make('no_kip')
                             ->label('Nomor KIP')
                             ->maxLength(255)
-                            ->default(null),
+                            ->default(null)
+                            ->disabled(),
                         Forms\Components\FileUpload::make('foto')
-                            ->required(),
+                            ->required()
+                            ->disabled(),
                         Forms\Components\TextInput::make('notelp')
                             ->tel()
                             ->required()
-                            ->maxLength(255),
+                            ->maxLength(255)
+                            ->disabled(),
                         Forms\Components\Textarea::make('alamat')
                             ->required()
-                            ->columnSpanFull(),
+                            ->columnSpanFull()
+                            ->disabled(),
                     ]),
                 ]),
-                Forms\Components\Section::make()->schema([
-                    Forms\Components\Repeater::make('Data Orang Tua')->relationship('dataOrangtua')->columns(2)->schema([
-                        Forms\Components\TextInput::make('nama_ayah')
+                Forms\Components\Section::make()->relationship('dataOrangtua')->columns(2)->schema([
+                    Forms\Components\TextInput::make('nama_ayah')
                             ->required()
-                            ->maxLength(255),
+                            ->maxLength(255)
+                            ->disabled(),
                         Forms\Components\TextInput::make('nik_ayah')
                             ->required()
-                            ->maxLength(255),
+                            ->maxLength(255)
+                            ->disabled(),
                         Forms\Components\DatePicker::make('tgl_lahir_ayah')
-                            ->required(),
+                            ->required()
+                            ->disabled(),
                         Forms\Components\TextInput::make('pendidikan_ayah')
                             ->required()
-                            ->maxLength(255),
+                            ->maxLength(255)
+                            ->disabled(),
                         Forms\Components\TextInput::make('pekerjaan_ayah')
                             ->required()
-                            ->maxLength(255),
+                            ->maxLength(255)
+                            ->disabled(),
                         Forms\Components\TextInput::make('penghasilan_ayah')
                             ->required()
-                            ->maxLength(255),
+                            ->maxLength(255)
+                            ->disabled(),
                         Forms\Components\TextInput::make('nama_ibu')
                             ->required()
-                            ->maxLength(255),
+                            ->maxLength(255)
+                            ->disabled(),
                         Forms\Components\TextInput::make('nik_ibu')
                             ->required()
-                            ->maxLength(255),
+                            ->maxLength(255)
+                            ->disabled(),
                         Forms\Components\DatePicker::make('tgl_lahir_ibu')
-                            ->required(),
+                            ->required()
+                            ->disabled(),
                         Forms\Components\TextInput::make('pendidikan_ibu')
                             ->required()
-                            ->maxLength(255),
+                            ->maxLength(255)
+                            ->disabled(),
                         Forms\Components\TextInput::make('pekerjaan_ibu')
                             ->required()
-                            ->maxLength(255),
+                            ->maxLength(255)
+                            ->disabled(),
                         Forms\Components\TextInput::make('penghasilan_ibu')
                             ->required()
-                            ->maxLength(255),
-                    ])
+                            ->maxLength(255)
+                            ->disabled(),
                 ]),
-                Forms\Components\Section::make()->schema([
-                    Forms\Components\Repeater::make('Data Nilai Siswa')->relationship('nilaiRapot')->columns(2)->schema([
-                        Forms\Components\TextInput::make('semester_ganjil_kelas_4')
-                            ->required()
-                            ->maxLength(255),
-                        Forms\Components\TextInput::make('semester_genap_kelas_4')
-                            ->required()
-                            ->maxLength(255),
-                        Forms\Components\TextInput::make('semester_ganjil_kelas_5')
-                            ->required()
-                            ->maxLength(255),
-                        Forms\Components\TextInput::make('semester_genap_kelas_5')
-                            ->required()
-                            ->maxLength(255),
-                        Forms\Components\TextInput::make('semester_ganjil_kelas_6')
-                            ->required()
-                            ->maxLength(255),
-                        Forms\Components\TextInput::make('average')
-                            ->required()
-                            ->maxLength(255),
-                    ])
+                Forms\Components\Section::make()->relationship('nilaiRapot')->columns(2)->schema([
+                    Forms\Components\TextInput::make('semester_ganjil_kelas_4')
+                        ->required()
+                        ->maxLength(255)
+                        ->disabled(),
+                    Forms\Components\TextInput::make('semester_genap_kelas_4')
+                        ->required()
+                        ->maxLength(255)
+                        ->disabled(),
+                    Forms\Components\TextInput::make('semester_ganjil_kelas_5')
+                        ->required()
+                        ->maxLength(255)
+                        ->disabled(),
+                    Forms\Components\TextInput::make('semester_genap_kelas_5')
+                        ->required()
+                        ->maxLength(255)
+                        ->disabled(),
+                    Forms\Components\TextInput::make('semester_ganjil_kelas_6')
+                        ->required()
+                        ->maxLength(255)
+                        ->disabled(),
+                    Forms\Components\TextInput::make('average')
+                        ->required()
+                        ->maxLength(255)
+                        ->disabled(),
                 ]),
                 Forms\Components\Section::make()->schema([
                     Forms\Components\Repeater::make('Dokumen Persyaratan')->relationship('dokumenCalonSiswa')->columns(2)->schema([
-                        Forms\Components\TextInput::make('nama')
-                            ->required(),
                         Forms\Components\FileUpload::make('path_url')
-                            ->required(),
-
+                            ->required()
+                            ->downloadable()
+                            ->disabled(),
                     ])
-                ])
+                ]),
+                Forms\Components\Section::make()->relationship('statusPendaftaran')->schema([
+                    Forms\Components\TextInput::make('status')
+                        ->label('Status Sekarang')
+                        ->disabled(),
+                    Forms\Components\Select::make('status')
+                        ->label('Status Pendaftaran')
+                        ->options([
+                            'processing' => 'Lolos Pendataan',
+                            'failure' => 'Gagal'
+                        ])
+                        ->required()
+                    ]),
             ]);
     }
 
@@ -182,6 +225,12 @@ class DataCalonSiswaResource extends Resource
             ->columns([
                 Tables\Columns\TextColumn::make('periode.name')
                     ->sortable(),
+                Tables\Columns\TextColumn::make('user.name')
+                    ->label('Name')
+                    ->searchable(),
+                Tables\Columns\TextColumn::make('user.nisn')
+                    ->label('NISN')
+                    ->searchable(),
                 Tables\Columns\TextColumn::make('jenis_kelamin'),
                 Tables\Columns\TextColumn::make('tgl_lahir')
                     ->date()

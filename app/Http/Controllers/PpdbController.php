@@ -7,9 +7,11 @@ use App\Models\DataOrangtua;
 use App\Models\Dokumen;
 use App\Models\DokumenCalonSiswa;
 use App\Models\NilaiRapot;
+use App\Models\PeringkatCalonSiswa;
 use App\Models\PeriodeDaftar;
 use App\Models\StatusPendaftaran;
 use Carbon\Carbon;
+use Filament\Notifications\Notification;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -30,30 +32,41 @@ class PpdbController extends Controller
             return redirect()->route('ppdb.pendaftaran.biodata-siswa')
                 ->with('error', 'Biodata tidak ditemukan. Silakan lengkapi biodata terlebih dahulu.');
         }
+
+        $sekolahPilihan = ['Pilih asal sekolah! ', 'SDN 1', 'SDN 2', 'SDN 3', 'SDN 4'];
+
         $statusPendaftaran = StatusPendaftaran::where('id_data_calon_siswa', $biodata->id)->first();
+
+        $periode = PeriodeDaftar::where('id', $biodata->id_periode)->first();
+
+        if (Carbon::now() > $periode->end_date) {
+            $peringkatSiswa = PeringkatCalonSiswa::getPeringkat($biodata->id);
+        }
+
         if ($statusPendaftaran && $statusPendaftaran->status != null) {
             return redirect()->route('ppdb-index');
         }
 
-        $sekolahPilihan = ['Pilih asal sekolah! ','SDN 1', 'SDN 2', 'SDN 3', 'SDN 4'];
 
         return view('ppdb.pendaftaran.biodata-siswa', compact('user', 'biodata', 'sekolahPilihan'));
     }
 
-    public function showForm(){
+    public function showForm()
+    {
         $user = Auth::user();
         $biodata = DataCalonSiswa::where('id_user', $user->id)->first();
 
-        if($biodata && $biodata->penerima_kip !== null){
+        if ($biodata && $biodata->penerima_kip !== null) {
             $biodata->penerima_kip = $biodata->penerima_kip ? 1 : 0;
         }
 
-        $sekolahPilihan = ['Pilih asal sekolah! ','SDN 1', 'SDN 2', 'SDN 3', 'SDN 4'];
+        $sekolahPilihan = ['Pilih asal sekolah! ', 'SDN 1', 'SDN 2', 'SDN 3', 'SDN 4'];
 
         return view('ppdb.pendaftaran.biodata-siswa', compact('user', 'sekolahPilihan', 'biodata'));
     }
 
-    public function showBiodataOrangtua(){
+    public function showBiodataOrangtua()
+    {
         $user = Auth::user();
 
         $calonSiswa = DataCalonSiswa::where('id_user', $user->id)->first();
@@ -63,7 +76,8 @@ class PpdbController extends Controller
         return view('ppdb.pendaftaran.biodata-orangtua', compact('calonSiswa', 'biodata'));
     }
 
-    public function showFormInputNilai(Request $request){
+    public function showFormInputNilai(Request $request)
+    {
         $user = Auth::user();
 
         $calonSiswa = DataCalonSiswa::where('id_user', $user->id)->first();
@@ -73,7 +87,8 @@ class PpdbController extends Controller
         return view('ppdb.pendaftaran.input-nilai', compact('calonSiswa', 'data'));
     }
 
-    public function showFormUploadDocument(Request $request){
+    public function showFormUploadDocument(Request $request)
+    {
         $user = Auth::user();
         $calonSiswa = DataCalonSiswa::where('id_user', $user->id)->first();
         $idDataCalonSiswa = $calonSiswa->id;
@@ -81,10 +96,10 @@ class PpdbController extends Controller
         $data = DokumenCalonSiswa::where('id_data_calon_siswa', $calonSiswa->id)->get();
 
         return view('ppdb.pendaftaran.upload-document', compact('calonSiswa', 'data', 'documents'));
-
     }
 
-    public function saveBiodataSiswa(Request $request){
+    public function saveBiodataSiswa(Request $request)
+    {
         $user = Auth::user();
 
         $existingData = DataCalonSiswa::where('id_user', $user->id)->first();
@@ -103,7 +118,7 @@ class PpdbController extends Controller
             'nomor_kip' => 'nullable|string',
             'foto' => $existingData ? 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048' : 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
             'foto_lama' => 'nullable|string',
-            'notelp' => 'required|string',            
+            'notelp' => 'required|string',
         ]);
 
         DB::beginTransaction();
@@ -112,13 +127,13 @@ class PpdbController extends Controller
 
             $daftarSekolahPilihan = ['SDN 1', 'SDN 2', 'SDN 3', 'SDN 4'];
             $zonasi = in_array($request->asal_sekolah, $daftarSekolahPilihan);
-            
+
             $periodeAktif = PeriodeDaftar::where('status', 1)->firstOrFail();
-            
+
             if ($request->hasFile('foto') && $request->file('foto')->isValid()) {
                 // Jika file baru diunggah dan valid, simpan file baru
                 $fotoPath = $request->file('foto')->store('uploads/foto', 'public');
-                
+
                 // Hapus foto lama jika ada
                 if ($existingData && $existingData->foto && Storage::exists('public/' . $existingData->foto)) {
                     Storage::delete('public/' . $existingData->foto);
@@ -127,7 +142,7 @@ class PpdbController extends Controller
                 // Jika tidak ada file baru, gunakan foto lama
                 $fotoPath = $request->foto_lama ?? ($existingData ? $existingData->foto : null);
             }
-                 
+
 
             if ($existingData) {
 
@@ -184,7 +199,8 @@ class PpdbController extends Controller
         }
     }
 
-    public function saveBiodataOrangtua(Request $request) {
+    public function saveBiodataOrangtua(Request $request)
+    {
 
         $request->validate([
             'id_data_calon_siswa' => 'required|exists:data_calon_siswas,id',
@@ -200,8 +216,8 @@ class PpdbController extends Controller
             'pekerjaan_ibu' => 'required|string',
             'pendidikan_ibu' => 'required|string',
             'penghasilan_ibu' => 'required|string',
-        ]);    
-    
+        ]);
+
         Log::info('Request data:', $request->all());
 
         DB::beginTransaction();
@@ -246,7 +262,6 @@ class PpdbController extends Controller
 
             DB::commit();
             return redirect()->route('input-nilai')->with('success', 'Registrasi berhasil!');
-
         } catch (\Exception $e) {
             DB::rollBack();
             Log::error('Error saving data', ['error' => $e->getMessage()]);
@@ -254,7 +269,8 @@ class PpdbController extends Controller
         }
     }
 
-    public function saveNilai(Request $request){
+    public function saveNilai(Request $request)
+    {
         $request->validate([
             'id_data_calon_siswa' => 'required|exists:data_calon_siswas,id',
             'semester_ganjil_kelas_4' => 'required|numeric',
@@ -265,19 +281,19 @@ class PpdbController extends Controller
         ]);
 
         DB::beginTransaction();
-        
+
         try {
             $idSiswa = DataCalonSiswa::findOrFail($request->id_data_calon_siswa);
-    
+
             $existingData = NilaiRapot::where('id_data_calon_siswa', $idSiswa->id)->first();
-    
+
             if ($existingData) {
-                $average = ($request->semester_ganjil_kelas_4 
-                            + $request->semester_genap_kelas_4 
-                            + $request->semester_ganjil_kelas_5 
-                            + $request->semester_genap_kelas_5 
-                            + $request->semester_ganjil_kelas_6) / 5;
-    
+                $average = ($request->semester_ganjil_kelas_4
+                    + $request->semester_genap_kelas_4
+                    + $request->semester_ganjil_kelas_5
+                    + $request->semester_genap_kelas_5
+                    + $request->semester_ganjil_kelas_6) / 5;
+
                 $existingData->update([
                     'semester_ganjil_kelas_4' => $request->semester_ganjil_kelas_4,
                     'semester_genap_kelas_4' => $request->semester_genap_kelas_4,
@@ -287,12 +303,12 @@ class PpdbController extends Controller
                     'average' => $average
                 ]);
             } else {
-                $average = ($request->semester_ganjil_kelas_4 
-                            + $request->semester_genap_kelas_4 
-                            + $request->semester_ganjil_kelas_5 
-                            + $request->semester_genap_kelas_5 
-                            + $request->semester_ganjil_kelas_6) / 5;
-    
+                $average = ($request->semester_ganjil_kelas_4
+                    + $request->semester_genap_kelas_4
+                    + $request->semester_ganjil_kelas_5
+                    + $request->semester_genap_kelas_5
+                    + $request->semester_ganjil_kelas_6) / 5;
+
                 NilaiRapot::create([
                     'id_data_calon_siswa' => $idSiswa->id,
                     'semester_ganjil_kelas_4' => $request->semester_ganjil_kelas_4,
@@ -303,10 +319,9 @@ class PpdbController extends Controller
                     'average' => $average
                 ]);
             }
-    
+
             DB::commit();
             return redirect()->route('upload-document')->with('success', 'Registrasi berhasil!');
-    
         } catch (\Exception $e) {
             DB::rollBack();
             Log::error('Error saving data', ['error' => $e->getMessage()]);
@@ -379,7 +394,7 @@ class PpdbController extends Controller
 
             $statusPendaftaran = StatusPendaftaran::where('id_data_calon_siswa', $calonSiswa->id)->first();
 
-            if($statusPendaftaran && $statusPendaftaran->status == 'processing'){
+            if ($statusPendaftaran && $statusPendaftaran->status == 'processing') {
                 StatusPendaftaran::updateOrCreate([
                     'id_data_calon_siswa' => $calonSiswa->id,
                     'status' => 'processing'
@@ -389,6 +404,12 @@ class PpdbController extends Controller
                     'id_data_calon_siswa' => $calonSiswa->id,
                     'status' => 'pending'
                 ]);
+
+                $recipient = Auth::user();
+
+                Notification::make()
+                    ->title('Saved successfully')
+                    ->sendToDatabase($recipient);
             }
 
             // Commit transaksi
@@ -401,5 +422,5 @@ class PpdbController extends Controller
             Log::error('Error saving document', ['error' => $e->getMessage()]);
             return back()->withErrors(['error' => 'Terjadi kesalahan saat menyimpan dokumen.']);
         }
-    } 
+    }
 }

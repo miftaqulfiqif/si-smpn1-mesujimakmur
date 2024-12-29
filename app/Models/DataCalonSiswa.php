@@ -41,7 +41,7 @@ class DataCalonSiswa extends Model
     }
 
     public function nilaiRapot(){
-        return $this->hasMany(NilaiRapot::class, 'id_data_calon_siswa');
+        return $this->hasOne(NilaiRapot::class, 'id_data_calon_siswa');
     }
 
     public function dokumenCalonSiswa()
