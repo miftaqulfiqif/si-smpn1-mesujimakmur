@@ -35,9 +35,6 @@
                         NISN
                     </th>
                     <th scope="col" class="px-6 py-3">
-                        Nama
-                    </th>
-                    <th scope="col" class="px-6 py-3">
                         Asal Sekolah
                     </th>
                     <th scope="col" class="px-6 py-3">
@@ -49,19 +46,19 @@
                 </tr>
             </thead>
             <tbody>
-                @foreach ($siswaTerdaftar as $index => $siswa)
+                @foreach ($peringkatSiswa as $index => $siswa)
                     <tr class="bg-white border-b hover:bg-gray-50">
                         <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">
-                            {{ $siswa->user->name }}
+                            {{ $siswa['nama_siswa'] }}
                         </th>
                         <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">
-                            {{ $siswa->user->nisn }}
+                            {{ $siswa['nisn'] }}
                         </th>
                         <td class="px-6 py-4">
-                            {{ $siswa->asal_sekolah }}
+                            {{ $siswa['asal_sekolah'] }}
                         </td>
                         <td class="px-6 py-4">
-                            {{ $siswa->nilaiRapot->first()->average }}
+                            {{ $siswa['rata_rata_nilai'] }}
                         </td>
                         <td class="px-6 py-4">
                             {{ $index + 1 }}
