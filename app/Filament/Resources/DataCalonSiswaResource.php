@@ -29,144 +29,144 @@ class DataCalonSiswaResource extends Resource
             ->schema([
                 Forms\Components\Section::make()->columns(2)->schema([
                     Forms\Components\Fieldset::make('Data Calon Siswa')
-                    ->extraAttributes([
-                        'class' => 'bg-white shadow overflow-hidden sm:rounded-lg',
-                    ])
-                    ->schema([
-                        Forms\Components\Select::make('id_periode')
-                            ->label('Periode')
-                            ->relationship('periode', 'name')
-                            ->required()
-                            ->disabled(),
-                        Forms\Components\Select::make('id_user')
-                            ->relationship('user', 'name')
-                            ->label('Nama')
-                            ->required()
-                            ->disabled(),
-                        Forms\Components\Select::make('jenis_kelamin')
-                            ->label('Jenis Kelamin')
-                            ->options([
-                                'Laki-laki' => 'Laki-laki',
-                                'Perempuan' => 'Perempuan',
-                            ])
-                            ->required()
-                            ->disabled(),
-                        Forms\Components\DatePicker::make('tgl_lahir')
-                            ->native(false)
-                            ->label('Tanggal lahir')
-                            ->placeholder('Pilih tanggal lahir')
-                            ->required()
-                            ->disabled(),
-                        Forms\Components\TextInput::make('tempat_lahir')
-                            ->placeholder('Masukkan tempat lahir')
-                            ->required()
-                            ->maxLength(255)
-                            ->disabled(),
-                        Forms\Components\TextInput::make('nik')
-                            ->label('NIK')
-                            ->placeholder('Masukkan NIK')
-                            ->required()
-                            ->maxLength(255)
-                            ->disabled(),
-                        Forms\Components\TextInput::make('asal_sekolah')
-                            ->placeholder('Masukkan asal sekolah')
-                            ->required()
-                            ->maxLength(255)
-                            ->disabled(),
-                        Forms\Components\Toggle::make('zonasi')
-                            ->required()
-                            ->disabled(),
-                        Forms\Components\TextInput::make('tinggi_badan')
-                            ->placeholder('Masukkan tinggi badan')
-                            ->required()
-                            ->numeric()
-                            ->disabled(),
-                        Forms\Components\TextInput::make('berat_badan')
-                            ->placeholder('Masukkan berat badan')
-                            ->required()
-                            ->numeric()
-                            ->disabled(),
-                        Forms\Components\Select::make('kegemaran')
-                            ->options([
-                                'Technology' => 'Technology',
-                                'Health' => 'Health',
-                                'Education' => 'Education',
-                            ])
-                            ->createOptionUsing(function ($input) {
-                                return $input;
-                            })
-                            ->searchable()
-                            ->required()
-                            ->disabled(),
-                        Forms\Components\Toggle::make('penerima_kip')
-                            ->required()
-                            ->disabled(),
-                        Forms\Components\TextInput::make('no_kip')
-                            ->label('Nomor KIP')
-                            ->maxLength(255)
-                            ->default(null)
-                            ->disabled(),
-                        Forms\Components\FileUpload::make('foto')
-                            ->required()
-                            ->disabled(),
-                        Forms\Components\TextInput::make('notelp')
-                            ->tel()
-                            ->required()
-                            ->maxLength(255)
-                            ->disabled(),
-                        Forms\Components\Textarea::make('alamat')
-                            ->required()
-                            ->columnSpanFull()
-                            ->disabled(),
-                    ]),
+                        ->extraAttributes([
+                            'class' => 'bg-white shadow overflow-hidden sm:rounded-lg',
+                        ])
+                        ->schema([
+                            Forms\Components\Select::make('id_periode')
+                                ->label('Periode')
+                                ->relationship('periode', 'name')
+                                ->required()
+                                ->disabled(),
+                            Forms\Components\Select::make('id_user')
+                                ->relationship('user', 'name')
+                                ->label('Nama')
+                                ->required()
+                                ->disabled(),
+                            Forms\Components\Select::make('jenis_kelamin')
+                                ->label('Jenis Kelamin')
+                                ->options([
+                                    'Laki-laki' => 'Laki-laki',
+                                    'Perempuan' => 'Perempuan',
+                                ])
+                                ->required()
+                                ->disabled(),
+                            Forms\Components\DatePicker::make('tgl_lahir')
+                                ->native(false)
+                                ->label('Tanggal lahir')
+                                ->placeholder('Pilih tanggal lahir')
+                                ->required()
+                                ->disabled(),
+                            Forms\Components\TextInput::make('tempat_lahir')
+                                ->placeholder('Masukkan tempat lahir')
+                                ->required()
+                                ->maxLength(255)
+                                ->disabled(),
+                            Forms\Components\TextInput::make('nik')
+                                ->label('NIK')
+                                ->placeholder('Masukkan NIK')
+                                ->required()
+                                ->maxLength(255)
+                                ->disabled(),
+                            Forms\Components\TextInput::make('asal_sekolah')
+                                ->placeholder('Masukkan asal sekolah')
+                                ->required()
+                                ->maxLength(255)
+                                ->disabled(),
+                            Forms\Components\Toggle::make('zonasi')
+                                ->required()
+                                ->disabled(),
+                            Forms\Components\TextInput::make('tinggi_badan')
+                                ->placeholder('Masukkan tinggi badan')
+                                ->required()
+                                ->numeric()
+                                ->disabled(),
+                            Forms\Components\TextInput::make('berat_badan')
+                                ->placeholder('Masukkan berat badan')
+                                ->required()
+                                ->numeric()
+                                ->disabled(),
+                            Forms\Components\Select::make('kegemaran')
+                                ->options([
+                                    'Technology' => 'Technology',
+                                    'Health' => 'Health',
+                                    'Education' => 'Education',
+                                ])
+                                ->createOptionUsing(function ($input) {
+                                    return $input;
+                                })
+                                ->searchable()
+                                ->required()
+                                ->disabled(),
+                            Forms\Components\Toggle::make('penerima_kip')
+                                ->required()
+                                ->disabled(),
+                            Forms\Components\TextInput::make('no_kip')
+                                ->label('Nomor KIP')
+                                ->maxLength(255)
+                                ->default(null)
+                                ->disabled(),
+                            Forms\Components\FileUpload::make('foto')
+                                ->required()
+                                ->disabled(),
+                            Forms\Components\TextInput::make('notelp')
+                                ->tel()
+                                ->required()
+                                ->maxLength(255)
+                                ->disabled(),
+                            Forms\Components\Textarea::make('alamat')
+                                ->required()
+                                ->columnSpanFull()
+                                ->disabled(),
+                        ]),
                 ]),
                 Forms\Components\Section::make()->relationship('dataOrangtua')->columns(2)->schema([
                     Forms\Components\TextInput::make('nama_ayah')
-                            ->required()
-                            ->maxLength(255)
-                            ->disabled(),
-                        Forms\Components\TextInput::make('nik_ayah')
-                            ->required()
-                            ->maxLength(255)
-                            ->disabled(),
-                        Forms\Components\DatePicker::make('tgl_lahir_ayah')
-                            ->required()
-                            ->disabled(),
-                        Forms\Components\TextInput::make('pendidikan_ayah')
-                            ->required()
-                            ->maxLength(255)
-                            ->disabled(),
-                        Forms\Components\TextInput::make('pekerjaan_ayah')
-                            ->required()
-                            ->maxLength(255)
-                            ->disabled(),
-                        Forms\Components\TextInput::make('penghasilan_ayah')
-                            ->required()
-                            ->maxLength(255)
-                            ->disabled(),
-                        Forms\Components\TextInput::make('nama_ibu')
-                            ->required()
-                            ->maxLength(255)
-                            ->disabled(),
-                        Forms\Components\TextInput::make('nik_ibu')
-                            ->required()
-                            ->maxLength(255)
-                            ->disabled(),
-                        Forms\Components\DatePicker::make('tgl_lahir_ibu')
-                            ->required()
-                            ->disabled(),
-                        Forms\Components\TextInput::make('pendidikan_ibu')
-                            ->required()
-                            ->maxLength(255)
-                            ->disabled(),
-                        Forms\Components\TextInput::make('pekerjaan_ibu')
-                            ->required()
-                            ->maxLength(255)
-                            ->disabled(),
-                        Forms\Components\TextInput::make('penghasilan_ibu')
-                            ->required()
-                            ->maxLength(255)
-                            ->disabled(),
+                        ->required()
+                        ->maxLength(255)
+                        ->disabled(),
+                    Forms\Components\TextInput::make('nik_ayah')
+                        ->required()
+                        ->maxLength(255)
+                        ->disabled(),
+                    Forms\Components\DatePicker::make('tgl_lahir_ayah')
+                        ->required()
+                        ->disabled(),
+                    Forms\Components\TextInput::make('pendidikan_ayah')
+                        ->required()
+                        ->maxLength(255)
+                        ->disabled(),
+                    Forms\Components\TextInput::make('pekerjaan_ayah')
+                        ->required()
+                        ->maxLength(255)
+                        ->disabled(),
+                    Forms\Components\TextInput::make('penghasilan_ayah')
+                        ->required()
+                        ->maxLength(255)
+                        ->disabled(),
+                    Forms\Components\TextInput::make('nama_ibu')
+                        ->required()
+                        ->maxLength(255)
+                        ->disabled(),
+                    Forms\Components\TextInput::make('nik_ibu')
+                        ->required()
+                        ->maxLength(255)
+                        ->disabled(),
+                    Forms\Components\DatePicker::make('tgl_lahir_ibu')
+                        ->required()
+                        ->disabled(),
+                    Forms\Components\TextInput::make('pendidikan_ibu')
+                        ->required()
+                        ->maxLength(255)
+                        ->disabled(),
+                    Forms\Components\TextInput::make('pekerjaan_ibu')
+                        ->required()
+                        ->maxLength(255)
+                        ->disabled(),
+                    Forms\Components\TextInput::make('penghasilan_ibu')
+                        ->required()
+                        ->maxLength(255)
+                        ->disabled(),
                 ]),
                 Forms\Components\Section::make()->relationship('nilaiRapot')->columns(2)->schema([
                     Forms\Components\TextInput::make('semester_ganjil_kelas_4')
@@ -213,7 +213,7 @@ class DataCalonSiswaResource extends Resource
                             'failure' => 'Gagal'
                         ])
                         ->required()
-                    ]),
+                ]),
             ]);
     }
 

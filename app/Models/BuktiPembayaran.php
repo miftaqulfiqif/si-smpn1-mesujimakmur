@@ -13,7 +13,8 @@ class BuktiPembayaran extends Model
         'bukti_bayar',
     ];
 
-    public function dataCalonSiswa(){
-        return $this->belongsTo(DataCalonSiswa::class, 'id');
+    public function dataCalonSiswa()
+    {
+        return $this->hasOne(DataCalonSiswa::class, 'id');
     }
 }

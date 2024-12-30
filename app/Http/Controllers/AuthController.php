@@ -11,14 +11,18 @@ use Illuminate\Support\Facades\Log;
 
 class AuthController extends Controller
 {
-    public function showLoginForm() {
+    public function showLoginForm()
+    {
         if (Auth::check()) {
             $user = Auth::user();
-            
-            if (is_null($user->nisn)) {
-                return redirect('/admin');
+
+            $validate = $user->nisn;
+            dd($validate);
+
+            if ($validate != null) {
+                return redirect('/ppdb/pendaftaran');
             }
-            return redirect('/ppdb/pendaftaran');
+            return redirect('/admin');
         }
         return view('auth.login');
     }
@@ -41,11 +45,11 @@ class AuthController extends Controller
         ]);
 
         return redirect()->route('ppdb.login')->with('success', 'Registrasi berhasil!');
-    }   
+    }
 
     public function login(Request $request)
     {
-        
+
         $request->validate([
             'nisn' => 'required|string',
             'password' => 'required|string',
@@ -56,7 +60,7 @@ class AuthController extends Controller
 
             return redirect()->intended('/ppdb/pendaftaran')->with('success', 'Login berhasil!');
         }
-        
+
 
         return back()->withErrors([
             'nisn' => 'NISN atau password salah.',

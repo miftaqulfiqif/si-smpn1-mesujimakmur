@@ -5,6 +5,7 @@ namespace App\Filament\Resources;
 use App\Filament\Resources\BuktiPembayaranResource\Pages;
 use App\Filament\Resources\BuktiPembayaranResource\RelationManagers;
 use App\Models\BuktiPembayaran;
+use App\Models\DataCalonSiswa;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
@@ -26,9 +27,6 @@ class BuktiPembayaranResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\TextInput::make('id_data_calon_siswa')
-                    ->required()
-                    ->maxLength(255),
                 Forms\Components\FileUpload::make('bukti_bayar')
                     ->required(),
             ]);
@@ -39,6 +37,7 @@ class BuktiPembayaranResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('id_data_calon_siswa')
+                    ->label('Nama Siswa')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('bukti_bayar')
                     ->searchable(),
