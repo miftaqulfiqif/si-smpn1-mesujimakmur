@@ -26,14 +26,14 @@ class PesanKesalahanResource extends Resource
         return $form
             ->schema([
                 Forms\Components\Select::make('id_data_calon_siswa')
-                    ->relationship('dataCalonSiswa','id', function ($query){
+                    ->relationship('dataCalonSiswa', 'id', function ($query) {
                         $query->with('user');
-                    }) 
+                    })
                     ->options(function () {
                         return \App\Models\DataCalonSiswa::with('user')
                             ->get()
                             ->pluck('user.name', 'id');
-                    })      
+                    })
                     ->label('Nama Siswa')
                     ->required(),
                 Forms\Components\Textarea::make('pesan')
@@ -48,7 +48,7 @@ class PesanKesalahanResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('dataCalonSiswa.user.name')
+                Tables\Columns\TextColumn::make('id_data_calon_siswa')
                     ->label('Nama Siswa') // Nama siswa dari tabel users
                     ->searchable() // Agar bisa dicari
                     ->sortable(), // Agar bisa diurutkan

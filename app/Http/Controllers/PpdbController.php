@@ -33,13 +33,25 @@ class PpdbController extends Controller
                 ->with('error', 'Biodata tidak ditemukan. Silakan lengkapi biodata terlebih dahulu.');
         }
 
-        $sekolahPilihan = ['Pilih asal sekolah! ', 'SDN 1', 'SDN 2', 'SDN 3', 'SDN 4'];
+        $sekolahPilihan = [
+            'Pilih asal sekolah!',
+            'SD Negri 1 Catur Tunggal',
+            'SD Negri 2 Catur Tunggal',
+            'SD Negri 1 Mukti Karya',
+            'SD Negri 2 Mukti Karya',
+            'SD Negri 1 Sumber Mulya',
+            'SD Negri 1 Pematang Sukaramah',
+            'SD Negri 1 Cahya Mulya'
+        ];
 
         $statusPendaftaran = StatusPendaftaran::where('id_data_calon_siswa', $biodata->id)->first();
 
         $periode = PeriodeDaftar::where('id', $biodata->id_periode)->first();
 
-        if (Carbon::now() > $periode->end_date) {
+
+        $curentDate = Carbon::now()->format('Y-m-d');
+
+        if ($curentDate > $periode->end_date) {
             $peringkatSiswa = PeringkatCalonSiswa::getPeringkat($biodata->id);
         }
 
@@ -60,7 +72,16 @@ class PpdbController extends Controller
             $biodata->penerima_kip = $biodata->penerima_kip ? 1 : 0;
         }
 
-        $sekolahPilihan = ['Pilih asal sekolah! ', 'SDN 1', 'SDN 2', 'SDN 3', 'SDN 4'];
+        $sekolahPilihan = [
+            'Pilih asal sekolah!',
+            'SD Negri 1 Catur Tunggal',
+            'SD Negri 2 Catur Tunggal',
+            'SD Negri 1 Mukti Karya',
+            'SD Negri 2 Mukti Karya',
+            'SD Negri 1 Sumber Mulya',
+            'SD Negri 1 Pematang Sukaramah',
+            'SD Negri 1 Cahya Mulya'
+        ];
 
         return view('ppdb.pendaftaran.biodata-siswa', compact('user', 'sekolahPilihan', 'biodata'));
     }
@@ -125,7 +146,15 @@ class PpdbController extends Controller
         try {
             $penerimaKip = $request->penerima_kip === '1';
 
-            $daftarSekolahPilihan = ['SDN 1', 'SDN 2', 'SDN 3', 'SDN 4'];
+            $daftarSekolahPilihan = [
+                'SD Negri 1 Catur Tunggal',
+                'SD Negri 2 Catur Tunggal',
+                'SD Negri 1 Mukti Karya',
+                'SD Negri 2 Mukti Karya',
+                'SD Negri 1 Sumber Mulya',
+                'SD Negri 1 Pematang Sukaramah',
+                'SD Negri 1 Cahya Mulya'
+            ];
             $zonasi = in_array($request->asal_sekolah, $daftarSekolahPilihan);
 
             $periodeAktif = PeriodeDaftar::where('status', 1)->firstOrFail();
