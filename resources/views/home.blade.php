@@ -60,7 +60,8 @@
             </div>
             <div class="flex max-w-max mx-auto">
                 <img src="{{ asset('assets/images/book.png') }}" alt="" srcset="" class="absolute"><span>
-                    <p class="static text-[#590E79] max-w-[450px] pl-8 text-xl">Kami berkomitmen untuk menciptakan
+                    <p class="static text-[#590E79] max-w-[450px] pl-8 text-xl text-justify">Kami berkomitmen untuk
+                        menciptakan
                         lingkungan
                         pendidikan
                         yang

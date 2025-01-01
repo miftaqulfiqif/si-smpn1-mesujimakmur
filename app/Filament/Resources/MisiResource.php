@@ -22,7 +22,7 @@ class MisiResource extends Resource
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
     protected static ?string $navigationLabel = 'Misi';
     protected static ?string $navigationGroup = 'Sistem Informasi';
-    
+
 
     public static function form(Form $form): Form
     {
@@ -33,8 +33,8 @@ class MisiResource extends Resource
                         'class' => 'bg-white shadow overflow-hidden sm:rounded-lg',
                     ])
                     ->schema([
-                        Forms\Components\TextInput::make('konten')
-                            ->placeholder('Masukkan Visi')
+                        Forms\Components\Textarea::make('konten')
+                            ->placeholder('Masukkan Misi')
                             ->required(),
                     ])
             ]);

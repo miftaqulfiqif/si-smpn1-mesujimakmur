@@ -17,7 +17,6 @@ class AuthController extends Controller
             $user = Auth::user();
 
             $validate = $user->nisn;
-            dd($validate);
 
             if ($validate != null) {
                 return redirect('/ppdb/pendaftaran');
