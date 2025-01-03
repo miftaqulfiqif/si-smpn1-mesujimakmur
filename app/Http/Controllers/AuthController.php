@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Applogo;
 use App\Models\User;
 use Illuminate\Database\Console\Migrations\StatusCommand;
 use Illuminate\Http\Request;
@@ -13,6 +14,8 @@ class AuthController extends Controller
 {
     public function showLoginForm()
     {
+        $applogo = Applogo::first();
+
         if (Auth::check()) {
             $user = Auth::user();
 
@@ -23,7 +26,7 @@ class AuthController extends Controller
             }
             return redirect('/admin');
         }
-        return view('auth.login');
+        return view('auth.login', compact('applogo'));
     }
 
     public function register(Request $request)

@@ -49,7 +49,7 @@
                     untuk Masa
                     Depan Lebih Cerah
                 </p>
-                <a href="#" class="flex mt-10 mb-[80px] max-w-max rounded-full mx-auto">
+                <a href="/ppdb/login" class="flex mt-10 mb-[80px] max-w-max rounded-full mx-auto">
                     <div class="py-4 mx-auto flex px-6 bg-[#7A1CAC] rounded-full gap-x-6 shadow-xl">
                         <p class="text-white font-bold mx-auto">Daftar Sekarang</p><span>
                             <img src="{{ asset('assets/images/arrow-square-right.svg') }}" alt=""
@@ -130,9 +130,14 @@
                     </p>
                     @if ($misi->isNotEmpty())
                         @foreach ($misi as $item)
-                            <p class="text-white">
-                                {{ $loop->iteration }}. {{ $item->konten }}
-                            </p>
+                            <table class="w-fit">
+                                <tbody class="">
+                                    <tr class=" text-white">
+                                        <td class="w-10 text-center">{{ $loop->iteration }}.</td>
+                                        <td class="py-2 px-4 text-justify">{{ $item->konten }}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
                         @endforeach
                     @else
                         Misi Masih Kosong
@@ -215,7 +220,7 @@
                                     style="background-image: url('{{ asset('storage/' . $informasi->main_image) }}')">
                                 </div>
                                 <div class="my-5 text-white">
-                                    <p class="text-sm font-bold mb-2">{{ $informasi->nama }}</p>
+                                    <p class="text-sm font-bold mb-2">{{ Str::limit($informasi->nama, 50) }}</p>
                                     <div class="relative flex h-12">
                                         <p class="text-xs">{{ $informasi->deskripsi }}
                                         </p>
@@ -234,9 +239,7 @@
             </div>
         </div>
     </section>
-    <section>
-        <div class="max-w-full h-[400px]"></div>
-    </section>
+    {{-- <x-footer /> --}}
 </body>
 
 </html>
