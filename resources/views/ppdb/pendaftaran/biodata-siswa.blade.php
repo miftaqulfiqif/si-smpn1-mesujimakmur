@@ -227,6 +227,7 @@
                             Upload file
 
                             <input type="file" id='foto' name="foto" class="hidden" accept="image/*" />
+                            <p id="selectedFileName" class="text-xs font-medium text-gray-400 mt-2"></p>
                             <p class="text-xs font-medium text-gray-400 mt-2">PNG, JPG and JPEG are Allowed.</p>
                         </label>
 
@@ -254,6 +255,7 @@
                 navbar.classList.remove('shadow-md');
             }
         });
+
         $(".select2").select2({
             tags: "true",
             placeholder: "Pilih salah satu atau ketik manual",
@@ -293,6 +295,18 @@
             } else {
                 previewImg.src = '#';
                 previewImg.classList.add('hidden');
+            }
+        });
+
+        document.getElementById('foto').addEventListener('change', function(event) {
+            const file = event.target.files[0];
+            const fileNameDisplay = document.getElementById('selectedFileName');
+
+            if (file) {
+                fileNameDisplay.textContent = `File yang dipilih: ${file.name}`;
+                fileNameDisplay.classList.add('text-green-500');
+            } else {
+                fileNameDisplay.textContent = '';
             }
         });
     </script>

@@ -45,7 +45,7 @@
                                     d="M20.293 19.707a1 1 0 0 0 1.414-1.414l-5-5a1 1 0 0 0-1.414 0l-5 5a1 1 0 0 0 1.414 1.414L15 16.414V29a1 1 0 0 0 2 0V16.414z" />
                             </svg>
                             <input type="file" id="bukti_bayar" name="bukti_bayar" class="hidden" />
-                            <p id="bukti_bayar" class="text-xs font-medium text-gray-400 mt-2">
+                            <p id="selectedFileName" class="text-xs font-medium text-gray-400 mt-2">
                             </p>
                         </label>
 
@@ -87,6 +87,18 @@
                 navbar.classList.add('shadow-md');
             } else {
                 navbar.classList.remove('shadow-md');
+            }
+        });
+
+        document.getElementById('bukti_bayar').addEventListener('change', function(event) {
+            const file = event.target.files[0];
+            const fileNameDisplay = document.getElementById('selectedFileName');
+
+            if (file) {
+                fileNameDisplay.textContent = `File yang dipilih: ${file.name}`;
+                fileNameDisplay.classList.add('text-green-500');
+            } else {
+                fileNameDisplay.textContent = '';
             }
         });
     </script>
