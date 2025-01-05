@@ -43,7 +43,7 @@ Route::get('/ppdb/pendaftaran-biodata-siswa', [PpdbController::class, 'showForm'
 Route::get('/ppdb/pendataran-biodata-orangtua', [PpdbController::class, 'showBiodataOrangtua'])->name('biodata-orangtua');
 Route::post('/ppdb/pendataran-biodata-orangtua', [PpdbController::class, 'saveBiodataOrangtua'])->name('save-biodata-orangtua');
 Route::get('/ppdb/input-nilai', [PpdbController::class, 'showFormInputNilai'])->name('input-nilai');
-Route::post('/ppdb/input-nilai',[PpdbController::class, 'saveNilai'])->name('save-nilai');
+Route::post('/ppdb/input-nilai', [PpdbController::class, 'saveNilai'])->name('save-nilai');
 Route::get('/ppdb/upload-document', [PpdbController::class, 'showFormUploadDocument'])->name('upload-document');
 Route::post('/ppdb/upload-document', [PpdbController::class, 'saveDocument'])->name('save-document');
 Route::post('/ppdb/daftar', [PpdbController::class, 'saveBiodataSiswa'])->name('saveBiodataSiswa');
@@ -68,6 +68,7 @@ Route::get('/tes-notif', function () {
     }
 });
 
-Route::get('/logout', function(){
+Route::get('/logout', function () {
     Auth::logout();
-      return redirect('/login');});
+    return redirect('/login');
+});

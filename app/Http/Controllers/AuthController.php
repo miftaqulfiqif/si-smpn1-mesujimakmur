@@ -19,9 +19,9 @@ class AuthController extends Controller
         if (Auth::check()) {
             $user = Auth::user();
 
-            $validate = $user->nisn;
+            $validateEmail = $user->email;
 
-            if ($validate != null) {
+            if ($validateEmail == null) {
                 return redirect('/ppdb/pendaftaran');
             }
             return redirect('/admin');
