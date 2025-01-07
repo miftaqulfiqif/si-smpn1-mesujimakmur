@@ -4,6 +4,7 @@ namespace App\Filament\Resources;
 
 use App\Filament\Resources\PesanKesalahanResource\Pages;
 use App\Filament\Resources\PesanKesalahanResource\RelationManagers;
+use App\Models\PeriodeDaftar;
 use App\Models\PesanKesalahan;
 use Filament\Forms;
 use Filament\Forms\Form;
@@ -32,6 +33,7 @@ class PesanKesalahanResource extends Resource
                     ->options(function () {
                         return \App\Models\DataCalonSiswa::with('user')
                             ->get()
+                            ->where('id_periode', '==', PeriodeDaftar::where('status', true)->first()->id)
                             ->pluck('user.name', 'id');
                     })
                     ->label('Nama Siswa')
@@ -48,13 +50,13 @@ class PesanKesalahanResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('id_data_calon_siswa')
-                    ->label('Nama Siswa') // Nama siswa dari tabel users
-                    ->searchable() // Agar bisa dicari
-                    ->sortable(), // Agar bisa diurutkan
+                Tables\Columns\TextColumn::make('dataCalonSiswa.user.name')
+                    ->label('Nama Siswa')
+                    ->searchable()
+                    ->sortable(),
                 Tables\Columns\TextColumn::make('pesan')
                     ->label('Pesan')
-                    ->wrap() // Membungkus teks panjang
+                    ->wrap()
                     ->searchable(),
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()

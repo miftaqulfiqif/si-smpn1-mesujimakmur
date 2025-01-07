@@ -27,6 +27,9 @@ class BuktiPembayaranResource extends Resource
     {
         return $form
             ->schema([
+                // Forms\Components\TextInput::make('id_data_calon_siswa')
+                //     ->label('Nama Siswa')
+                //     ->disabled(),
                 Forms\Components\FileUpload::make('bukti_bayar')
                     ->required(),
             ]);
@@ -36,7 +39,7 @@ class BuktiPembayaranResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('id_data_calon_siswa')
+                Tables\Columns\TextColumn::make('dataCalonSiswa.user.name')
                     ->label('Nama Siswa')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('bukti_bayar')

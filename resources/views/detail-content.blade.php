@@ -13,7 +13,6 @@
     @if ($content)
         <div class="max-w-4xl flex flex-col gap-10 mx-10 my-20 lg:mx-auto">
             <img src="{{ asset('storage/' . $content->main_image) }}" alt="Main Image" srcset="" class="max-w-full">
-
             <div class="overflow-x-auto">
                 <div class="flex space-x-4">
                     @foreach ($content->images as $image)
@@ -29,7 +28,11 @@
             </div>
 
             <div class="text-justify">
-                <p> {{ $content->deskripsi }}</p>
+                @if ($content->deskripsi != null)
+                    <p> {{ $content->deskripsi }}</p>
+                @else
+                    <p> {{ $content->konten }}</p>
+                @endif
             </div>
         </div>
     @else
