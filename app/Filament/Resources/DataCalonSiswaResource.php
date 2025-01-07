@@ -231,34 +231,22 @@ class DataCalonSiswaResource extends Resource
                 Tables\Columns\TextColumn::make('user.nisn')
                     ->label('NISN')
                     ->searchable(),
-                Tables\Columns\TextColumn::make('jenis_kelamin'),
-                Tables\Columns\TextColumn::make('tgl_lahir')
-                    ->date()
-                    ->sortable(),
-                Tables\Columns\TextColumn::make('tempat_lahir')
-                    ->searchable(),
                 Tables\Columns\TextColumn::make('nik')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('asal_sekolah')
                     ->searchable(),
-                Tables\Columns\TextColumn::make('tinggi_badan')
-                    ->numeric()
-                    ->sortable(),
-                Tables\Columns\TextColumn::make('berat_badan')
-                    ->numeric()
-                    ->sortable(),
-                Tables\Columns\TextColumn::make('kegemaran')
-                    ->searchable(),
-                Tables\Columns\IconColumn::make('penerima_kip')
-                    ->boolean(),
-                Tables\Columns\TextColumn::make('no_kip')
-                    ->searchable(),
-                Tables\Columns\TextColumn::make('foto')
-                    ->searchable(),
+                // Tables\Columns\IconColumn::make('penerima_kip')
+                //     ->boolean(),
+                // Tables\Columns\TextColumn::make('no_kip')
+                //     ->searchable(),
+                // Tables\Columns\TextColumn::make('foto')
+                //     ->searchable(),
                 Tables\Columns\TextColumn::make('notelp')
                     ->searchable(),
                 Tables\Columns\IconColumn::make('zonasi')
                     ->boolean(),
+                Tables\Columns\TextColumn::make('statusPendaftaran.status')
+                    ->searchable(),
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()

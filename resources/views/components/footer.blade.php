@@ -5,12 +5,14 @@
                 <a href="https://flowbite.com/" class="flex items-center">
                     <img src="{{ asset('storage/' . $applogo->image_url) ?: asset('assets/images/logo-dikdasmen 1.png') }}"
                         class="h-8 me-3" alt="FlowBite Logo" />
-                    <span class="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">SMP Negri 1 Mesuji
+                    <span class="self-center text-2xl font-semibold whitespace-nowrap text-white">SMP Negri 1 Mesuji
                         Makmur</span>
                 </a>
                 <p class="text-white mt-4 text-sm">Jl. Raya Mesuji No. 1, Mesuji, Kec. Mesuji, Kabupaten Sumedang, Jawa
                     Barat
                     45363</p>
+                <p class="text-white mt-4 text-sm">0811 1234 5678</p>
+                <p class="text-white mt-4 text-sm">smpmesujimakmur@example.com</p>
             </div>
             <div class="grid grid-cols-2 gap-8 sm:gap-6 sm:grid-cols-3">
                 <div>
@@ -31,10 +33,10 @@
                     <h2 class="mb-6 text-sm font-semibold text-gray-900 uppercase dark:text-white">Follow us</h2>
                     <ul class="text-white font-medium">
                         <li class="mb-4">
-                            <a href="https://github.com/themesberg/flowbite" class="hover:underline ">Github</a>
+                            <a href="https://github.com/themesberg/flowbite" class="hover:underline ">Facebook</a>
                         </li>
                         <li>
-                            <a href="https://discord.gg/4eeurUVvTy" class="hover:underline">Discord</a>
+                            <a href="https://discord.gg/4eeurUVvTy" class="hover:underline">Instagram</a>
                         </li>
                     </ul>
                 </div>
