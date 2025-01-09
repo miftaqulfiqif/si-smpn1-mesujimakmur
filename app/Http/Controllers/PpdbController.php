@@ -129,7 +129,7 @@ class PpdbController extends Controller
             'jenis_kelamin' => 'required|in:Laki-laki,Perempuan',
             'tempat_lahir' => 'required|string',
             'tgl_lahir' => 'required|date',
-            'nik' => 'required|string',
+            'nik' => 'required|string|max:12',
             'asal_sekolah' => 'required|string',
             'alamat' => 'required|string',
             'tinggi_badan' => 'required|string',
