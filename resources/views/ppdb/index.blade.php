@@ -51,6 +51,15 @@
                         <p class="text-md">Asal Sekolah</p>
                         <p class="text-lg font-bold">{{ $dataCalonSiswa->asal_sekolah }}</p>
                     </div>
+                    <div class="">
+                        <p class="text-md">Zonasi</p>
+                        @if ($dataCalonSiswa->zonasi && $dataCalonSiswa->zonasi == 1)
+                            <p class="text-lg font-bold">Ya</p>
+                        @else
+                            <p class="text-lg font-bold">Tidak</p>
+                        @endif
+
+                    </div>
                 </div>
                 <div class="mt-8 bg-white p-4 rounded-xl">
                     <p class="text-lg font-bold">Status Pendaftaran </p>
