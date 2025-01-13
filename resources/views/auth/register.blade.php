@@ -25,7 +25,7 @@
             <div class="flex flex-col mb-4">
                 <label for="nisn" class="font-bold">Nisn</label>
                 <input type="text" id="nisn" name="nisn" placeholder="Masukkan nisn"
-                    class="p-3 rounded-xl bg-[#F9EEFF] border border-[#BB97CB]">
+                    class="p-3 rounded-xl bg-[#F9EEFF] border border-[#BB97CB]" maxlength="10">
                 @error('nisn')
                     <span class="text-red-500 text-sm">{{ $message }}</span>
                 @enderror

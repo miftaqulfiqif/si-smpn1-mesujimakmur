@@ -63,126 +63,138 @@
                     @csrf
                     <input type="hidden" name="id_data_calon_siswa" value="{{ $calonSiswa->id }}">
 
-                    <li class="form-control gap-1">
-                        <label for="nama_ayah" class="label font-medium">Nama Ayah</label>
-                        <input type="text" id="nama_ayah" name="nama_ayah"
-                            value="{{ old('nama_ayah', $biodata->nama_ayah ?? '') }}" placeholder="Masukkan Nama Ayah"
-                            class="input bg-white input-bordered w-full" required maxlength="255">
-                        @error('nama_ayah')
-                            <span class="text-red-500 text-sm">{{ $message }}</span>
-                        @enderror
-                    </li>
-                    <li class="form-control gap-1">
-                        <label for="nik_ayah" class="label font-medium">NIK Ayah</label>
-                        <input type="text" id="nik_ayah" name="nik_ayah"
-                            value="{{ old('nik_ayah', $biodata->nik_ayah ?? '') }}" placeholder="Masukkan NIK Ayah"
-                            class="input bg-white input-bordered w-full" required maxlength="255">
-                        @error('nik_ayah')
-                            <span class="text-red-500 text-sm">{{ $message }}</span>
-                        @enderror
-                    </li>
-                    <li class="form-control gap-1">
-                        <label for="tgl_lahir_ayah" class="label font-medium">Tanggal Lahir Ayah</label>
-                        <input type="date" id="tgl_lahir_ayah" name="tgl_lahir_ayah"
-                            value="{{ old('tgl_lahir_ayah', $biodata->tgl_lahir_ayah ?? '') }}"
-                            placeholder="Pilih Tanggal Lahir" class="input bg-white input-bordered w-full">
-                        @error('tgl_lahir_ayah')
-                            <span class="text-red-500 text-sm">{{ $message }}</span>
-                        @enderror
-                    </li>
-                    <li class="form-control gap-1">
-                        <label for="pendidikan_ayah" class="label font-medium">Pendidikan Terakhir Ayah</label>
-                        <input type="text" id="pendidikan_ayah" name="pendidikan_ayah"
-                            value="{{ old('pendidikan_ayah', $biodata->pendidikan_ayah ?? '') }}"
-                            placeholder="Masukkan Pendidikan Terakhir Ayah" class="input bg-white input-bordered w-full"
-                            required maxlength="255">
-                        @error('pendidikan_ayah')
-                            <span class="text-red-500 text-sm">{{ $message }}</span>
-                        @enderror
-                    </li>
-                    <li class="form-control gap-1">
-                        <label for="pekerjaan_ayah" class="label font-medium">Pekerjaan Ayah</label>
-                        <input type="text" id="pekerjaan_ayah" name="pekerjaan_ayah"
-                            value="{{ old('pekerjaan_ayah', $biodata->pekerjaan_ayah ?? '') }}"
-                            placeholder="Masukkan Pekerjaan Ayah" class="input bg-white input-bordered w-full" required
-                            maxlength="255">
-                        @error('pekerjaan_ayah')
-                            <span class="text-red-500 text-sm">{{ $message }}</span>
-                        @enderror
-                    </li>
-                    <li class="form-control gap-1">
-                        <label for="penghasilan_ayah" class="label font-medium">Penghasilan Ayah</label>
-                        <input type="text" id="penghasilan_ayah" name="penghasilan_ayah"
-                            value="{{ old('penghasilan_ayah', $biodata->penghasilan_ayah ?? '') }}"
-                            placeholder="Masukkan Penghasilan Ayah" class="input bg-white input-bordered w-full" required
-                            maxlength="255">
-                        @error('penghasilan_ayah')
-                            <span class="text-red-500 text-sm">{{ $message }}</span>
-                        @enderror
-                    </li>
+                    <div class="lg:flex gap-4">
+                        <div class="w-full">
+                            <li class="form-control gap-1">
+                                <label for="nama_ayah" class="label font-medium">Nama Ayah</label>
+                                <input type="text" id="nama_ayah" name="nama_ayah"
+                                    value="{{ old('nama_ayah', $biodata->nama_ayah ?? '') }}"
+                                    placeholder="Masukkan Nama Ayah" class="input bg-white input-bordered w-full" required
+                                    maxlength="255">
+                                @error('nama_ayah')
+                                    <span class="text-red-500 text-sm">{{ $message }}</span>
+                                @enderror
+                            </li>
+                            <li class="form-control gap-1">
+                                <label for="nik_ayah" class="label font-medium">NIK Ayah</label>
+                                <input type="text" id="nik_ayah" name="nik_ayah"
+                                    value="{{ old('nik_ayah', $biodata->nik_ayah ?? '') }}" placeholder="Masukkan NIK Ayah"
+                                    class="input bg-white input-bordered w-full" required maxlength="16">
+                                @error('nik_ayah')
+                                    <span class="text-red-500 text-sm">{{ $message }}</span>
+                                @enderror
+                            </li>
+                            <li class="form-control gap-1">
+                                <label for="tgl_lahir_ayah" class="label font-medium">Tanggal Lahir Ayah</label>
+                                <input type="date" id="tgl_lahir_ayah" name="tgl_lahir_ayah"
+                                    value="{{ old('tgl_lahir_ayah', $biodata->tgl_lahir_ayah ?? '') }}"
+                                    placeholder="Pilih Tanggal Lahir" class="input bg-white input-bordered w-full">
+                                @error('tgl_lahir_ayah')
+                                    <span class="text-red-500 text-sm">{{ $message }}</span>
+                                @enderror
+                            </li>
+                            <li class="form-control gap-1">
+                                <label for="pendidikan_ayah" class="label font-medium">Pendidikan Terakhir Ayah</label>
+                                <input type="text" id="pendidikan_ayah" name="pendidikan_ayah"
+                                    value="{{ old('pendidikan_ayah', $biodata->pendidikan_ayah ?? '') }}"
+                                    placeholder="Masukkan Pendidikan Terakhir Ayah"
+                                    class="input bg-white input-bordered w-full" required maxlength="255">
+                                @error('pendidikan_ayah')
+                                    <span class="text-red-500 text-sm">{{ $message }}</span>
+                                @enderror
+                            </li>
+                            <li class="form-control gap-1">
+                                <label for="pekerjaan_ayah" class="label font-medium">Pekerjaan Ayah</label>
+                                <input type="text" id="pekerjaan_ayah" name="pekerjaan_ayah"
+                                    value="{{ old('pekerjaan_ayah', $biodata->pekerjaan_ayah ?? '') }}"
+                                    placeholder="Masukkan Pekerjaan Ayah" class="input bg-white input-bordered w-full"
+                                    required maxlength="255">
+                                @error('pekerjaan_ayah')
+                                    <span class="text-red-500 text-sm">{{ $message }}</span>
+                                @enderror
+                            </li>
+                            <li class="form-control gap-1">
+                                <label for="penghasilan_ayah" class="label font-medium">Penghasilan Ayah</label>
+                                <input type="text" id="penghasilan_ayah" name="penghasilan_ayah"
+                                    value="{{ old('penghasilan_ayah', $biodata->penghasilan_ayah ?? '') }}"
+                                    placeholder="Masukkan Penghasilan Ayah" class="input bg-white input-bordered w-full"
+                                    required maxlength="255">
+                                @error('penghasilan_ayah')
+                                    <span class="text-red-500 text-sm">{{ $message }}</span>
+                                @enderror
+                            </li>
+                        </div>
+                        <div class="w-full">
+                            <li class="form-control gap-1">
+                                <label for="nama_ibu" class="label font-medium">Nama Ibu</label>
+                                <input type="text" id="nama_ibu" name="nama_ibu"
+                                    value="{{ old('nama_ibu', $biodata->nama_ibu ?? '') }}"
+                                    placeholder="Masukkan Nama ibu" class="input bg-white input-bordered w-full" required
+                                    maxlength="255">
+                                @error('nama_ibu')
+                                    <span class="text-red-500 text-sm">{{ $message }}</span>
+                                @enderror
+                            </li>
+                            <li class="form-control gap-1">
+                                <label for="nik_ibu" class="label font-medium">NIK Ibu</label>
+                                <input type="text" id="nik_ibu" name="nik_ibu"
+                                    value="{{ old('nik_ibu', $biodata->nik_ibu ?? '') }}" placeholder="Masukkan NIK ibu"
+                                    class="input bg-white input-bordered w-full" required maxlength="16">
+                                @error('nik_ibu')
+                                    <span class="text-red-500 text-sm">{{ $message }}</span>
+                                @enderror
+                            </li>
+                            <li class="form-control gap-1">
+                                <label for="tgl_lahir_ibu" class="label font-medium">Tanggal Lahir Ibu</label>
+                                <input type="date" id="tgl_lahir_ibu" name="tgl_lahir_ibu"
+                                    value="{{ old('tgl_lahir_ibu', $biodata->tgl_lahir_ibu ?? '') }}"
+                                    placeholder="Pilih Tanggal Lahir" class="input bg-white input-bordered w-full">
+                                @error('tgl_lahir_ibu')
+                                    <span class="text-red-500 text-sm">{{ $message }}</span>
+                                @enderror
+                            </li>
+                            <li class="form-control gap-1">
+                                <label for="pendidikan_ibu" class="label font-medium">Pendidikan Terakhir Ibu</label>
+                                <input type="text" id="pendidikan_ibu" name="pendidikan_ibu"
+                                    value="{{ old('pendidikan_ibu', $biodata->pendidikan_ibu ?? '') }}"
+                                    placeholder="Masukkan Pendidikan Terakhir Ibu"
+                                    class="input bg-white input-bordered w-full" required maxlength="255">
+                                @error('pendidikan_ibu')
+                                    <span class="text-red-500 text-sm">{{ $message }}</span>
+                                @enderror
+                            </li>
+                            <li class="form-control gap-1">
+                                <label for="pekerjaan_ibu" class="label font-medium">Pekerjaan Ibu</label>
+                                <input type="text" id="pekerjaan_ibu" name="pekerjaan_ibu"
+                                    value="{{ old('pekerjaan_ibu', $biodata->pekerjaan_ibu ?? '') }}"
+                                    placeholder="Masukkan Pekerjaan ibu" class="input bg-white input-bordered w-full"
+                                    required maxlength="255">
+                                @error('pekerjaan_ibu')
+                                    <span class="text-red-500 text-sm">{{ $message }}</span>
+                                @enderror
+                            </li>
+                            <li class="form-control gap-1">
+                                <label for="penghasilan_ibu" class="label font-medium">Penghasilan Ibu</label>
+                                <input type="text" id="penghasilan_ibu" name="penghasilan_ibu"
+                                    value="{{ old('penghasilan_ibu', $biodata->penghasilan_ibu ?? '') }}"
+                                    placeholder="Masukkan Penghasilan Ibu" class="input bg-white input-bordered w-full"
+                                    required maxlength="255">
+                                @error('penghasilan_ibu')
+                                    <span class="text-red-500 text-sm">{{ $message }}</span>
+                                @enderror
+                            </li>
+                        </div>
+                    </div>
 
 
-                    <li class="form-control gap-1">
-                        <label for="nama_ibu" class="label font-medium">Nama Ibu</label>
-                        <input type="text" id="nama_ibu" name="nama_ibu"
-                            value="{{ old('nama_ibu', $biodata->nama_ibu ?? '') }}" placeholder="Masukkan Nama ibu"
-                            class="input bg-white input-bordered w-full" required maxlength="255">
-                        @error('nama_ibu')
-                            <span class="text-red-500 text-sm">{{ $message }}</span>
-                        @enderror
-                    </li>
-                    <li class="form-control gap-1">
-                        <label for="nik_ibu" class="label font-medium">NIK Ibu</label>
-                        <input type="text" id="nik_ibu" name="nik_ibu"
-                            value="{{ old('nik_ibu', $biodata->nik_ibu ?? '') }}" placeholder="Masukkan NIK ibu"
-                            class="input bg-white input-bordered w-full" required maxlength="255">
-                        @error('nik_ibu')
-                            <span class="text-red-500 text-sm">{{ $message }}</span>
-                        @enderror
-                    </li>
-                    <li class="form-control gap-1">
-                        <label for="tgl_lahir_ibu" class="label font-medium">Tanggal Lahir Ibu</label>
-                        <input type="date" id="tgl_lahir_ibu" name="tgl_lahir_ibu"
-                            value="{{ old('tgl_lahir_ibu', $biodata->tgl_lahir_ibu ?? '') }}"
-                            placeholder="Pilih Tanggal Lahir" class="input bg-white input-bordered w-full">
-                        @error('tgl_lahir_ibu')
-                            <span class="text-red-500 text-sm">{{ $message }}</span>
-                        @enderror
-                    </li>
-                    <li class="form-control gap-1">
-                        <label for="pendidikan_ibu" class="label font-medium">Pendidikan Terakhir Ibu</label>
-                        <input type="text" id="pendidikan_ibu" name="pendidikan_ibu"
-                            value="{{ old('pendidikan_ibu', $biodata->pendidikan_ibu ?? '') }}"
-                            placeholder="Masukkan Pendidikan Terakhir Ibu" class="input bg-white input-bordered w-full"
-                            required maxlength="255">
-                        @error('pendidikan_ibu')
-                            <span class="text-red-500 text-sm">{{ $message }}</span>
-                        @enderror
-                    </li>
-                    <li class="form-control gap-1">
-                        <label for="pekerjaan_ibu" class="label font-medium">Pekerjaan Ibu</label>
-                        <input type="text" id="pekerjaan_ibu" name="pekerjaan_ibu"
-                            value="{{ old('pekerjaan_ibu', $biodata->pekerjaan_ibu ?? '') }}"
-                            placeholder="Masukkan Pekerjaan ibu" class="input bg-white input-bordered w-full" required
-                            maxlength="255">
-                        @error('pekerjaan_ibu')
-                            <span class="text-red-500 text-sm">{{ $message }}</span>
-                        @enderror
-                    </li>
-                    <li class="form-control gap-1">
-                        <label for="penghasilan_ibu" class="label font-medium">Penghasilan Ibu</label>
-                        <input type="text" id="penghasilan_ibu" name="penghasilan_ibu"
-                            value="{{ old('penghasilan_ibu', $biodata->penghasilan_ibu ?? '') }}"
-                            placeholder="Masukkan Penghasilan Ibu" class="input bg-white input-bordered w-full" required
-                            maxlength="255">
-                        @error('penghasilan_ibu')
-                            <span class="text-red-500 text-sm">{{ $message }}</span>
-                        @enderror
-                    </li>
-                    <li class="flex justify-center">
-                        <button type="submit" id="submit"
-                            class="btn px-10 bg-slate-950 text-white mt-4">Submit</button>
-                    </li>
+                    <div class="flex justify-center gap-2">
+                        <a href="/ppdb/pendaftaran-biodata-siswa"
+                            class="btn btn-outline  px-10 text-black mt-4">Kembali</a>
+                        <li class="flex justify-center">
+                            <button type="submit" id="submit"
+                                class="btn px-10 bg-slate-950 text-white mt-4">Submit</button>
+                        </li>
+                    </div>
                 </form>
             </ul>
 
