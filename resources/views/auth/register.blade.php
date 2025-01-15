@@ -38,11 +38,24 @@
                     <span class="text-red-500 text-sm">{{ $message }}</span>
                 @enderror
             </div>
-            <div class="flex flex-col mb-5">
+            <div class="flex flex-col">
                 <label for="password_confirmation" class="font-bold">Konfirmasi Password</label>
                 <input type="password" id="password_confirmation" name="password_confirmation"
                     placeholder="Masukkan ulang password" class="p-3 rounded-xl bg-[#F9EEFF] border border-[#BB97CB]">
                 @error('password')
+                    <span class="text-red-500 text-sm">{{ $message }}</span>
+                @enderror
+            </div>
+            <div class="flex flex-col mb-10">
+                <label for="jalur" class="label font-bold">Jalur Pendaftaran</label>
+                <select id="jalur" name="jalur"
+                    class="select select-bordered w-full bg-[#F9EEFF] border border-[#BB97CB]">
+                    <option value="">Pilih jalur pendaftaran</option>
+                    <option value="reguler">Reguler</option>
+                    <option value="prestasi">Prestasi</option>
+                    <option value="afirmasi">Afirmasi</option>
+                </select>
+                @error('jalur')
                     <span class="text-red-500 text-sm">{{ $message }}</span>
                 @enderror
             </div>

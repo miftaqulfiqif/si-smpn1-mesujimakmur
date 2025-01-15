@@ -55,6 +55,13 @@
                     <span
                         class="ml-2 text-[10px] md:text-[15px] max-w-[70px] text-center md:text-left md:max-w-fit">Dokumen</span>
                 </li>
+                @if ($errors->any())
+                    <div class="bg-[#ff252579] border-red-500 w-full p-6 rounded-3xl flex flex-row mt-10">
+                        <div>
+                            <span class="text-sm mx-auto">{{ $errors->first('error') }}</span>
+                        </div>
+                    </div>
+                @endif
             </ul>
 
             <ul id="biodata-form" class="flex flex-col w-full gap-4 h-screen overflow-y-auto px-5 pb-40 md:pb-28">

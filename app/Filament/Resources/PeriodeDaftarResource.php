@@ -52,6 +52,17 @@ class PeriodeDaftarResource extends Resource
                         ->required(),
                     Forms\Components\TextInput::make('kuota')
                         ->placeholder(placeholder: 'Masukkan kuota pendaftaran')
+                        ->label('Kuota Reguler')
+                        ->required()
+                        ->numeric(),
+                    Forms\Components\TextInput::make('kuota_prestasi')
+                        ->placeholder(placeholder: 'Masukkan kuota pendaftaran')
+                        ->label('Kuota Prestasi')
+                        ->required()
+                        ->numeric(),
+                    Forms\Components\TextInput::make('kuota_afirmasi')
+                        ->placeholder(placeholder: 'Masukkan kuota pendaftaran')
+                        ->label('Kuota Afirmasi')
                         ->required()
                         ->numeric(),
                     Forms\Components\ToggleButtons::make('status')
@@ -72,7 +83,7 @@ class PeriodeDaftarResource extends Resource
                         ->required(),
                 ]),
                 Forms\Components\Section::make()->schema([
-                    Forms\Components\Repeater::make('Dokumen persyaratan')->relationship('dokumens')->addActionLabel('Tambah dokumen')->columns(2)->schema([
+                    Forms\Components\Repeater::make('Dokumen reguler')->relationship('dokumens')->addActionLabel('Tambah dokumen')->columns(2)->schema([
                         Forms\Components\TextInput::make('nama')
                             ->required()
                             ->placeholder('Contoh: SCAN PDF Ijazah Asli')
@@ -95,7 +106,58 @@ class PeriodeDaftarResource extends Resource
                                 0 => 'heroicon-o-x-circle',
                             ])
                     ])
-                ])
+                ]),
+                Forms\Components\Section::make()->schema([
+                    Forms\Components\Repeater::make('Dokumen prestasi')->relationship('dokumensPrestasi')->addActionLabel('Tambah dokumen')->columns(2)->schema([
+                        Forms\Components\TextInput::make('nama')
+                            ->required()
+                            ->placeholder('Contoh: SCAN PDF Ijazah Asli')
+                            ->label('Nama dokumen'),
+                        Forms\Components\ToggleButtons::make('isRequired')
+                            ->required()
+                            ->label('Wajib diisi?')
+                            ->inline()
+                            ->default(1)
+                            ->options([
+                                1 => 'Ya',
+                                0 => 'Tidak',
+                            ])
+                            ->colors([
+                                1 => 'success',
+                                0 => 'danger',
+                            ])
+                            ->icons([
+                                1 => 'heroicon-o-check-circle',
+                                0 => 'heroicon-o-x-circle',
+                            ])
+                    ])
+                ]),
+                Forms\Components\Section::make()->schema([
+                    Forms\Components\Repeater::make('Dokumen afirmasi')->relationship('dokumensAfirmasi')->addActionLabel('Tambah dokumen')->columns(2)->schema([
+                        Forms\Components\TextInput::make('nama')
+                            ->required()
+                            ->placeholder('Contoh: SCAN PDF Ijazah Asli')
+                            ->label('Nama dokumen'),
+                        Forms\Components\ToggleButtons::make('isRequired')
+                            ->required()
+                            ->label('Wajib diisi?')
+                            ->inline()
+                            ->default(1)
+                            ->options([
+                                1 => 'Ya',
+                                0 => 'Tidak',
+                            ])
+                            ->colors([
+                                1 => 'success',
+                                0 => 'danger',
+                            ])
+                            ->icons([
+                                1 => 'heroicon-o-check-circle',
+                                0 => 'heroicon-o-x-circle',
+                            ])
+                    ])
+                ]),
+
             ]);
     }
 

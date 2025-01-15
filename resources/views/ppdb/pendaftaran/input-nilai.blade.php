@@ -61,6 +61,13 @@
                     <span
                         class="ml-2 text-[10px] md:text-[15px] max-w-[70px] text-center md:text-left md:max-w-fit">Dokumen</span>
                 </li>
+                @if (session()->has('success'))
+                    <div class="bg-[#30ff2579] border-green-500 w-full p-6 rounded-3xl flex flex-row mt-10">
+                        <div class="">
+                            <span class="text-sm mx-auto">{{ session('success') }}</span>
+                        </div>
+                    </div>
+                @endif
             </ul>
 
             <ul id="input-nilai-form" class="flex flex-col w-full gap-4 h-screen overflow-y-auto px-5 pb-40 md:pb-28">

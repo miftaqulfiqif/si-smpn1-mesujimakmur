@@ -19,7 +19,13 @@ class DokumenCalonSiswa extends Model
         return $this->belongsTo(DataCalonSiswa::class, 'id');
     }
 
-    public function dokumen(){
+    public function dokumen()
+    {
         return $this->belongsTo(Dokumen::class, 'id_dokumen');
+    }
+
+    public function dokumenPrestasi()
+    {
+        return $this->belongsTo(DokumenPrestasi::class, 'id_dokumen');
     }
 }

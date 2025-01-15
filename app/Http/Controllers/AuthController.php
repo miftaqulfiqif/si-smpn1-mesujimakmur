@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Applogo;
+use App\Models\StatusPendaftaran;
 use App\Models\User;
 use Illuminate\Database\Console\Migrations\StatusCommand;
 use Illuminate\Http\Request;
@@ -19,31 +20,28 @@ class AuthController extends Controller
         if (Auth::check()) {
             $user = Auth::user();
 
-            $validateEmail = $user->email;
-
-            if ($validateEmail == null) {
+            if (empty($user->email)) {
                 return redirect('/ppdb/pendaftaran');
             }
-            return redirect('/admin');
         }
         return view('auth.login', compact('applogo'));
     }
 
     public function register(Request $request)
     {
-        Log::info($request->all());
+
         $request->validate([
             'name' => 'required|string|max:255',
             'nisn' => 'required|string|unique:users,nisn',
             'password' => 'required|min:8|confirmed',
+            'jalur' => 'required|in:reguler,prestasi,afirmasi',
         ]);
-
-        Log::info('Validation passed');
 
         User::create([
             'name' => $request->name,
             'nisn' => $request->nisn,
             'password' => Hash::make($request->password),
+            'jalur' => $request->jalur
         ]);
 
         return redirect()->route('ppdb.login')->with('success', 'Registrasi berhasil!');
@@ -62,7 +60,6 @@ class AuthController extends Controller
 
             return redirect()->intended('/ppdb/pendaftaran')->with('success', 'Login berhasil!');
         }
-
 
         return back()->withErrors([
             'nisn' => 'NISN atau password salah.',

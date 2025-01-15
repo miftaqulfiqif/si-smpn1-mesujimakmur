@@ -72,10 +72,22 @@
                         </div>
                     </div>
                 @endif
+                @if (!empty($errors))
+                    @if ($errors->any())
+                        @foreach ($errors->all() as $error)
+                            <div class="bg-[#ff3030] border-red-500 w-full p-6 rounded-3xl flex flex-row mt-10">
+                                <div class="">
+                                    <span class="text-sm mx-auto">{{ $error }}</span>
+                                </div>
+                            </div>
+                        @endforeach
+                    @endif
+                @endif
             </ul>
 
-            <ul id="upload-document-form" class="flex flex-col w-full gap-4 h-screen overflow-y-auto px-5 pb-40 md:pb-28">
-                <form action="{{ route('save-document') }}" method="POST" enctype="multipart/form-data">
+            <ul id="upload-document-prestasi-form"
+                class="flex flex-col w-full gap-4 h-screen overflow-y-auto px-5 pb-40 md:pb-28">
+                <form action="{{ route('save-document-prestasi') }}" method="POST" enctype="multipart/form-data">
                     @csrf
                     <input type="hidden" name="id_data_calon_siswa" value="{{ $calonSiswa->id }}">
 

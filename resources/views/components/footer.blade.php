@@ -5,18 +5,18 @@
                 <a href="https://flowbite.com/" class="flex items-center">
                     <img src="{{ asset('storage/' . $applogo->image_url) ?: asset('assets/images/logo-dikdasmen 1.png') }}"
                         class="h-8 me-3" alt="FlowBite Logo" />
-                    <span class="self-center text-2xl font-semibold whitespace-nowrap text-white">SMP Negri 1 Mesuji
+                    <span class="self-center text-2xl font-semibold whitespace-nowrap text-white">SMP Negeri 1 Mesuji
                         Makmur</span>
                 </a>
-                <p class="text-white mt-4 text-sm">Jl. Raya Mesuji No. 1, Mesuji, Kec. Mesuji, Kabupaten Sumedang, Jawa
-                    Barat
-                    45363</p>
-                <p class="text-white mt-4 text-sm">0811 1234 5678</p>
-                <p class="text-white mt-4 text-sm">smpmesujimakmur@example.com</p>
+                <p class="text-white mt-4 text-sm">Jl. Catur Tunggal Kec. Mesuji Makmur, Kabupaten Ogan Komering Ilir,
+                    Sumatera Selatan 30682
+                </p>
+                <p class="text-white mt-4 text-sm">Nomor Telpon : 082279131725</p>
+                <p class="text-white mt-4 text-sm">Email : SMPN1MM@gmail.com</p>
             </div>
             <div class="grid grid-cols-2 gap-8 sm:gap-6 sm:grid-cols-3">
                 <div>
-                    <h2 class="mb-6 text-sm font-semibold text-gray-900 uppercase dark:text-white">Resources</h2>
+                    <h2 class="mb-6 text-sm font-semibold text-gray-900 uppercase text-white">Resources</h2>
                     <ul class="text-white font-medium">
                         <li class="mb-4">
                             <a href="/achievment" class="hover:underline">Prestasi</a>
@@ -30,13 +30,15 @@
                     </ul>
                 </div>
                 <div>
-                    <h2 class="mb-6 text-sm font-semibold text-gray-900 uppercase dark:text-white">Follow us</h2>
+                    <h2 class="mb-6 text-sm font-semibold text-gray-900 uppercase text-white">Follow us</h2>
                     <ul class="text-white font-medium">
                         <li class="mb-4">
-                            <a href="https://github.com/themesberg/flowbite" class="hover:underline ">Facebook</a>
+                            <a href="https://www.facebook.com/share/1DgGuVeUdZ/?mibextid=wwXIfr"
+                                class="hover:underline ">Facebook</a>
                         </li>
                         <li>
-                            <a href="https://discord.gg/4eeurUVvTy" class="hover:underline">Instagram</a>
+                            <a href="https://www.instagram.com/smpn1mesmur?igsh=Z2wwaXBxMXkzcGM3"
+                                class="hover:underline">Instagram</a>
                         </li>
                     </ul>
                 </div>
@@ -44,8 +46,8 @@
         </div>
         <hr class="my-6 border-gray-200 sm:mx-auto dark:border-gray-700 lg:my-8" />
         <div class="sm:flex sm:items-center sm:justify-between">
-            <span class="text-sm text-white sm:text-center ">© 2023 <a href="https://flowbite.com/"
-                    class="hover:underline">Flowbite™</a>. All Rights Reserved.
+            <span class="text-sm text-white sm:text-center ">©️ 2023 <a href="https://flowbite.com/"
+                    class="hover:underline">Flowbite™️</a>. All Rights Reserved.
             </span>
             <div class="flex mt-4 sm:justify-center sm:mt-0">
                 <a href="#" class="text-gray-500 hover:text-gray-900 dark:hover:text-white">
