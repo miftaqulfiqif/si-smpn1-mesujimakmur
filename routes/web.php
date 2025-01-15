@@ -45,12 +45,17 @@ Route::post('/ppdb/pendataran-biodata-orangtua', [PpdbController::class, 'saveBi
 Route::get('/ppdb/input-nilai', [PpdbController::class, 'showFormInputNilai'])->name('input-nilai');
 Route::post('/ppdb/input-nilai', [PpdbController::class, 'saveNilai'])->name('save-nilai');
 Route::get('/ppdb/upload-document', [PpdbController::class, 'showFormUploadDocument'])->name('upload-document');
+Route::get('/ppdb/upload-document-prestasi', [PpdbController::class, 'showFormUploadDocumentPrestasi'])->name('upload-document-prestasi');
+Route::get('/ppdb/upload-document-afirmasi', [PpdbController::class, 'showFormUploadDocumentAfirmasi'])->name('upload-document-afirmasi');
 Route::post('/ppdb/upload-document', [PpdbController::class, 'saveDocument'])->name('save-document');
+Route::post('/ppdb/upload-document-prestasi', [PpdbController::class, 'saveDocumentPrestasi'])->name('save-document-prestasi');
+Route::post('/ppdb/upload-document-afirmasi', [PpdbController::class, 'saveDocumentAfirmasi'])->name('save-document-afirmasi');
 Route::post('/ppdb/daftar', [PpdbController::class, 'saveBiodataSiswa'])->name('saveBiodataSiswa');
 
 // ROUTE PPDB INDEX
 Route::get('/ppdb/index', [PpdbIndexController::class, 'showPpdbIndex'])->name('ppdb-index');
 Route::get('/ppdb/peringkat', [PpdbIndexController::class, 'listRangkingSiswa'])->name('rangking-siswa');
+Route::get('/ppdb/peringkat-prestasi', [PpdbIndexController::class, 'listRangkingSiswaPrestasi'])->name('rangking-siswa-prestasi');
 Route::get('/ppdb/bayar-daftar-ulang', [PpdbIndexController::class, 'showFormBayar'])->name('bayar-daftar-ulang');
 Route::post('/ppdb/bayar-daftar-ulang', [PpdbIndexController::class, 'saveBuktiBayar'])->name('upload-bukti-bayar');
 

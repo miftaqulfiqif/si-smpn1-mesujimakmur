@@ -25,6 +25,7 @@ class User extends Authenticatable implements FilamentUser
         'email',
         'password',
         'nisn',
+        'jalur'
     ];
 
     /**
@@ -55,7 +56,8 @@ class User extends Authenticatable implements FilamentUser
         return $this->hasRole('admin');
     }
 
-    public function dataCalonSiswa(){
+    public function dataCalonSiswa()
+    {
         return $this->hasOne(DataCalonSiswa::class, 'id_user');
     }
 }

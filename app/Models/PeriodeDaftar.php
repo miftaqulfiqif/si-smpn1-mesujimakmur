@@ -16,6 +16,8 @@ class PeriodeDaftar extends Model
         'status',
         'jml_pendaftar',
         'kuota',
+        'kuota_prestasi',
+        'kuota_afirmasi',
     ];
 
     public function editor()
@@ -27,8 +29,17 @@ class PeriodeDaftar extends Model
     {
         return $this->hasMany(Dokumen::class, 'id_periode');
     }
+    public function dokumensPrestasi()
+    {
+        return $this->hasMany(DokumenPrestasi::class, 'id_periode');
+    }
+    public function dokumensAfirmasi()
+    {
+        return $this->hasMany(DokumenAfirmasi::class, 'id_periode');
+    }
 
-    public function siswas(){
+    public function siswas()
+    {
         return $this->hasMany(DataCalonSiswa::class, 'id_periode');
     }
 }

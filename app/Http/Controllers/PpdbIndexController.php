@@ -7,6 +7,7 @@ use App\Models\DataCalonSiswa;
 use App\Models\DataOrangtua;
 use App\Models\NilaiRapot;
 use App\Models\PeringkatCalonSiswa;
+use App\Models\PeringkatCalonSiswaPrestasi;
 use App\Models\PeriodeDaftar;
 use App\Models\PesanKesalahan;
 use App\Models\StatusPendaftaran;
@@ -20,44 +21,104 @@ use PDO;
 
 class PpdbIndexController extends Controller
 {
-    public function showPpdbIndex(Request $request){
+    public function showPpdbIndex(Request $request)
+    {
         $user = Auth::user();
-        
+
         $dataCalonSiswa = DataCalonSiswa::where('id_user', $user->id)->first();
         $idDataCalonSiswa = $dataCalonSiswa->id;
-        
+
         $pesanKesalahan = PesanKesalahan::where('id_data_calon_siswa', $idDataCalonSiswa)->first();
 
         $user = User::where('id', $dataCalonSiswa->id_user)->first();
-        $nameSiswa = $user->name;
+        $namaSiswa = $user->name;
+        $jalurSiswa = $user->jalur;
 
         $periodeDaftar = PeriodeDaftar::where('id', $dataCalonSiswa->id_periode)->first();
 
         $statusPendaftaran = StatusPendaftaran::where('id_data_calon_siswa', $dataCalonSiswa->id)->first();
 
-        if ($statusPendaftaran && $statusPendaftaran->status == 'processing'){
-            $peringkatExist = PeringkatCalonSiswa::where('id_data_calon_siswa', $idDataCalonSiswa)->first();
+        if ($statusPendaftaran && $statusPendaftaran->status == 'processing') {
+
+            if ($user && $user->jalur == 'reguler') {
+                $peringkatExist = PeringkatCalonSiswa::where('id_data_calon_siswa', $idDataCalonSiswa)->first();
+            } else if ($user && $user->jalur == 'prestasi') {
+                $peringkatExist = PeringkatCalonSiswaPrestasi::where('id_data_calon_siswa', $idDataCalonSiswa)->first();
+            }
 
             if (!$peringkatExist) {
                 // Ambil nilai siswa yang relevan
                 $nilaiSiswa = NilaiRapot::where('id_data_calon_siswa', $idDataCalonSiswa)->first();
                 if ($nilaiSiswa) {
                     // Simpan data ke tabel peringkat calon siswa
-                    PeringkatCalonSiswa::create([
-                        'id_data_calon_siswa' => $idDataCalonSiswa,
-                        'id_nilai' => $nilaiSiswa->id,
-                        'id_periode' => $dataCalonSiswa->id_periode,
-                    ]);
+                    if ($user && $user->jalur == 'reguler') {
+                        PeringkatCalonSiswa::create([
+                            'id_data_calon_siswa' => $idDataCalonSiswa,
+                            'id_nilai' => $nilaiSiswa->id,
+                            'id_periode' => $dataCalonSiswa->id_periode,
+                        ]);
+                    } else if ($user && $user->jalur == 'prestasi') {
+                        PeringkatCalonSiswaPrestasi::create([
+                            'id_data_calon_siswa' => $idDataCalonSiswa,
+                            'id_nilai' => $nilaiSiswa->id,
+                            'id_periode' => $dataCalonSiswa->id_periode,
+                        ]);
+                    }
                 } else {
                     return redirect()->back()->with('error', 'Nilai siswa tidak ditemukan.');
                 }
             }
         }
 
-        return view('ppdb.index', compact('idDataCalonSiswa', 'dataCalonSiswa', 'nameSiswa','periodeDaftar', 'statusPendaftaran', 'pesanKesalahan'));
+        return view('ppdb.index', compact('idDataCalonSiswa', 'dataCalonSiswa', 'namaSiswa', 'jalurSiswa', 'periodeDaftar', 'statusPendaftaran', 'pesanKesalahan'));
     }
 
     public function listRangkingSiswa()
+    {
+        $user = Auth::user();
+        $periodeDaftar = PeriodeDaftar::where('status', 1)->first();
+
+        if (!$periodeDaftar) {
+            return redirect()->back()->with('error', 'Tidak ada periode pendaftaran aktif saat ini.');
+        }
+
+        if ($user->jalur == 'reguler') {
+            $peringkatSiswa = PeringkatCalonSiswa::with(['dataCalonSiswa.user', 'nilaiSiswa'])
+                ->where('id_periode', $periodeDaftar->id)
+                ->get()
+                ->map(function ($siswa) {
+                    // Menghitung rata-rata nilai dari semester yang ada
+                    $rataRataNilai = $siswa->nilaiSiswa->average('average'); // Pastikan kolom 'average' ada pada model NilaiRapot
+                    return [
+                        'nama_siswa' => $siswa->dataCalonSiswa->user->name,
+                        'nisn' => $siswa->dataCalonSiswa->user->nisn,
+                        'asal_sekolah' => $siswa->dataCalonSiswa->asal_sekolah,
+                        'rata_rata_nilai' => $rataRataNilai,
+                        'id_periode' => $siswa->id_periode,
+                    ];
+                })
+                ->sortByDesc('rata_rata_nilai'); // Mengurutkan berdasarkan rata-rata nilai
+        } else if ($user->jalur == 'prestasi') {
+            $peringkatSiswa = PeringkatCalonSiswaPrestasi::with(['dataCalonSiswa.user', 'nilaiSiswa'])
+                ->where('id_periode', $periodeDaftar->id)
+                ->get()
+                ->map(function ($siswa) {
+                    // Menghitung rata-rata nilai dari semester yang ada
+                    $rataRataNilai = $siswa->nilaiSiswa->average('average'); // Pastikan kolom 'average' ada pada model NilaiRapot
+                    return [
+                        'nama_siswa' => $siswa->dataCalonSiswa->user->name,
+                        'nisn' => $siswa->dataCalonSiswa->user->nisn,
+                        'asal_sekolah' => $siswa->dataCalonSiswa->asal_sekolah,
+                        'rata_rata_nilai' => $rataRataNilai,
+                        'id_periode' => $siswa->id_periode,
+                    ];
+                })
+                ->sortByDesc('rata_rata_nilai'); // Mengurutkan berdasarkan rata-rata nilai
+        }
+        // Mengirim data ke view
+        return view('ppdb.peringkat', compact('periodeDaftar', 'peringkatSiswa'));
+    }
+    public function listRangkingSiswaPrestasi()
     {
         // Ambil periode yang aktif
         $periodeDaftar = PeriodeDaftar::where('status', 1)->first();
@@ -67,7 +128,7 @@ class PpdbIndexController extends Controller
         }
 
         // Mengambil data siswa yang terdaftar pada periode tersebut
-        $peringkatSiswa = PeringkatCalonSiswa::with(['dataCalonSiswa.user', 'nilaiSiswa'])
+        $peringkatSiswa = PeringkatCalonSiswaPrestasi::with(['dataCalonSiswa.user', 'nilaiSiswa'])
             ->where('id_periode', $periodeDaftar->id)
             ->get()
             ->map(function ($siswa) {
@@ -76,7 +137,7 @@ class PpdbIndexController extends Controller
                 return [
                     'nama_siswa' => $siswa->dataCalonSiswa->user->name,
                     'nisn' => $siswa->dataCalonSiswa->user->nisn,
-                    'asal_sekolah' =>$siswa->dataCalonSiswa->asal_sekolah,
+                    'asal_sekolah' => $siswa->dataCalonSiswa->asal_sekolah,
                     'rata_rata_nilai' => $rataRataNilai,
                     'id_periode' => $siswa->id_periode,
                 ];
@@ -84,12 +145,13 @@ class PpdbIndexController extends Controller
             ->sortByDesc('rata_rata_nilai'); // Mengurutkan berdasarkan rata-rata nilai
 
         // Mengirim data ke view
-        return view('ppdb.peringkat', compact('periodeDaftar', 'peringkatSiswa'));
+        return view('ppdb.peringkat-prestasi', compact('periodeDaftar', 'peringkatSiswa'));
     }
 
 
 
-    public function showFormBayar(){
+    public function showFormBayar()
+    {
         $user = Auth::user();
         $calonSiswa = DataCalonSiswa::where('id_user', $user->id)->first();
         $idDataCalonSiswa = $calonSiswa->id;
@@ -140,12 +202,11 @@ class PpdbIndexController extends Controller
 
             DB::commit();
             return redirect()->route('ppdb-index')
-            ->with('success', 'Dokumen berhasil tersimpan.');
+                ->with('success', 'Dokumen berhasil tersimpan.');
         } catch (\Exception $e) {
             DB::rollBack();
             Log::error("Error saving payment proof", ['error' => $e->getMessage()]);
             return back()->withErrors(['Error' => 'Terjadi kesalahan saat menyimpan data.']);
         }
     }
-
 }

@@ -5,6 +5,7 @@
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
 
 @endsection
+
 @section('content')
     <section class="w-full h-[100vh] px-3 md:px-10 lg:px-14 pt-16 overflow-hidden">
         <div class="flex gap-2 flex-col md:flex-row">
@@ -57,7 +58,15 @@
                     <span
                         class="ml-2 text-[10px] md:text-[15px] max-w-[70px] text-center md:text-left md:max-w-fit">Dokumen</span>
                 </li>
+                @if (session()->has('success'))
+                    <div class="bg-[#30ff2579] border-green-500 w-full p-6 rounded-3xl flex flex-row mt-10">
+                        <div class="">
+                            <span class="text-sm mx-auto">{{ session('success') }}</span>
+                        </div>
+                    </div>
+                @endif
             </ul>
+
             <ul id="biodata-orangtua-form" class="flex flex-col w-full gap-4 h-screen overflow-y-auto px-5 pb-40 md:pb-28">
                 <form action="{{ route('save-biodata-orangtua') }}" method="POST" enctype="multipart/form-data">
                     @csrf

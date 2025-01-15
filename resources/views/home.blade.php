@@ -102,8 +102,6 @@
                 <img src="{{ $fotoSekolah && $fotoSekolah->image ? asset('storage/' . $fotoSekolah->image) : asset('assets/images/Component 2.png') }}"
                     alt="School Photo" class="max-h-fit">
             @endif
-            <img src="{{ asset('storage/' . $fotoSekolah->image) }}"
-                alt="{{ asset('assets/images/Component 2.png') }}" class="max-h-fit">
         </div>
     </section>
 
