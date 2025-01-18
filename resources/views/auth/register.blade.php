@@ -51,7 +51,7 @@
                 <select id="jalur" name="jalur"
                     class="select select-bordered w-full bg-[#F9EEFF] border border-[#BB97CB]">
                     <option value="">Pilih jalur pendaftaran</option>
-                    <option value="reguler">Reguler</option>
+                    <option value="zonasi">Zonasi</option>
                     <option value="prestasi">Prestasi</option>
                     <option value="afirmasi">Afirmasi</option>
                 </select>

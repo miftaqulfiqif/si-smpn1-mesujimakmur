@@ -11,7 +11,7 @@ class CreatePeriodeDaftar extends CreateRecord
 {
     protected static string $resource = PeriodeDaftarResource::class;
     protected static string $createAnother = PeriodeDaftarResource::class;
-    protected static ?string $title = 'Tambah Periode Daftar';
+    protected static ?string $title = 'Tambah Tahun Ajaran Baru';
 
     protected function getCreateFormAction(): \Filament\Actions\Action
     {

@@ -10,6 +10,7 @@ use App\Models\DokumenCalonSiswa;
 use App\Models\DokumenPrestasi;
 use App\Models\NilaiRapot;
 use App\Models\PeringkatCalonSiswa;
+use App\Models\PeringkatCalonSiswaPrestasi;
 use App\Models\PeriodeDaftar;
 use App\Models\StatusPendaftaran;
 use Carbon\Carbon;
@@ -31,43 +32,51 @@ class PpdbController extends Controller
         $user = Auth::user();
 
         $biodata = DataCalonSiswa::where('id_user', $user->id)->first();
+
+        $biodataOrangtua = null;
+        $nilai = null;
+        $document = null;
+        $route = null;
+        if ($biodata) {
+            $biodataOrangtua = DataOrangtua::where('id_data_calon_siswa', $biodata->id)->first();
+            $nilai = NilaiRapot::where('id_data_calon_siswa', $biodata->id)->first();
+            $jalur = $user->jalur;
+
+            $document = DokumenCalonSiswa::where('id_data_calon_siswa', $biodata->id)->first();
+
+            if ($jalur == 'reguler') {
+                $route = '/ppdb/upload-document';
+            } else if ($jalur == 'prestasi') {
+                $route = '/ppdb/upload-document-prestasi';
+            } else if ($jalur == 'afirmasi') {
+                $route = '/ppdb/upload-document-afirmasi';
+            } else {
+                $route = '/error';
+            }
+        }
+
         if (!$biodata) {
             return redirect()->route('ppdb.pendaftaran.biodata-siswa')
                 ->with('error', 'Biodata tidak ditemukan. Silakan lengkapi biodata terlebih dahulu.');
         }
-
         if ($biodata->asal_sekolah) {
             $sekolahPilihan = $biodata->asal_sekolah;
-        } else {
-            $sekolahPilihan = [
-                'Pilih Sekolah Asal',
-                'SD Negri 1 Catur Tunggal',
-                'SD Negri 2 Catur Tunggal',
-                'SD Negri 1 Mukti Karya',
-                'SD Negri 2 Mukti Karya',
-                'SD Negri 1 Sumber Mulya',
-                'SD Negri 1 Pematang Sukaramah',
-                'SD Negri 1 Cahya Mulya'
-            ];
         }
 
         $statusPendaftaran = StatusPendaftaran::where('id_data_calon_siswa', $biodata->id)->first();
 
-        $periode = PeriodeDaftar::where('id', $biodata->id_periode)->first();
-
-
-        $curentDate = Carbon::now()->format('Y-m-d');
-
-        if ($curentDate > $periode->end_date) {
-            $peringkatSiswa = PeringkatCalonSiswa::getPeringkat($biodata->id);
+        if ($statusPendaftaran && $statusPendaftaran->status == 'processing') {
+            $periode = PeriodeDaftar::where('id', $biodata->id_periode)->first();
+            $curentDate = Carbon::now()->format('Y-m-d');
+            if ($curentDate > $periode->end_date) {
+                $peringkatSiswa = PeringkatCalonSiswaPrestasi::getPeringkat($biodata->id);
+            }
+            if ($statusPendaftaran->status) {
+                return redirect()->route('ppdb-index');
+            }
         }
 
-        if ($statusPendaftaran && $statusPendaftaran->status != null) {
-            return redirect()->route('ppdb-index');
-        }
-
-
-        return view('ppdb.pendaftaran.biodata-siswa', compact('user', 'biodata', 'sekolahPilihan'));
+        return view('ppdb.pendaftaran.biodata-siswa', compact('user', 'biodata', 'sekolahPilihan', 'biodataOrangtua', 'nilai', 'document', 'route'));
     }
 
     public function showForm()
@@ -102,19 +111,8 @@ class PpdbController extends Controller
             $biodata->penerima_kip = $biodata->penerima_kip ? 1 : 0;
         }
 
-        $sekolahPilihan = [
-            'Pilih Sekolah Asal',
-            'SD Negri 1 Catur Tunggal',
-            'SD Negri 2 Catur Tunggal',
-            'SD Negri 1 Mukti Karya',
-            'SD Negri 2 Mukti Karya',
-            'SD Negri 1 Sumber Mulya',
-            'SD Negri 1 Pematang Sukaramah',
-            'SD Negri 1 Cahya Mulya'
-        ];
 
-
-        return view('ppdb.pendaftaran.biodata-siswa', compact('user', 'sekolahPilihan', 'biodata', 'biodataOrangtua', 'nilai', 'document', 'route'));
+        return view('ppdb.pendaftaran.biodata-siswa', compact('user', 'biodata', 'biodataOrangtua', 'nilai', 'document', 'route'));
     }
 
     public function showBiodataOrangtua()
