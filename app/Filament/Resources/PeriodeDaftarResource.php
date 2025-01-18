@@ -20,7 +20,7 @@ class PeriodeDaftarResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-clipboard-document';
     protected static ?string $navigationGroup = 'PPDB';
-    protected static ?string $navigationLabel = 'Periode Pendaftaran';
+    protected static ?string $navigationLabel = 'Tahun Ajaran';
 
 
     public static function form(Form $form): Form
@@ -29,7 +29,7 @@ class PeriodeDaftarResource extends Resource
             ->schema([
                 Forms\Components\Section::make()->columns(2)->schema([
                     Forms\Components\TextInput::make('name')
-                        ->label('Nama periode')
+                        ->label('Tahun Ajaran')
                         ->placeholder('Contoh: PPDB Gelombang II Periode 2024/2025')
                         ->required()
                         ->maxLength(255),
@@ -52,7 +52,7 @@ class PeriodeDaftarResource extends Resource
                         ->required(),
                     Forms\Components\TextInput::make('kuota')
                         ->placeholder(placeholder: 'Masukkan kuota pendaftaran')
-                        ->label('Kuota Reguler')
+                        ->label('Kuota Zonasi')
                         ->required()
                         ->numeric(),
                     Forms\Components\TextInput::make('kuota_prestasi')
@@ -83,7 +83,7 @@ class PeriodeDaftarResource extends Resource
                         ->required(),
                 ]),
                 Forms\Components\Section::make()->schema([
-                    Forms\Components\Repeater::make('Dokumen reguler')->relationship('dokumens')->addActionLabel('Tambah dokumen')->columns(2)->schema([
+                    Forms\Components\Repeater::make('Dokumen zonasi')->relationship('dokumens')->addActionLabel('Tambah dokumen')->columns(2)->schema([
                         Forms\Components\TextInput::make('nama')
                             ->required()
                             ->placeholder('Contoh: SCAN PDF Ijazah Asli')

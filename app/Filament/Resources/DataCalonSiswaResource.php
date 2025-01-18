@@ -228,13 +228,16 @@ class DataCalonSiswaResource extends Resource
                     ->sortable(),
                 Tables\Columns\TextColumn::make('user.name')
                     ->label('Name')
-                    ->searchable(),
+                    ->searchable()
+                    ->sortable(),
                 Tables\Columns\TextColumn::make('user.nisn')
                     ->label('NISN')
-                    ->searchable(),
+                    ->searchable()
+                    ->sortable(),
                 Tables\Columns\TextColumn::make('user.jalur')
                     ->label('Jalur')
-                    ->searchable(),
+                    ->searchable()
+                    ->sortable(),
                 Tables\Columns\TextColumn::make('nik')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('asal_sekolah')
@@ -248,9 +251,11 @@ class DataCalonSiswaResource extends Resource
                 Tables\Columns\TextColumn::make('notelp')
                     ->searchable(),
                 Tables\Columns\IconColumn::make('zonasi')
-                    ->boolean(),
+                    ->boolean()
+                    ->sortable(),
                 Tables\Columns\TextColumn::make('statusPendaftaran.status')
-                    ->searchable(),
+                    ->searchable()
+                    ->sortable(),
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()

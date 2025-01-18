@@ -60,9 +60,10 @@
                                 <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
                             </svg>
                             <span
-                                class="ml-2 text-[10px] font-bold md:text-[15px] max-w-[70px] text-center md:text-left md:max-w-fit">
-                                Biodata
-                                Calon Siswa</span>
+                                class="ml-2 text-[10px] md:text-[15px] max-w-[70px] text-center md:text-left md:max-w-fit">
+                                Data
+                                Orang Tua Calon
+                                Siswa </span>
                         </li>
                     </a>
                 @else
@@ -90,7 +91,7 @@
                                 <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
                             </svg>
                             <span
-                                class="ml-2 text-[10px] font-bold md:text-[15px] max-w-[70px] text-center md:text-left md:max-w-fit">
+                                class="ml-2 text-[10px] md:text-[15px] max-w-[70px] text-center md:text-left md:max-w-fit">
                                 Input Nilai</span>
                         </li>
                     </a>
@@ -118,7 +119,7 @@
                                 <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
                             </svg>
                             <span
-                                class="ml-2 text-[10px] font-bold md:text-[15px] max-w-[70px] text-center md:text-left md:max-w-fit">
+                                class="ml-2 text-[10px] md:text-[15px] max-w-[70px] text-center md:text-left md:max-w-fit">
                                 Dokumen</span>
                         </li>
                     </a>
@@ -269,15 +270,10 @@
                                 @enderror
                             </div>
                             <select id="asal_sekolah" name="asal_sekolah"
-                                class="select select2 select-bordered w-full bg-white" style="width: 100% !important;">
-                                <option value="" disabled
-                                    {{ old('asal_sekolah', $biodata->asal_sekolah ?? '') == '' ? 'selected' : '' }}>
-                                    Pilih asal sekolah
-                                </option>
-                                <!-- Tambahkan opsi manual jika ada nilai yang tidak ada dalam array -->
-                                @if (!in_array(old('asal_sekolah', $biodata->asal_sekolah ?? ''), $sekolahPilihan))
-                                    <option value="{{ old('asal_sekolah', $biodata->asal_sekolah ?? '') }}" selected>
-                                        {{ old('asal_sekolah', $biodata->asal_sekolah ?? '') }}
+                                class="select select2 select-bordered w-full bg-white">
+                                @if ($biodata->asal_sekolah)
+                                    <option value="{{ $biodata->asal_sekolah }}" selected>
+                                        {{ $biodata->asal_sekolah }}
                                     </option>
                                 @endif
                             </select>
@@ -398,7 +394,6 @@
             }
         });
 
-        // Menambahkan array sekolahPilihan di dalam script
         const sekolahPilihan = [
             'Pilih Sekolah Asal',
             'SD Negri 1 Catur Tunggal',

@@ -13,12 +13,12 @@ class ListPeriodeDaftars extends ListRecords
 {
     protected static string $resource = PeriodeDaftarResource::class;
 
-    protected static ?string $title = 'Periode Pendaftaran';
+    protected static ?string $title = 'Tahun Ajaran';
 
     protected function getHeaderActions(): array
     {
         return [
-            Actions\CreateAction::make()->color('info')->icon('heroicon-o-plus')->label('Tambah Periode Baru'),
+            Actions\CreateAction::make()->color('info')->icon('heroicon-o-plus')->label('Tambah Tahun Ajaran Baru'),
         ];
     }
 
