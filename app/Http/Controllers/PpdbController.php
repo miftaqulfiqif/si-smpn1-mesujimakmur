@@ -36,16 +36,20 @@ class PpdbController extends Controller
                 ->with('error', 'Biodata tidak ditemukan. Silakan lengkapi biodata terlebih dahulu.');
         }
 
-        $sekolahPilihan = [
-            'Pilih asal sekolah!',
-            'SD Negri 1 Catur Tunggal',
-            'SD Negri 2 Catur Tunggal',
-            'SD Negri 1 Mukti Karya',
-            'SD Negri 2 Mukti Karya',
-            'SD Negri 1 Sumber Mulya',
-            'SD Negri 1 Pematang Sukaramah',
-            'SD Negri 1 Cahya Mulya'
-        ];
+        if ($biodata->asal_sekolah) {
+            $sekolahPilihan = $biodata->asal_sekolah;
+        } else {
+            $sekolahPilihan = [
+                'Pilih Sekolah Asal',
+                'SD Negri 1 Catur Tunggal',
+                'SD Negri 2 Catur Tunggal',
+                'SD Negri 1 Mukti Karya',
+                'SD Negri 2 Mukti Karya',
+                'SD Negri 1 Sumber Mulya',
+                'SD Negri 1 Pematang Sukaramah',
+                'SD Negri 1 Cahya Mulya'
+            ];
+        }
 
         $statusPendaftaran = StatusPendaftaran::where('id_data_calon_siswa', $biodata->id)->first();
 
@@ -71,12 +75,35 @@ class PpdbController extends Controller
         $user = Auth::user();
         $biodata = DataCalonSiswa::where('id_user', $user->id)->first();
 
+        $biodataOrangtua = null;
+        $nilai = null;
+        $document = null;
+        $route = null;
+
+        if ($biodata) {
+            $biodataOrangtua = DataOrangtua::where('id_data_calon_siswa', $biodata->id)->first();
+            $nilai = NilaiRapot::where('id_data_calon_siswa', $biodata->id)->first();
+            $jalur = $user->jalur;
+
+            $document = DokumenCalonSiswa::where('id_data_calon_siswa', $biodata->id)->first();
+
+            if ($jalur == 'reguler') {
+                $route = '/ppdb/upload-document';
+            } else if ($jalur == 'prestasi') {
+                $route = '/ppdb/upload-document-prestasi';
+            } else if ($jalur == 'afirmasi') {
+                $route = '/ppdb/upload-document-afirmasi';
+            } else {
+                $route = '/error';
+            }
+        }
+
         if ($biodata && $biodata->penerima_kip !== null) {
             $biodata->penerima_kip = $biodata->penerima_kip ? 1 : 0;
         }
 
         $sekolahPilihan = [
-            'Pilih asal sekolah!',
+            'Pilih Sekolah Asal',
             'SD Negri 1 Catur Tunggal',
             'SD Negri 2 Catur Tunggal',
             'SD Negri 1 Mukti Karya',
@@ -86,7 +113,8 @@ class PpdbController extends Controller
             'SD Negri 1 Cahya Mulya'
         ];
 
-        return view('ppdb.pendaftaran.biodata-siswa', compact('user', 'sekolahPilihan', 'biodata'));
+
+        return view('ppdb.pendaftaran.biodata-siswa', compact('user', 'sekolahPilihan', 'biodata', 'biodataOrangtua', 'nilai', 'document', 'route'));
     }
 
     public function showBiodataOrangtua()
@@ -95,20 +123,55 @@ class PpdbController extends Controller
 
         $calonSiswa = DataCalonSiswa::where('id_user', $user->id)->first();
         $idDataCalonSiswa = $calonSiswa->id;
-        $biodata = DataOrangtua::where('id_data_calon_siswa', $idDataCalonSiswa)->first();
+        $biodataOrangtua = DataOrangtua::where('id_data_calon_siswa', $idDataCalonSiswa)->first();
 
-        return view('ppdb.pendaftaran.biodata-orangtua', compact('calonSiswa', 'biodata'));
+        $nilai = null;
+        $document = null;
+
+        if ($calonSiswa) {
+
+            $nilai = NilaiRapot::where('id_data_calon_siswa', $calonSiswa->id)->first();
+
+            $jalur = $user->jalur;
+
+            $document = DokumenCalonSiswa::where('id_data_calon_siswa', $calonSiswa->id)->first();
+
+            if ($jalur == 'reguler') {
+                $route = '/ppdb/upload-document';
+            } else if ($jalur == 'prestasi') {
+                $route = '/ppdb/upload-document-prestasi';
+            } else if ($jalur == 'afirmasi') {
+                $route = '/ppdb/upload-document-afirmasi';
+            } else {
+                $route = '/error';
+            }
+        }
+
+        return view('ppdb.pendaftaran.biodata-orangtua', compact('calonSiswa', 'biodataOrangtua', 'nilai', 'document', 'route'));
     }
 
     public function showFormInputNilai(Request $request)
     {
         $user = Auth::user();
-
         $calonSiswa = DataCalonSiswa::where('id_user', $user->id)->first();
         $idDataCalonSiswa = $calonSiswa->id;
         $data = NilaiRapot::where('id_data_calon_siswa', $idDataCalonSiswa)->first();
 
-        return view('ppdb.pendaftaran.input-nilai', compact('calonSiswa', 'data'));
+        $jalur = $user->jalur;
+
+        $document = DokumenCalonSiswa::where('id_data_calon_siswa', $calonSiswa->id)->first();
+
+        if ($jalur == 'reguler') {
+            $route = '/ppdb/upload-document';
+        } else if ($jalur == 'prestasi') {
+            $route = '/ppdb/upload-document-prestasi';
+        } else if ($jalur == 'afirmasi') {
+            $route = '/ppdb/upload-document-afirmasi';
+        } else {
+            $route = '/error';
+        }
+
+        return view('ppdb.pendaftaran.input-nilai', compact('calonSiswa', 'data', 'document', 'route'));
     }
 
     public function showFormUploadDocument(Request $request)

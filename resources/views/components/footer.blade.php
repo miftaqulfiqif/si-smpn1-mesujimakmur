@@ -3,7 +3,7 @@
         <div class="md:flex md:justify-between">
             <div class="mb-6 md:mb-0">
                 <a href="https://flowbite.com/" class="flex items-center">
-                    <img src="{{ asset('storage/' . $applogo->image_url) ?: asset('assets/images/logo-dikdasmen 1.png') }}"
+                    <img src="{{ asset('storage/' . ($applogo->image_url ?? 'https://flowbite.com/docs/images/logo.svg')) }}"
                         class="h-8 me-3" alt="FlowBite Logo" />
                     <span class="self-center text-2xl font-semibold whitespace-nowrap text-white">SMP Negeri 1 Mesuji
                         Makmur</span>
@@ -16,7 +16,7 @@
             </div>
             <div class="grid grid-cols-2 gap-8 sm:gap-6 sm:grid-cols-3">
                 <div>
-                    <h2 class="mb-6 text-sm font-semibold text-gray-900 uppercase text-white">Resources</h2>
+                    <h2 class="mb-6 text-sm font-semibold uppercase text-white">Resources</h2>
                     <ul class="text-white font-medium">
                         <li class="mb-4">
                             <a href="/achievment" class="hover:underline">Prestasi</a>
@@ -30,7 +30,7 @@
                     </ul>
                 </div>
                 <div>
-                    <h2 class="mb-6 text-sm font-semibold text-gray-900 uppercase text-white">Follow us</h2>
+                    <h2 class="mb-6 text-sm font-semibold uppercase text-white">Follow us</h2>
                     <ul class="text-white font-medium">
                         <li class="mb-4">
                             <a href="https://www.facebook.com/share/1DgGuVeUdZ/?mibextid=wwXIfr"

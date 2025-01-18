@@ -210,7 +210,8 @@ class DataCalonSiswaResource extends Resource
                         ->label('Status Pendaftaran')
                         ->options([
                             'processing' => 'Lolos Pendataan',
-                            'failure' => 'Gagal'
+                            'failure' => 'Gagal',
+                            'accepted' => 'Diterima'
                         ])
                         ->required()
                 ]),
@@ -230,6 +231,9 @@ class DataCalonSiswaResource extends Resource
                     ->searchable(),
                 Tables\Columns\TextColumn::make('user.nisn')
                     ->label('NISN')
+                    ->searchable(),
+                Tables\Columns\TextColumn::make('user.jalur')
+                    ->label('Jalur')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('nik')
                     ->searchable(),

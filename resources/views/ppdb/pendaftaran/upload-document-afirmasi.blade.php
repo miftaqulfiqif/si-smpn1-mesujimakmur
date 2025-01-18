@@ -94,7 +94,12 @@
                     <div class="lg:grid lg:grid-cols-3 gap-4">
                         @foreach ($documents as $index => $document)
                             <div>
-                                <label for="" class="label font-medium"> {{ $document->nama }}</label>
+                                <div class="flex">
+                                    <label for="" class="label font-medium"> {{ $document->nama }}</label>
+                                    @error("files.{$document->id}")
+                                        <span class="text-red-500 text-sm">{{ $message }}</span>
+                                    @enderror
+                                </div>
 
                                 {{-- Input file --}}
                                 <label for="uploadFile{{ $index }}"
@@ -108,21 +113,18 @@
                                     </svg>
                                     {{ $document->nama }} ({{ $document->isRequired ? 'Wajib' : 'Opsional' }})
                                     <input type="file" id="uploadFile{{ $index }}"
-                                        name="files[{{ $document->id }}]" class="hidden" />
+                                        name="files[{{ $document->id }}]" class="hidden"
+                                        reaquire="{{ $document->isRequired ? 'required' : '' }}" />
                                     <p id="selectedFileName{{ $index }}"
                                         class="text-xs font-medium text-gray-400 mt-2">
                                     </p>
                                 </label>
 
-                                {{-- Tampilkan error untuk dokumen wajib --}}
-                                @error("files.{$document->id}")
-                                    <span class="text-red-500 text-sm">{{ $message }}</span>
-                                @enderror
-
                                 {{-- Tampilkan dokumen yang sudah diunggah --}}
                                 @php
                                     $uploadedDocument = $data->where('id_dokumen', $document->id)->first();
                                 @endphp
+
                                 @if ($uploadedDocument && $uploadedDocument->path_url)
                                     <div class="mt-2 text-center">
                                         <a href="{{ asset('storage/' . $uploadedDocument->path_url) }}" target="_blank"
