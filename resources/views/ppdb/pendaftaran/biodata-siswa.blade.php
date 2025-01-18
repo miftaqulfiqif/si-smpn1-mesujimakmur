@@ -4,6 +4,28 @@
 
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
 
+    <style>
+        .select2-container .select2-selection--single {
+            height: 100%;
+            /* Sesuaikan tinggi dengan elemen lainnya */
+            border-radius: 0.5rem;
+            /* Sesuaikan dengan Tailwind atau framework lainnya */
+            border: 1px solid #d1d5db;
+            /* Sesuaikan warna border */
+            padding: 0.7rem;
+            /* Padding agar seimbang */
+            background-color: white;
+        }
+
+        .select2-container--default .select2-selection--single .select2-selection__rendered {
+            line-height: 1.5rem;
+            /* Tinggi teks agar sejajar */
+        }
+
+        .select2-container--default .select2-selection--single .select2-selection__arrow {
+            height: 100%;
+        }
+    </style>
 @endsection
 @section('content')
     <section class="w-full h-[100vh] px-3 md:px-10 lg:px-14 pt-16 overflow-hidden">
@@ -14,6 +36,7 @@
                     <progress class="progress progress-primary bg-[#7a1cac8f] w-56" value="1" max="100"></progress>
                     <span class="text-sm">0%</span>
                 </li>
+
                 <li class="flex flex-col md:flex-row items-center">
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
                         stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
@@ -24,41 +47,98 @@
                         Biodata
                         Calon Siswa</span>
                 </li>
+
                 <li class="hidden md:block md:border-l-2 border-black border-dashed ml-[10px] w-10 md:w-0 h-1 md:h-10">
                 </li>
-                <li class="flex flex-col md:flex-row items-center">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
-                        stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
-                        <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-                    </svg>
-                    <span class="ml-2 text-[10px] md:text-[15px] max-w-[70px] text-center md:text-left md:max-w-fit">Data
-                        Orang Tua Calon
-                        Siswa</span>
-                </li>
+
+                @if ($biodataOrangtua)
+                    <a href="/ppdb/pendataran-biodata-orangtua">
+                        <li class="flex flex-col md:flex-row items-center">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="rgba(144, 238, 144, 0.5)"
+                                viewBox="0 0 24 24" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                                stroke-width="2">
+                                <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                            </svg>
+                            <span
+                                class="ml-2 text-[10px] font-bold md:text-[15px] max-w-[70px] text-center md:text-left md:max-w-fit">
+                                Biodata
+                                Calon Siswa</span>
+                        </li>
+                    </a>
+                @else
+                    <li class="flex flex-col md:flex-row items-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
+                            stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
+                            <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                        </svg>
+                        <span
+                            class="ml-2 text-[10px] md:text-[15px] max-w-[70px] text-center md:text-left md:max-w-fit">Data
+                            Orang Tua Calon
+                            Siswa</span>
+                    </li>
+                @endif
+
                 <li class="hidden md:block md:border-l-2 border-black border-dashed ml-[10px] w-10 md:w-0 h-1 md:h-10">
                 </li>
-                <li class="flex flex-col md:flex-row items-center">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
-                        stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
-                        <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-                    </svg>
-                    <span class="ml-2 text-[10px] md:text-[15px] max-w-[70px] text-center md:text-left md:max-w-fit">Input
-                        Nilai</span>
-                </li>
+
+                @if ($nilai)
+                    <a href="/ppdb/input-nilai">
+                        <li class="flex flex-col md:flex-row items-center">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="rgba(144, 238, 144, 0.5)"
+                                viewBox="0 0 24 24" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                                stroke-width="2">
+                                <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                            </svg>
+                            <span
+                                class="ml-2 text-[10px] font-bold md:text-[15px] max-w-[70px] text-center md:text-left md:max-w-fit">
+                                Input Nilai</span>
+                        </li>
+                    </a>
+                @else
+                    <li class="flex flex-col md:flex-row items-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
+                            stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
+                            <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                        </svg>
+                        <span
+                            class="ml-2 text-[10px] md:text-[15px] max-w-[70px] text-center md:text-left md:max-w-fit">Input
+                            Nilai</span>
+                    </li>
+                @endif
+
                 <li class="hidden md:block md:border-l-2 border-black border-dashed ml-[10px] w-10 md:w-0 h-1 md:h-10">
                 </li>
-                <li class="flex flex-col md:flex-row items-center">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
-                        stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
-                        <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-                    </svg>
-                    <span
-                        class="ml-2 text-[10px] md:text-[15px] max-w-[70px] text-center md:text-left md:max-w-fit">Dokumen</span>
-                </li>
+
+                @if ($document)
+                    <a href="{{ $route }}">
+                        <li class="flex flex-col md:flex-row items-center">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="rgba(144, 238, 144, 0.5)"
+                                viewBox="0 0 24 24" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                                stroke-width="2">
+                                <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                            </svg>
+                            <span
+                                class="ml-2 text-[10px] font-bold md:text-[15px] max-w-[70px] text-center md:text-left md:max-w-fit">
+                                Dokumen</span>
+                        </li>
+                    </a>
+                @else
+                    <li class="flex flex-col md:flex-row items-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
+                            stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
+                            <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                        </svg>
+                        <span
+                            class="ml-2 text-[10px] md:text-[15px] max-w-[70px] text-center md:text-left md:max-w-fit">Dokumen</span>
+                    </li>
+                @endif
+
                 @if ($errors->any())
                     <div class="bg-[#ff252579] border-red-500 w-full p-6 rounded-3xl flex flex-row mt-10">
                         <div>
-                            <span class="text-sm mx-auto">{{ $errors->first('error') }}</span>
+                            <span class="text-sm mx-auto">
+                                {{ $errors->first('error') ? $errors->first('error') : 'Pastikan semua data sudah terisi' }}
+                            </span>
                         </div>
                     </div>
                 @endif
@@ -69,16 +149,25 @@
                     @csrf
                     <div class="lg:flex gap-4">
                         <li class="form-control gap-1 w-full">
-                            <label for="name" class="label font-medium">Nama Lengkap</label>
+                            <div class="flex">
+                                <label for="name" class="label font-medium">Nama Lengkap</label>
+
+                            </div>
                             <input type="text" id="name" name="name" value="{{ $user->name }}"
                                 class="input bg-white input-bordered w-full" required maxlength="255">
                             @error('name')
-                                <span class="text-red-500 text-sm">{{ $message }}</span>
+                                <p class="text-sm text-red-500">*</p>
                             @enderror
                         </li>
                         <li class="form-control gap-1 lg:w-1/2">
-                            <label for="jenis_kelamin" class="label font-medium">Jenis Kelamin</label>
-                            <select id="jenis_kelamin" name="jenis_kelamin" class="select select-bordered w-full bg-white">
+                            <div class="flex">
+                                <label for="jenis_kelamin" class="label font-medium">Jenis Kelamin</label>
+                                @error('jenis_kelamin')
+                                    <p class="text-sm text-red-500">*</p>
+                                @enderror
+                            </div>
+                            <select id="jenis_kelamin" name="jenis_kelamin"
+                                class="select select-bordered w-full bg-white">
                                 <option disabled selected>Pilih Jenis Kelamin</option>
                                 <option value="Laki-laki"
                                     {{ old('jenis_kelamin', $biodata->jenis_kelamin ?? '') == 'Laki-laki' ? 'selected' : '' }}>
@@ -87,56 +176,68 @@
                                     {{ old('jenis_kelamin', $biodata->jenis_kelamin ?? '') == 'Perempuan' ? 'selected' : '' }}>
                                     Perempuan</option>
                             </select>
-                            @error('jenis_kelamin')
-                                <span class="text-red-500 text-sm">{{ $message }}</span>
-                            @enderror
                         </li>
                     </div>
                     <div class="lg:flex gap-4">
                         <li class="form-control gap-1 lg:w-full">
-                            <label for="nik" class="label font-medium">NIK</label>
+                            <div class="flex">
+                                <label for="nik" class="label font-medium">NIK</label>
+                                @error('nik')
+                                    <p class="text-sm text-red-500 pt-1">*</p>
+                                @enderror
+                            </div>
                             <input type="text" id="nik" name="nik"
                                 value="{{ old('nik', $biodata->nik ?? '') }}" placeholder="Masukkan NIK"
                                 class="input bg-white input-bordered w-full" maxlength="16">
-                            @error('nik')
-                                <span class="text-red-500 text-sm">{{ $message }}</span>
-                            @enderror
+
                         </li>
                         <li class="form-control gap-1 lg:w-1/4">
-                            <label for="tempat_lahir" class="label font-medium">Tempat Lahir</label>
+                            <div class="flex">
+                                <label for="tempat_lahir" class="label font-medium">Tempat Lahir</label>
+                                @error('tempat_lahir')
+                                    <p class="text-sm text-red-500 pt-1">*</p>
+                                @enderror
+                            </div>
                             <input type="text" id="tempat_lahir" name="tempat_lahir"
                                 value="{{ old('tempat_lahir', $biodata->tempat_lahir ?? '') }}"
                                 placeholder="Masukkan Tempat Lahir" class="input bg-white input-bordered w-full">
-                            @error('tempat_lahir')
-                                <span class="text-red-500 text-sm">{{ $message }}</span>
-                            @enderror
                         </li>
                         <li class="form-control gap-1 lg:w-1/4">
-                            <label for="tgl_lahir" class="label font-medium">Tanggal Lahir</label>
+                            <div class="flex">
+                                <label for="tgl_lahir" class="label font-medium">Tanggal Lahir</label>
+                                @error('tgl_lahir')
+                                    <p class="text-sm text-red-500 pt-1">*</p>
+                                @enderror
+                            </div>
                             <input type="date" id="tgl_lahir" name="tgl_lahir"
                                 value="{{ old('tgl_lahir', $biodata->tgl_lahir ?? '') }}"
                                 placeholder="Pilih Tanggal Lahir" class="input bg-white input-bordered w-full">
-                            @error('tgl_lahir')
-                                <span class="text-red-500 text-sm">{{ $message }}</span>
-                            @enderror
                         </li>
                     </div>
 
                     <li class="form-control gap-1">
-                        <label for="alamat" class="label font-medium">Alamat</label>
+                        <div class="flex">
+                            <label for="alamat" class="label font-medium">Alamat</label>
+                            @error('alamat')
+                                <p class="text-sm text-red-500 pt-1">*</p>
+                            @enderror
+                        </div>
                         <input type="text" id="alamat" name="alamat"
                             value="{{ old('alamat', $biodata->alamat ?? '') }}" placeholder="Masukkan alamat Lengkap"
                             class="input bg-white input-bordered w-full">
-                        @error('alamat')
-                            <span class="text-red-500 text-sm">{{ $message }}</span>
-                        @enderror
+
                     </li>
 
                     <div class="lg:flex gap-4">
                         <li class="form-control gap-1 lg:w-full">
-                            <label for="penerima_kip" class="label font-medium">Penerima KIP?</label>
+                            <div class="flex">
+                                <label for="penerima_kip" class="label font-medium">Penerima KIP?</label>
+                                @error('penerima_kip')
+                                    <p class="text-sm text-red-500 pt-1">*</p>
+                                @enderror
+                            </div>
                             <select id="penerima_kip" name="penerima_kip" class="select select-bordered w-full bg-white">
-                                <option value="">Apakah Anda penerima KIP?</option>
+                                <option disabled selected value="">Apakah Anda penerima KIP?</option>
                                 <option value="1"
                                     {{ old('penerima_kip', $biodata->penerima_kip ?? '') == 1 ? 'selected' : '' }}>Ya
                                 </option>
@@ -144,58 +245,69 @@
                                     {{ old('penerima_kip', $biodata->penerima_kip ?? '') == 0 ? 'selected' : '' }}>Tidak
                                 </option>
                             </select>
-                            @error('penerima_kip')
-                                <span class="text-red-500 text-sm">{{ $message }}</span>
-                            @enderror
                         </li>
 
                         <li class="form-control gap-1 w-full" id="kip_section" style="display: none;">
-                            <label for="no_kip" class="label font-medium">Nomor KIP</label>
+                            <div class="flex">
+                                <label for="no_kip" class="label font-medium">Nomor KIP</label>
+                                @error('no_kip')
+                                    <p class="text-sm text-red-500 pt-1">*</p>
+                                @enderror
+                            </div>
                             <input type="text" id="no_kip" name="nomor_kip"
                                 value="{{ old('no_kip', $biodata->no_kip ?? '') }}" placeholder="Masukkan Nomor KIP"
                                 class="input bg-white input-bordered w-full">
-                            @error('no_kip')
-                                <span class="text-red-500 text-sm">{{ $message }}</span>
-                            @enderror
                         </li>
                     </div>
 
                     <div class="lg:flex gap-4">
-
                         <li class="form-control gap-1 lg:w-1/2">
-                            <label for="asal_sekolah" class="label font-medium">Asal Sekolah</label>
+                            <div class="flex">
+                                <label for="asal_sekolah" class="label font-medium">Asal Sekolah</label>
+                                @error('asal_sekolah')
+                                    <p class="text-sm text-red-500 pt-1">*</p>
+                                @enderror
+                            </div>
                             <select id="asal_sekolah" name="asal_sekolah"
                                 class="select select2 select-bordered w-full bg-white" style="width: 100% !important;">
-                                @foreach ($sekolahPilihan as $sekolah)
-                                    <option value="{{ $sekolah }}"
-                                        {{ old('asal_sekolah', $biodata->asal_sekolah ?? '') == $sekolah ? 'selected' : '' }}>
-                                        {{ $sekolah }}
+                                <option value="" disabled
+                                    {{ old('asal_sekolah', $biodata->asal_sekolah ?? '') == '' ? 'selected' : '' }}>
+                                    Pilih asal sekolah
+                                </option>
+                                <!-- Tambahkan opsi manual jika ada nilai yang tidak ada dalam array -->
+                                @if (!in_array(old('asal_sekolah', $biodata->asal_sekolah ?? ''), $sekolahPilihan))
+                                    <option value="{{ old('asal_sekolah', $biodata->asal_sekolah ?? '') }}" selected>
+                                        {{ old('asal_sekolah', $biodata->asal_sekolah ?? '') }}
                                     </option>
-                                @endforeach
+                                @endif
                             </select>
-                            @error('asal_sekolah')
-                                <span class="text-red-500 text-sm">{{ $message }}</span>
-                            @enderror
                         </li>
 
                         <div class="flex gap-4 lg:w-1/2">
                             <li class="form-control flex-1 gap-1">
-                                <label for="tinggi_badan" class="label font-medium">Tinggi Badan (Berdasarkan cm)</label>
+                                <div class="flex">
+                                    <label for="tinggi_badan" class="label font-medium">Tinggi Badan (Berdasarkan
+                                        cm)</label>
+                                    @error('tinggi_badan')
+                                        <p class="text-sm text-red-500 pt-1">*</p>
+                                    @enderror
+                                </div>
                                 <input type="text" id="tinggi_badan" name="tinggi_badan"
                                     value="{{ old('tinggi_badan', $biodata->tinggi_badan ?? '') }}"
                                     placeholder="Masukkan Tinggi Badan" class="input bg-white input-bordered w-full">
-                                @error('tinggi_badan')
-                                    <span class="text-red-500 text-sm">{{ $message }}</span>
-                                @enderror
                             </li>
                             <li class="form-control flex-1 gap-1">
-                                <label for="berat_badan" class="label font-medium">Berat Badan (Berdasarkan kg)</label>
+                                <div class="flex">
+                                    <label for="berat_badan" class="label font-medium">Berat Badan (Berdasarkan
+                                        kg)</label>
+                                    @error('berat_badan')
+                                        <p class="text-sm text-red-500 pt-1">*</p>
+                                    @enderror
+                                </div>
                                 <input type="text" id="berat_badan" name="berat_badan"
                                     value="{{ old('berat_badan', $biodata->berat_badan ?? '') }}"
                                     placeholder="Masukkan Berat Badan" class="input bg-white input-bordered w-full">
-                                @error('berat_badan')
-                                    <span class="text-red-500 text-sm">{{ $message }}</span>
-                                @enderror
+
                             </li>
                         </div>
                     </div>
@@ -203,28 +315,37 @@
                     <div class="lg:flex gap-4">
 
                         <li class="form-control gap-1 lg:w-1/2">
-                            <label for="kegemaran" class="label font-medium">Kegamaran atau Hobi</label>
+                            <div class="flex">
+                                <label for="kegemaran" class="label font-medium">Kegamaran atau Hobi</label>
+                                @error('kegemaran')
+                                    <p class="text-sm text-red-500 pt-1">*</p>
+                                @enderror
+                            </div>
                             <input type="text" id="kegemaran" name="kegemaran"
                                 value="{{ old('kegemaran', $biodata->kegemaran ?? '') }}"
                                 placeholder="Masukkan Kegemaran atau Hobi" class="input bg-white input-bordered w-full">
-                            @error('kegemaran')
-                                <span class="text-red-500 text-sm">{{ $message }}</span>
-                            @enderror
                         </li>
                         <li class="form-control gap-1 lg:w-1/2">
-                            <label for="notelp" class="label font-medium">Nomor Telpon</label>
+                            <div class="flex">
+                                <label for="notelp" class="label font-medium">Nomor Telpon</label>
+                                @error('notelp')
+                                    <p class="text-sm text-red-500 pt-1">*</p>
+                                @enderror
+                            </div>
                             <input type="text" id="notelp" name="notelp"
                                 value="{{ old('notelp', $biodata->notelp ?? '') }}" placeholder="Masukkan Nomor Telepon"
                                 class="input bg-white input-bordered w-full">
-                            @error('notelp')
-                                <span class="text-red-500 text-sm">{{ $message }}</span>
-                            @enderror
                         </li>
                     </div>
 
                     <div class="lg:flex gap-4">
                         <li class="form-control gap-1 w-1/2">
-                            <label class="label font-medium">Upload Foto</label>
+                            <div class="flex">
+                                <label class="label font-medium">Upload Foto</label>
+                                @error('foto')
+                                    <p class="text-sm text-red-500 pt-1">*</p>
+                                @enderror
+                            </div>
                             <label for="foto"
                                 class="bg-white text-gray-500 font-semibold text-base rounded max-w h-36 flex flex-col items-center justify-center cursor-pointer border-2 border-gray-300 border-dashed font-[sans-serif]">
                                 <svg xmlns="http://www.w3.org/2000/svg" class="w-11 mb-2 fill-gray-500"
@@ -242,9 +363,6 @@
                                 <p id="selectedFileName" class="text-xs font-medium text-gray-400 mt-2"></p>
                                 <p class="text-xs font-medium text-gray-400 mt-2">PNG, JPG and JPEG are Allowed.</p>
                             </label>
-                            @error('foto')
-                                <span class="text-red-500 text-sm">{{ $message }}</span>
-                            @enderror
                         </li>
                         <div id="imagePreview" class="mt-4">
                             @if ($biodata && $biodata->foto)
@@ -261,7 +379,7 @@
 
                     <li class="flex justify-center">
                         <button type="submit" id="submit"
-                            class="btn px-10 bg-slate-950 text-white mt-4">Submit</button>
+                            class="btn px-10 bg-slate-950 text-white mt-4">Selanjutnya</button>
                     </li>
                 </form>
             </ul>
@@ -280,8 +398,36 @@
             }
         });
 
+        // Menambahkan array sekolahPilihan di dalam script
+        const sekolahPilihan = [
+            'Pilih Sekolah Asal',
+            'SD Negri 1 Catur Tunggal',
+            'SD Negri 2 Catur Tunggal',
+            'SD Negri 1 Mukti Karya',
+            'SD Negri 2 Mukti Karya',
+            'SD Negri 1 Sumber Mulya',
+            'SD Negri 1 Pematang Sukaramah',
+            'SD Negri 1 Cahya Mulya'
+        ];
+
+        const selectElement = document.getElementById('asal_sekolah');
+
+        sekolahPilihan.forEach(function(sekolah) {
+            const option = document.createElement('option');
+            option.value = sekolah;
+            option.textContent = sekolah;
+
+            // Menandai opsi yang dipilih berdasarkan old() atau biodata->asal_sekolah
+            if ('{{ old('asal_sekolah', $biodata->asal_sekolah ?? '') }}' === sekolah) {
+                option.selected = true;
+            }
+
+            selectElement.appendChild(option);
+        });
+
+        // Inisialisasi select2 setelah opsi ditambahkan
         $(".select2").select2({
-            tags: "true",
+            tags: true,
             placeholder: "Pilih salah satu atau ketik manual",
             allowClear: true
         });
