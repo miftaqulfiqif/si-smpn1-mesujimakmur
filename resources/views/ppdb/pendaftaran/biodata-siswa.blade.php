@@ -271,11 +271,14 @@
                             </div>
                             <select id="asal_sekolah" name="asal_sekolah"
                                 class="select select2 select-bordered w-full bg-white">
-                                @if ($biodata->asal_sekolah)
-                                    <option value="{{ $biodata->asal_sekolah }}" selected>
-                                        {{ $biodata->asal_sekolah }}
-                                    </option>
+                                @if ($biodata)
+                                    @if ($biodata->asal_sekolah)
+                                        <option value="{{ $biodata->asal_sekolah }}" selected>
+                                            {{ $biodata->asal_sekolah }}
+                                        </option>
+                                    @endif
                                 @endif
+
                             </select>
                         </li>
 
@@ -395,7 +398,7 @@
         });
 
         const sekolahPilihan = [
-            'Pilih Sekolah Asal',
+            ' -- Pilih Sekolah Asal -- ',
             'SD Negri 1 Catur Tunggal',
             'SD Negri 2 Catur Tunggal',
             'SD Negri 1 Mukti Karya',
