@@ -40,7 +40,7 @@ class PpdbIndexController extends Controller
 
         if ($statusPendaftaran && $statusPendaftaran->status == 'processing') {
 
-            if ($user && $user->jalur == 'reguler') {
+            if ($user && $user->jalur == 'zonasi') {
                 $peringkatExist = PeringkatCalonSiswa::where('id_data_calon_siswa', $idDataCalonSiswa)->first();
             } else if ($user && $user->jalur == 'prestasi') {
                 $peringkatExist = PeringkatCalonSiswaPrestasi::where('id_data_calon_siswa', $idDataCalonSiswa)->first();
@@ -51,7 +51,7 @@ class PpdbIndexController extends Controller
                 $nilaiSiswa = NilaiRapot::where('id_data_calon_siswa', $idDataCalonSiswa)->first();
                 if ($nilaiSiswa) {
                     // Simpan data ke tabel peringkat calon siswa
-                    if ($user && $user->jalur == 'reguler') {
+                    if ($user && $user->jalur == 'zonasi') {
                         PeringkatCalonSiswa::create([
                             'id_data_calon_siswa' => $idDataCalonSiswa,
                             'id_nilai' => $nilaiSiswa->id,
@@ -82,7 +82,7 @@ class PpdbIndexController extends Controller
             return redirect()->back()->with('error', 'Tidak ada periode pendaftaran aktif saat ini.');
         }
 
-        if ($user->jalur == 'reguler') {
+        if ($user->jalur == 'zonasi') {
             $peringkatSiswa = PeringkatCalonSiswa::with(['dataCalonSiswa.user', 'nilaiSiswa'])
                 ->where('id_periode', $periodeDaftar->id)
                 ->get()

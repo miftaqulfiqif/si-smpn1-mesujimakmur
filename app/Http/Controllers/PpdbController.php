@@ -44,7 +44,7 @@ class PpdbController extends Controller
 
             $document = DokumenCalonSiswa::where('id_data_calon_siswa', $biodata->id)->first();
 
-            if ($jalur == 'reguler') {
+            if ($jalur == 'zonasi') {
                 $route = '/ppdb/upload-document';
             } else if ($jalur == 'prestasi') {
                 $route = '/ppdb/upload-document-prestasi';
@@ -96,7 +96,7 @@ class PpdbController extends Controller
 
             $document = DokumenCalonSiswa::where('id_data_calon_siswa', $biodata->id)->first();
 
-            if ($jalur == 'reguler') {
+            if ($jalur == 'zonasi') {
                 $route = '/ppdb/upload-document';
             } else if ($jalur == 'prestasi') {
                 $route = '/ppdb/upload-document-prestasi';
@@ -134,7 +134,7 @@ class PpdbController extends Controller
 
             $document = DokumenCalonSiswa::where('id_data_calon_siswa', $calonSiswa->id)->first();
 
-            if ($jalur == 'reguler') {
+            if ($jalur == 'zonasi') {
                 $route = '/ppdb/upload-document';
             } else if ($jalur == 'prestasi') {
                 $route = '/ppdb/upload-document-prestasi';
@@ -159,7 +159,7 @@ class PpdbController extends Controller
 
         $document = DokumenCalonSiswa::where('id_data_calon_siswa', $calonSiswa->id)->first();
 
-        if ($jalur == 'reguler') {
+        if ($jalur == 'zonasi') {
             $route = '/ppdb/upload-document';
         } else if ($jalur == 'prestasi') {
             $route = '/ppdb/upload-document-prestasi';
@@ -438,7 +438,7 @@ class PpdbController extends Controller
 
             $user = Auth::user();
             $jalur = $user->jalur;
-            if ($jalur == 'reguler') {
+            if ($jalur == 'zonasi') {
                 return redirect()->route('upload-document')->with('success', 'Data nilai berhasil disimpan!');
             } else if ($jalur == 'prestasi') {
                 return redirect()->route('upload-document-prestasi')->with('success', 'Data nilai berhasil disimpan!');
