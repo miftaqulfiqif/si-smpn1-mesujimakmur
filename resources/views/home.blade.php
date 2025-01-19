@@ -60,16 +60,7 @@
             </div>
             <div class="flex max-w-max mx-auto">
                 <img src="{{ asset('assets/images/book.png') }}" alt="" srcset="" class="absolute"><span>
-                    <p class="static text-[#590E79] max-w-[450px] pl-8 text-xl text-justify">Kami berkomitmen untuk
-                        menciptakan
-                        lingkungan
-                        pendidikan
-                        yang
-                        penuh
-                        inspirasi,
-                        di
-                        mana setiap siswa
-                        didorong untuk menjadi pemimpin masa depan.</p>
+                    <p class="static text-[#590E79] max-w-[450px] pl-8 text-xl text-justify">Mas Rexsi Gay</p>
                 </span>
             </div>
         </div>
