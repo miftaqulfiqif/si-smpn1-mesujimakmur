@@ -69,18 +69,18 @@
                     </p>
 
                     @if ($statusPendaftaran->status == 'pending')
-                        <p class="text-lg bg-[#5cff3b65] px-4 py-2 rounded-2xl max-w-fit">Sedang Dalam Pengecekan Berkas ...
+                        <p class="text-lg bg-[#e1ff0065] px-4 py-2 rounded-2xl max-w-fit">Sedang Dalam Pengecekan Berkas ...
                         </p>
                     @elseif ($statusPendaftaran->status == 'processing')
-                        <p class="text-lg bg-[#5cff3b65] px-4 py-2 rounded-2xl max-w-fit">Sedang Dalam Proses Perangkingan
+                        <p class="text-lg bg-[#fff20065] px-4 py-2 rounded-2xl max-w-fit">Sedang Dalam Proses Perangkingan
                         </p>
                         <p class="mt-4">Silahkan mengecek peringkat secara berkala</p>
                     @elseif ($statusPendaftaran->status == 'accepted')
                         <p class="text-lg bg-[#5cff3b65] px-4 py-2 rounded-2xl max-w-fit">Selamat Anda Diterima</p>
                         <p class="mt-4">Silahkan melakuakan daftar ulang dengan datang ke Sekolah SMPN 1 Mesuji Makmur</p>
-                        <a href="#">
+                        {{-- <a href="#">
                             <p class="text-sm bg-blue-500 text-white px-3 py-2 rounded-2xl max-w-fit">Bayar Daftar Ulang</p>
-                        </a>
+                        </a> --}}
                     @elseif ($statusPendaftaran->status == 'rejected')
                         <p class="text-lg bg-[#fa000485] px-4 py-2 rounded-2xl max-w-fit">Maaf, Anda belum di terima</p>
                         <p class="mt-4">Tetap Semangat dan Jangan Putus Asa </p>

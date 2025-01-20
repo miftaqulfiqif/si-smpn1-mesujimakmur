@@ -74,13 +74,15 @@
                 @endif
                 @if (!empty($errors))
                     @if ($errors->any())
-                        @foreach ($errors->all() as $error)
-                            <div class="bg-[#ff252579] border-red-500 w-full p-6 rounded-3xl flex flex-row mt-10">
-                                <div class="">
-                                    <span class="text-sm mx-auto">{{ $error }}</span>
+                        <div class="flex flex-col mt-10 gap-2">
+                            @foreach ($errors->all() as $error)
+                                <div class="bg-[#ff252579] border-red-500 w-full p-6 rounded-3xl flex flex-row">
+                                    <div class="">
+                                        <span class="text-sm mx-auto">{{ $error }}</span>
+                                    </div>
                                 </div>
-                            </div>
-                        @endforeach
+                            @endforeach
+                        </div>
                     @endif
                 @endif
             </ul>
