@@ -21,7 +21,7 @@
         <div class="my-5">
             <p>Selamat Datang</p>
             <p class="text-3xl font-bold">{{ $namaSiswa }}</p>
-            <p class="text-lg mt-2">Anda Terdaftar dengan Jalur {{ Str::upper($jalurSiswa) }}</p>
+            <p class="text-lg mt-2">Anda Terdaftar Dengan Jalur {{ Str::upper($jalurSiswa) }}</p>
         </div>
         <div class="bg-[#FAF5FF] max-w-full p-8 rounded-3xl flex flex-row justify-between">
             <div class="flex flex-col">
