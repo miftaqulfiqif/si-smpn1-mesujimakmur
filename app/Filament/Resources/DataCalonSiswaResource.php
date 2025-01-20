@@ -14,6 +14,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use App\Filament\Resources\DataCalonSiswaResource\RelationManagers\DataOrangtuaRelationManager;
 use App\Filament\Resources\DataOrangtuaResource\RelationManagers\DataOrangtuaRelationManager as RelationManagersDataOrangtuaRelationManager;
+use App\Models\DokumenCalonSiswa;
 
 class DataCalonSiswaResource extends Resource
 {
@@ -194,12 +195,18 @@ class DataCalonSiswaResource extends Resource
                         ->disabled(),
                 ]),
                 Forms\Components\Section::make()->schema([
-                    Forms\Components\Repeater::make('Dokumen Persyaratan')->relationship('dokumenCalonSiswa')->columns(2)->schema([
-                        Forms\Components\FileUpload::make('path_url')
-                            ->required()
-                            ->downloadable()
-                            ->disabled(),
-                    ])
+                    Forms\Components\Repeater::make('Dokumen Persyaratan')
+                        ->relationship('dokumenCalonSiswa')
+                        ->columns(2)
+                        ->schema([
+                            Forms\Components\TextInput::make('nama_dokumen  ')
+                                ->label('Nama Dokumen')
+                                ->disabled(),
+                            Forms\Components\FileUpload::make('path_url')
+                                ->required()
+                                ->downloadable()
+                                ->disabled(),
+                        ]),
                 ]),
                 Forms\Components\Section::make()->relationship('statusPendaftaran')->schema([
                     Forms\Components\TextInput::make('status')
