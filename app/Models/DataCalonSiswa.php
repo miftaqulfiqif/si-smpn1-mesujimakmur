@@ -55,6 +55,17 @@ class DataCalonSiswa extends Model
         return $this->hasOne(StatusPendaftaran::class, 'id_data_calon_siswa');
     }
 
+    public function getStatusPendaftaran($id_data_calon_siswa)
+    {
+        $statusPendaftaran = $this->statusPendaftaran()->where('id_data_calon_siswa', $id_data_calon_siswa)->first();
+
+        if ($statusPendaftaran) {
+            return $statusPendaftaran->status;
+        }
+
+        return 'Status tidak ditemukan';
+    }
+
     // public function buktiPembayaran(){
     //     return $this->hasOne(BuktiPembayaran::class, 'id_data_calon_siswa');
     // }

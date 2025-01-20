@@ -74,13 +74,15 @@
                 @endif
                 @if (!empty($errors))
                     @if ($errors->any())
-                        @foreach ($errors->all() as $error)
-                            <div class="bg-[#ff3030] border-red-500 w-full p-6 rounded-3xl flex flex-row mt-10">
-                                <div class="">
-                                    <span class="text-sm mx-auto">{{ $error }}</span>
+                        <div class="flex flex-col mt-10 gap-2">
+                            @foreach ($errors->all() as $error)
+                                <div class="bg-[#ff252579] border-red-500 w-full p-6 rounded-3xl flex flex-row">
+                                    <div class="">
+                                        <span class="text-sm mx-auto">{{ $error }}</span>
+                                    </div>
                                 </div>
-                            </div>
-                        @endforeach
+                            @endforeach
+                        </div>
                     @endif
                 @endif
             </ul>
@@ -94,7 +96,12 @@
                     <div class="lg:grid lg:grid-cols-3 gap-4">
                         @foreach ($documents as $index => $document)
                             <div>
-                                <label for="" class="label font-medium"> {{ $document->nama }}</label>
+                                <div class="flex">
+                                    <label for="" class="label font-medium"> {{ $document->nama }}</label>
+                                    @error("files.{$document->id}")
+                                        <p class="text-sm text-red-500 pt-1">*</p>
+                                    @enderror
+                                </div>
 
                                 {{-- Input file --}}
                                 <label for="uploadFile{{ $index }}"
@@ -113,11 +120,6 @@
                                         class="text-xs font-medium text-gray-400 mt-2">
                                     </p>
                                 </label>
-
-                                {{-- Tampilkan error untuk dokumen wajib --}}
-                                @error("files.{$document->id}")
-                                    <span class="text-red-500 text-sm">{{ $message }}</span>
-                                @enderror
 
                                 {{-- Tampilkan dokumen yang sudah diunggah --}}
                                 @php
