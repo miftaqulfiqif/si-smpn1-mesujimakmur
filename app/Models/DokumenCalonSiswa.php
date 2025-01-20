@@ -16,7 +16,7 @@ class DokumenCalonSiswa extends Model
 
     public function dataCalonSiswa()
     {
-        return $this->belongsTo(DataCalonSiswa::class, 'id');
+        return $this->belongsTo(DataCalonSiswa::class, 'id_data_calon_siswa');
     }
 
     public function dokumen()
@@ -27,5 +27,9 @@ class DokumenCalonSiswa extends Model
     public function dokumenPrestasi()
     {
         return $this->belongsTo(DokumenPrestasi::class, 'id_dokumen');
+    }
+    public function getNamaDokumenAttribute()
+    {
+        return $this->dokumenPrestasi?->nama ?? 'Tidak Ada Nama';
     }
 }
