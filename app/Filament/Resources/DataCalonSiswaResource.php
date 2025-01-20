@@ -110,7 +110,6 @@ class DataCalonSiswaResource extends Resource
                                 ->required()
                                 ->disabled(),
                             Forms\Components\TextInput::make('notelp')
-                                ->tel()
                                 ->required()
                                 ->maxLength(255)
                                 ->disabled(),

@@ -24,50 +24,63 @@ class PpdbIndexController extends Controller
     public function showPpdbIndex(Request $request)
     {
         $user = Auth::user();
+        if (!$user) {
+            return redirect()->route('login')->with('error', 'User not authenticated.');
+        }
 
         $dataCalonSiswa = DataCalonSiswa::where('id_user', $user->id)->first();
+
+        if (!$dataCalonSiswa) {
+            return redirect()->route('ppdb.pendaftaran.biodata-siswa')->with('error', 'Data calon siswa tidak ditemukan.');
+        }
+
         $idDataCalonSiswa = $dataCalonSiswa->id;
+        $statusPendaftaran = StatusPendaftaran::where('id_data_calon_siswa', $idDataCalonSiswa)->first();
 
         $pesanKesalahan = PesanKesalahan::where('id_data_calon_siswa', $idDataCalonSiswa)->first();
 
-        $user = User::where('id', $dataCalonSiswa->id_user)->first();
         $namaSiswa = $user->name;
         $jalurSiswa = $user->jalur;
 
         $periodeDaftar = PeriodeDaftar::where('id', $dataCalonSiswa->id_periode)->first();
 
-        $statusPendaftaran = StatusPendaftaran::where('id_data_calon_siswa', $dataCalonSiswa->id)->first();
-
         if ($statusPendaftaran && $statusPendaftaran->status == 'processing') {
+            $peringkatExist = null;
 
-            if ($user && $user->jalur == 'zonasi') {
+            if ($jalurSiswa == 'zonasi') {
                 $peringkatExist = PeringkatCalonSiswa::where('id_data_calon_siswa', $idDataCalonSiswa)->first();
-            } else if ($user && $user->jalur == 'prestasi') {
+            } else if ($jalurSiswa == 'prestasi') {
                 $peringkatExist = PeringkatCalonSiswaPrestasi::where('id_data_calon_siswa', $idDataCalonSiswa)->first();
             }
 
             if (!$peringkatExist) {
-                // Ambil nilai siswa yang relevan
                 $nilaiSiswa = NilaiRapot::where('id_data_calon_siswa', $idDataCalonSiswa)->first();
-                if ($nilaiSiswa) {
-                    // Simpan data ke tabel peringkat calon siswa
-                    if ($user && $user->jalur == 'zonasi') {
+                if (!$nilaiSiswa) {
+                    return redirect()->back()->with('error', 'Nilai siswa tidak ditemukan.');
+                }
+
+                try {
+                    if ($jalurSiswa == 'zonasi') {
                         PeringkatCalonSiswa::create([
                             'id_data_calon_siswa' => $idDataCalonSiswa,
                             'id_nilai' => $nilaiSiswa->id,
                             'id_periode' => $dataCalonSiswa->id_periode,
                         ]);
-                    } else if ($user && $user->jalur == 'prestasi') {
+                    } else if ($jalurSiswa == 'prestasi') {
                         PeringkatCalonSiswaPrestasi::create([
                             'id_data_calon_siswa' => $idDataCalonSiswa,
                             'id_nilai' => $nilaiSiswa->id,
                             'id_periode' => $dataCalonSiswa->id_periode,
                         ]);
                     }
-                } else {
-                    return redirect()->back()->with('error', 'Nilai siswa tidak ditemukan.');
+                } catch (\Exception $e) {
+                    return redirect()->back()->with('error', 'Terjadi kesalahan saat menyimpan data peringkat.');
                 }
             }
+        }
+
+        if ($statusPendaftaran) {
+            return view('ppdb.index', compact('idDataCalonSiswa', 'dataCalonSiswa', 'namaSiswa', 'jalurSiswa', 'periodeDaftar', 'statusPendaftaran', 'pesanKesalahan'));
         }
 
         return view('ppdb.index', compact('idDataCalonSiswa', 'dataCalonSiswa', 'namaSiswa', 'jalurSiswa', 'periodeDaftar', 'statusPendaftaran', 'pesanKesalahan'));
@@ -76,50 +89,39 @@ class PpdbIndexController extends Controller
     public function listRangkingSiswa()
     {
         $user = Auth::user();
+        // Ambil periode yang aktif
         $periodeDaftar = PeriodeDaftar::where('status', 1)->first();
 
         if (!$periodeDaftar) {
             return redirect()->back()->with('error', 'Tidak ada periode pendaftaran aktif saat ini.');
         }
 
-        if ($user->jalur == 'zonasi') {
-            $peringkatSiswa = PeringkatCalonSiswa::with(['dataCalonSiswa.user', 'nilaiSiswa'])
-                ->where('id_periode', $periodeDaftar->id)
-                ->get()
-                ->map(function ($siswa) {
-                    // Menghitung rata-rata nilai dari semester yang ada
-                    $rataRataNilai = $siswa->nilaiSiswa->average('average'); // Pastikan kolom 'average' ada pada model NilaiRapot
-                    return [
-                        'nama_siswa' => $siswa->dataCalonSiswa->user->name,
-                        'nisn' => $siswa->dataCalonSiswa->user->nisn,
-                        'asal_sekolah' => $siswa->dataCalonSiswa->asal_sekolah,
-                        'rata_rata_nilai' => $rataRataNilai,
-                        'id_periode' => $siswa->id_periode,
-                    ];
-                })
-                ->sortByDesc('rata_rata_nilai'); // Mengurutkan berdasarkan rata-rata nilai
-        } else if ($user->jalur == 'prestasi') {
-            $peringkatSiswa = PeringkatCalonSiswaPrestasi::with(['dataCalonSiswa.user', 'nilaiSiswa'])
-                ->where('id_periode', $periodeDaftar->id)
-                ->get()
-                ->map(function ($siswa) {
-                    // Menghitung rata-rata nilai dari semester yang ada
-                    $rataRataNilai = $siswa->nilaiSiswa->average('average'); // Pastikan kolom 'average' ada pada model NilaiRapot
-                    return [
-                        'nama_siswa' => $siswa->dataCalonSiswa->user->name,
-                        'nisn' => $siswa->dataCalonSiswa->user->nisn,
-                        'asal_sekolah' => $siswa->dataCalonSiswa->asal_sekolah,
-                        'rata_rata_nilai' => $rataRataNilai,
-                        'id_periode' => $siswa->id_periode,
-                    ];
-                })
-                ->sortByDesc('rata_rata_nilai'); // Mengurutkan berdasarkan rata-rata nilai
-        }
+        // Mengambil data siswa yang terdaftar pada periode tersebut
+        $peringkatSiswa = PeringkatCalonSiswa::with(['dataCalonSiswa.user', 'nilaiSiswa'])
+            ->where('id_periode', $periodeDaftar->id)
+            ->get()
+            ->filter(function ($siswa) {
+                return $siswa->nilaiSiswa !== null;
+            })
+            ->map(function ($siswa) {
+                // Menghitung rata-rata nilai dari semester yang ada
+                $rataRataNilai = $siswa->nilaiSiswa->average('average'); // Pastikan kolom 'average' ada pada model NilaiRapot
+                return [
+                    'nama_siswa' => $siswa->dataCalonSiswa->user->name ?? 'Tidak Diketahui',
+                    'nisn' => $siswa->dataCalonSiswa->user->nisn ?? 'Tidak Diketahui',
+                    'asal_sekolah' => $siswa->dataCalonSiswa->asal_sekolah ?? 'Tidak Diketahui',
+                    'rata_rata_nilai' => $rataRataNilai,
+                    'id_periode' => $siswa->id_periode,
+                ];
+            })
+            ->sortByDesc('rata_rata_nilai'); // Mengurutkan berdasarkan rata-rata nilai
+
         // Mengirim data ke view
         return view('ppdb.peringkat', compact('periodeDaftar', 'peringkatSiswa'));
     }
     public function listRangkingSiswaPrestasi()
     {
+        $user = Auth::user();
         // Ambil periode yang aktif
         $periodeDaftar = PeriodeDaftar::where('status', 1)->first();
 
@@ -131,13 +133,16 @@ class PpdbIndexController extends Controller
         $peringkatSiswa = PeringkatCalonSiswaPrestasi::with(['dataCalonSiswa.user', 'nilaiSiswa'])
             ->where('id_periode', $periodeDaftar->id)
             ->get()
+            ->filter(function ($siswa) {
+                return $siswa->nilaiSiswa !== null;
+            })
             ->map(function ($siswa) {
                 // Menghitung rata-rata nilai dari semester yang ada
                 $rataRataNilai = $siswa->nilaiSiswa->average('average'); // Pastikan kolom 'average' ada pada model NilaiRapot
                 return [
-                    'nama_siswa' => $siswa->dataCalonSiswa->user->name,
-                    'nisn' => $siswa->dataCalonSiswa->user->nisn,
-                    'asal_sekolah' => $siswa->dataCalonSiswa->asal_sekolah,
+                    'nama_siswa' => $siswa->dataCalonSiswa->user->name ?? 'Tidak Diketahui',
+                    'nisn' => $siswa->dataCalonSiswa->user->nisn ?? 'Tidak Diketahui',
+                    'asal_sekolah' => $siswa->dataCalonSiswa->asal_sekolah ?? 'Tidak Diketahui',
                     'rata_rata_nilai' => $rataRataNilai,
                     'id_periode' => $siswa->id_periode,
                 ];

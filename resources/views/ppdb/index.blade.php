@@ -64,7 +64,8 @@
                 </div>
                 <div class="mt-8 bg-white p-4 rounded-xl">
                     <p class="text-lg font-bold">Status Pendaftaran </p>
-                    <p class="text-md">Anda Terdaftar pada periode <span class="font-bold">{{ $periodeDaftar->name }}</span>
+                    <p class="text-md">Anda Terdaftar pada Tahun Ajaran <span
+                            class="font-bold">{{ $periodeDaftar->name }}</span>
                     </p>
 
                     @if ($statusPendaftaran->status == 'pending')
