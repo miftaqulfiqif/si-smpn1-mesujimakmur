@@ -131,8 +131,8 @@
                             <table class="w-fit">
                                 <tbody class="">
                                     <tr class=" text-white">
-                                        <td class="w-10 text-center">{{ $loop->iteration }}.</td>
-                                        <td class="py-2 px-4 text-justify">{{ $item->konten }}</td>
+                                        <td class="w-10 text-center align-top pt-2">{{ $loop->iteration }}.</td>
+                                        <td class="py-2 px-4 text-justify self-start">{{ $item->konten }}</td>
                                     </tr>
                                 </tbody>
                             </table>
@@ -178,8 +178,8 @@
                                         <img src="{{ asset('assets/images/Shoes.png') }}" alt=""
                                             class="h-8">
                                         <div class="ml-2">
-                                            <p class="text-xl">{{ $prestasi->nama }}</p>
-                                            <p class="text-sm">{{ $prestasi->konten }}</p>
+                                            <p class="text-xl">{{ Str::limit($prestasi->nama, 50) }}</p>
+                                            <p class="text-sm text-justify">{{ Str::limit($prestasi->konten, 80) }}</p>
                                         </div>
                                     </div>
                                 </div>
@@ -220,7 +220,8 @@
                                 <div class="my-5 text-white">
                                     <p class="text-sm font-bold mb-2">{{ Str::limit($informasi->nama, 50) }}</p>
                                     <div class="relative flex h-12">
-                                        <p class="text-xs">{{ $informasi->deskripsi }}
+                                        <p class="text-xs w-[80%] text-justify">
+                                            {{ Str::limit($informasi->deskripsi, 80) }}
                                         </p>
                                         <img src="{{ asset('assets/images/arrow-square-right.svg') }}" alt=""
                                             class="absolute bottom-0 right-0">

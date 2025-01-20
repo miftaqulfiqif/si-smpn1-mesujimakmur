@@ -34,7 +34,7 @@ class AuthController extends Controller
             'name' => 'required|string|max:255',
             'nisn' => 'required|string|unique:users,nisn',
             'password' => 'required|min:8|confirmed',
-            'jalur' => 'required|in:reguler,prestasi,afirmasi',
+            'jalur' => 'required|in:zonasi,prestasi,afirmasi',
         ]);
 
         User::create([

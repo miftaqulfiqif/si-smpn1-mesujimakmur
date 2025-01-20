@@ -46,7 +46,10 @@
                 </tr>
             </thead>
             <tbody>
-                @foreach ($peringkatSiswa as $index => $siswa)
+                @php
+                    $i = 1;
+                @endphp
+                @foreach ($peringkatSiswa as $siswa)
                     <tr class="bg-white border-b hover:bg-gray-50">
                         <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">
                             {{ $siswa['nama_siswa'] }}
@@ -61,7 +64,7 @@
                             {{ $siswa['rata_rata_nilai'] }}
                         </td>
                         <td class="px-6 py-4">
-                            {{ $index + 1 }}
+                            {{ $i++ }}
                         </td>
                     </tr>
                 @endforeach
