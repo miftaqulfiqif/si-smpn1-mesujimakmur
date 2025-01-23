@@ -15,6 +15,8 @@ use Illuminate\Database\Eloquent\SoftDeletingScope;
 use App\Filament\Resources\DataCalonSiswaResource\RelationManagers\DataOrangtuaRelationManager;
 use App\Filament\Resources\DataOrangtuaResource\RelationManagers\DataOrangtuaRelationManager as RelationManagersDataOrangtuaRelationManager;
 use App\Models\DokumenCalonSiswa;
+use App\Models\DokumenPrestasi;
+use Illuminate\Database\Eloquent\Relations\Relation;
 
 class DataCalonSiswaResource extends Resource
 {
@@ -35,7 +37,7 @@ class DataCalonSiswaResource extends Resource
                         ])
                         ->schema([
                             Forms\Components\Select::make('id_periode')
-                                ->label('Periode')
+                                ->label('Tahun Ajaran')
                                 ->relationship('periode', 'name')
                                 ->required()
                                 ->disabled(),
@@ -199,14 +201,20 @@ class DataCalonSiswaResource extends Resource
                         ->relationship('dokumenCalonSiswa')
                         ->columns(2)
                         ->schema([
-                            Forms\Components\TextInput::make('nama_dokumen  ')
+                            Forms\Components\Select::make('id_dokumen')
+                                ->relationship(
+                                    'dokumen',
+                                    'nama'
+                                )
                                 ->label('Nama Dokumen')
                                 ->disabled(),
                             Forms\Components\FileUpload::make('path_url')
                                 ->required()
                                 ->downloadable()
                                 ->disabled(),
-                        ]),
+                        ])
+                        ->disableItemCreation()
+                        ->disableItemDeletion(),
                 ]),
                 Forms\Components\Section::make()->relationship('statusPendaftaran')->schema([
                     Forms\Components\TextInput::make('status')
@@ -230,7 +238,13 @@ class DataCalonSiswaResource extends Resource
             ->searchPlaceholder('Cari data calon siswa...')
             ->emptyStateHeading('Tidak ada data calon siswa')
             ->columns([
+                Tables\Columns\TextColumn::make('nomor_urut')
+                    ->label('No')
+                    ->getStateUsing(function ($record, $rowLoop) {
+                        return $rowLoop->iteration;
+                    }),
                 Tables\Columns\TextColumn::make('periode.name')
+                    ->label('Tahun Ajaran')
                     ->sortable(),
                 Tables\Columns\TextColumn::make('user.name')
                     ->label('Name')
@@ -273,11 +287,8 @@ class DataCalonSiswaResource extends Resource
             ])
             ->filters([])
             ->actions([
-                Tables\Actions\ViewAction::make()
-                    ->label('Lihat')
-                    ->icon('heroicon-s-eye'),
                 Tables\Actions\EditAction::make()
-                    ->label('Edit')
+                    ->label('Update Status')
                     ->icon('heroicon-s-pencil'),
             ])
             ->bulkActions([

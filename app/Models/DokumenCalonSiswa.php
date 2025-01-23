@@ -28,8 +28,4 @@ class DokumenCalonSiswa extends Model
     {
         return $this->belongsTo(DokumenPrestasi::class, 'id_dokumen');
     }
-    public function getNamaDokumenAttribute()
-    {
-        return $this->dokumenPrestasi?->nama ?? 'Tidak Ada Nama';
-    }
 }
