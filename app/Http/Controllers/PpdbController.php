@@ -467,12 +467,12 @@ class PpdbController extends Controller
 
         $errors = [];
         foreach ($documents as $document) {
-            if ($document->isRequired) {
+            if ($document->isRequired && (!isset($uploadedFiles[$document->id]) || !$uploadedFiles[$document->id]->isValid())) {
                 $existingDocument = DokumenCalonSiswa::where('id_data_calon_siswa', $calonSiswa->id)
                     ->where('id_dokumen', $document->id)
                     ->first();
 
-                if (!isset($uploadedFiles[$document->id]) && !$existingDocument) {
+                if (!$existingDocument) {
                     $errors["files.{$document->id}"] = "Dokumen {$document->nama} wajib diunggah.";
                 }
             }
@@ -491,24 +491,23 @@ class PpdbController extends Controller
 
                 if ($file && $file->isValid()) {
                     $newFilePath = $file->store('uploads/documents', 'public');
-                } else {
-                    $existingDocument = DokumenCalonSiswa::where('id_data_calon_siswa', $calonSiswa->id)
-                        ->where('id_dokumen', $document->id)
-                        ->first();
-
-                    $newFilePath = $existingDocument ? $existingDocument->path_url : null;
                 }
 
-                if ($newFilePath) {
-                    DokumenCalonSiswa::updateOrCreate(
-                        [
-                            'id_data_calon_siswa' => $calonSiswa->id,
-                            'id_dokumen' => $document->id,
-                        ],
-                        [
-                            'path_url' => $newFilePath,
-                        ]
-                    );
+                $existingDocument = DokumenCalonSiswa::where('id_data_calon_siswa', $calonSiswa->id)
+                    ->where('id_dokumen', $document->id)
+                    ->first();
+
+                if ($existingDocument) {
+                    $existingDocument->update([
+                        'path_url' => $newFilePath ?? $existingDocument->path_url
+                    ]);
+                } else if ($newFilePath) {
+                    DokumenCalonSiswa::create([
+                        'id_data_calon_siswa' => $calonSiswa->id,
+                        'id_dokumen' => $document->id,
+                        'nama_dokumen' => $document->nama ?? '',
+                        'path_url' => $newFilePath
+                    ]);
                 }
             }
 
@@ -556,12 +555,12 @@ class PpdbController extends Controller
 
         $errors = [];
         foreach ($documents as $document) {
-            if ($document->isRequired) {
+            if ($document->isRequired && (!isset($uploadedFiles[$document->id]) || !$uploadedFiles[$document->id]->isValid())) {
                 $existingDocument = DokumenCalonSiswa::where('id_data_calon_siswa', $calonSiswa->id)
                     ->where('id_dokumen', $document->id)
                     ->first();
 
-                if (!isset($uploadedFiles[$document->id]) && !$existingDocument) {
+                if (!$existingDocument) {
                     $errors["files.{$document->id}"] = "Dokumen {$document->nama} wajib diunggah.";
                 }
             }
@@ -580,24 +579,23 @@ class PpdbController extends Controller
 
                 if ($file && $file->isValid()) {
                     $newFilePath = $file->store('uploads/documents', 'public');
-                } else {
-                    $existingDocument = DokumenCalonSiswa::where('id_data_calon_siswa', $calonSiswa->id)
-                        ->where('id_dokumen', $document->id)
-                        ->first();
-
-                    $newFilePath = $existingDocument ? $existingDocument->path_url : null;
                 }
 
-                if ($newFilePath) {
-                    DokumenCalonSiswa::updateOrCreate(
-                        [
-                            'id_data_calon_siswa' => $calonSiswa->id,
-                            'id_dokumen' => $document->id,
-                        ],
-                        [
-                            'path_url' => $newFilePath,
-                        ]
-                    );
+                $existingDocument = DokumenCalonSiswa::where('id_data_calon_siswa', $calonSiswa->id)
+                    ->where('id_dokumen', $document->id)
+                    ->first();
+
+                if ($existingDocument) {
+                    $existingDocument->update([
+                        'path_url' => $newFilePath ?? $existingDocument->path_url
+                    ]);
+                } else if ($newFilePath) {
+                    DokumenCalonSiswa::create([
+                        'id_data_calon_siswa' => $calonSiswa->id,
+                        'id_dokumen' => $document->id,
+                        'nama_dokumen' => $document->nama ?? '',
+                        'path_url' => $newFilePath
+                    ]);
                 }
             }
 
@@ -643,12 +641,12 @@ class PpdbController extends Controller
 
         $errors = [];
         foreach ($documents as $document) {
-            if ($document->isRequired) {
+            if ($document->isRequired && (!isset($uploadedFiles[$document->id]) || !$uploadedFiles[$document->id]->isValid())) {
                 $existingDocument = DokumenCalonSiswa::where('id_data_calon_siswa', $calonSiswa->id)
                     ->where('id_dokumen', $document->id)
                     ->first();
 
-                if (!isset($uploadedFiles[$document->id]) && !$existingDocument) {
+                if (!$existingDocument) {
                     $errors["files.{$document->id}"] = "Dokumen {$document->nama} wajib diunggah.";
                 }
             }
@@ -667,24 +665,23 @@ class PpdbController extends Controller
 
                 if ($file && $file->isValid()) {
                     $newFilePath = $file->store('uploads/documents', 'public');
-                } else {
-                    $existingDocument = DokumenCalonSiswa::where('id_data_calon_siswa', $calonSiswa->id)
-                        ->where('id_dokumen', $document->id)
-                        ->first();
-
-                    $newFilePath = $existingDocument ? $existingDocument->path_url : null;
                 }
 
-                if ($newFilePath) {
-                    DokumenCalonSiswa::updateOrCreate(
-                        [
-                            'id_data_calon_siswa' => $calonSiswa->id,
-                            'id_dokumen' => $document->id,
-                        ],
-                        [
-                            'path_url' => $newFilePath,
-                        ]
-                    );
+                $existingDocument = DokumenCalonSiswa::where('id_data_calon_siswa', $calonSiswa->id)
+                    ->where('id_dokumen', $document->id)
+                    ->first();
+
+                if ($existingDocument) {
+                    $existingDocument->update([
+                        'path_url' => $newFilePath ?? $existingDocument->path_url
+                    ]);
+                } else if ($newFilePath) {
+                    DokumenCalonSiswa::create([
+                        'id_data_calon_siswa' => $calonSiswa->id,
+                        'id_dokumen' => $document->id,
+                        'nama_dokumen' => $document->nama ?? '',
+                        'path_url' => $newFilePath
+                    ]);
                 }
             }
 

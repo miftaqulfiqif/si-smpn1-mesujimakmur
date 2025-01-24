@@ -11,6 +11,7 @@ class DokumenCalonSiswa extends Model
     protected $fillable = [
         'id_data_calon_siswa',
         'id_dokumen',
+        'nama_dokumen',
         'path_url',
     ];
 
@@ -27,5 +28,10 @@ class DokumenCalonSiswa extends Model
     public function dokumenPrestasi()
     {
         return $this->belongsTo(DokumenPrestasi::class, 'id_dokumen');
+    }
+
+    public function dokumenAfirmasi()
+    {
+        return $this->belongsTo(DokumenAfirmasi::class, 'id_dokumen');
     }
 }

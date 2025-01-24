@@ -16,7 +16,9 @@ use App\Filament\Resources\DataCalonSiswaResource\RelationManagers\DataOrangtuaR
 use App\Filament\Resources\DataOrangtuaResource\RelationManagers\DataOrangtuaRelationManager as RelationManagersDataOrangtuaRelationManager;
 use App\Models\DokumenCalonSiswa;
 use App\Models\DokumenPrestasi;
+use Filament\Forms\Components\Repeater;
 use Illuminate\Database\Eloquent\Relations\Relation;
+use Illuminate\Validation\ConditionalRules;
 
 class DataCalonSiswaResource extends Resource
 {
@@ -31,6 +33,13 @@ class DataCalonSiswaResource extends Resource
         return $form
             ->schema([
                 Forms\Components\Section::make()->columns(2)->schema([
+                    Forms\Components\Section::make()
+                        ->relationship('user')
+                        ->schema([
+                            Forms\Components\TextInput::make('jalur')
+                                ->disabled()
+                                ->reactive()
+                        ]),
                     Forms\Components\Fieldset::make('Data Calon Siswa')
                         ->extraAttributes([
                             'class' => 'bg-white shadow overflow-hidden sm:rounded-lg',
@@ -201,11 +210,7 @@ class DataCalonSiswaResource extends Resource
                         ->relationship('dokumenCalonSiswa')
                         ->columns(2)
                         ->schema([
-                            Forms\Components\Select::make('id_dokumen')
-                                ->relationship(
-                                    'dokumen',
-                                    'nama'
-                                )
+                            Forms\Components\TextInput::make('nama_dokumen')
                                 ->label('Nama Dokumen')
                                 ->disabled(),
                             Forms\Components\FileUpload::make('path_url')
@@ -312,6 +317,27 @@ class DataCalonSiswaResource extends Resource
             'create' => Pages\CreateDataCalonSiswa::route('/create'),
             'view' => Pages\ViewDataCalonSiswa::route('/{record}'),
             'edit' => Pages\EditDataCalonSiswa::route('/{record}/edit'),
+        ];
+    }
+
+    private function getRepeaterSchema($relationshipName)
+    {
+        return [
+            Forms\Components\Repeater::make('Dokumen Persyaratan')
+                ->relationship('dokumenCalonSiswa')
+                ->columns(2)
+                ->schema([
+                    Forms\Components\Select::make('id_dokumen')
+                        ->relationship($relationshipName, 'nama')
+                        ->label('Nama Dokumen')
+                        ->disabled(),
+                    Forms\Components\FileUpload::make('path_url')
+                        ->required()
+                        ->downloadable()
+                        ->disabled(),
+                ])
+                ->disableItemCreation()
+                ->disableItemDeletion(),
         ];
     }
 }
