@@ -15,6 +15,8 @@
                 <li><a href="/ppdb/peringkat">Cek Peringkat</a></li>
             @elseif (Auth::user()->jalur == 'prestasi')
                 <li><a href="/ppdb/peringkat-prestasi">Cek Peringkat</a></li>
+            @elseif (Auth::user()->jalur == 'afirmasi')
+                <li><a href="/ppdb/peringkat-afirmasi">Cek Peringkat</a></li>
             @endif
             {{-- <li><a>Bantuan</a></li> --}}
             <li>
@@ -45,10 +47,20 @@
                     class="px-3 h-8 rounded-md flex items-center shadow hover:shadow-md {{ Route::currentRouteNamed('ppdb.pendaftaran.biodata-siswa') ? 'bg-[#7A1CAC] text-white' : 'bg-white text-[#7A1CAC]' }}">Ubah
                     Data</a>
             </li>
-            @if (Auth::user()->jalur != 'afirmasi')
-                <li><a href="{{ Auth::user()->jalur == 'prestasi' ? '/ppdb/peringkat-prestasi' : '/ppdb/peringkat' }}"
+            @if (Auth::user()->jalur == 'zonasi')
+                <li><a href="/ppdb/peringkat"
                         class="px-3 h-8 rounded-md flex items-center shadow hover:shadow-md {{ Route::currentRouteNamed('rangking-siswa-prestasi') ? 'bg-[#7A1CAC] text-white' : 'bg-white text-[#7A1CAC]' }}">Cek
-                        Peringkat {{ Auth::user()->jalur == 'prestasi' ? 'Prestasi' : '' }}</a>
+                        Peringkat Zonasi</a>
+                </li>
+            @elseif (Auth::user()->jalur == 'prestasi')
+                <li><a href="/ppdb/peringkat-prestasi"
+                        class="px-3 h-8 rounded-md flex items-center shadow hover:shadow-md {{ Route::currentRouteNamed('rangking-siswa-prestasi') ? 'bg-[#7A1CAC] text-white' : 'bg-white text-[#7A1CAC]' }}">Cek
+                        Peringkat Prestasi</a>
+                </li>
+            @elseif (Auth::user()->jalur == 'afirmasi')
+                <li><a href="/ppdb/peringkat-afirmasi"
+                        class="px-3 h-8 rounded-md flex items-center shadow hover:shadow-md {{ Route::currentRouteNamed('rangking-siswa-prestasi') ? 'bg-[#7A1CAC] text-white' : 'bg-white text-[#7A1CAC]' }}">Cek
+                        Peringkat Afirmasi</a>
                 </li>
             @endif
             {{-- <li><a href=""

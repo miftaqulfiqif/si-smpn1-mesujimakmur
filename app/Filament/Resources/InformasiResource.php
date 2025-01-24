@@ -56,6 +56,11 @@ class InformasiResource extends Resource
         return $table
             ->emptyStateHeading('Tidak ada data Informasi')
             ->columns([
+                Tables\Columns\TextColumn::make('nomor_urut')
+                    ->label('No')
+                    ->getStateUsing(function ($record, $rowLoop) {
+                        return $rowLoop->iteration;
+                    }),
                 TextColumn::make('editor')->sortable(),
                 TextColumn::make('nama')->searchable(),
                 TextColumn::make('deskripsi')->searchable(),

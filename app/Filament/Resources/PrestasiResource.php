@@ -55,6 +55,11 @@ class PrestasiResource extends Resource
         return $table
             ->emptyStateHeading('Tidak ada data Prestasi')
             ->columns([
+                Tables\Columns\TextColumn::make('nomor_urut')
+                    ->label('No')
+                    ->getStateUsing(function ($record, $rowLoop) {
+                        return $rowLoop->iteration;
+                    }),
                 TextColumn::make('editor')->sortable(),
                 TextColumn::make('nama')->searchable(),
                 TextColumn::make('konten')->searchable(),

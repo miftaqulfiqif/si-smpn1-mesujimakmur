@@ -228,6 +228,7 @@ class DataCalonSiswaResource extends Resource
                     Forms\Components\Select::make('status')
                         ->label('Status Pendaftaran')
                         ->options([
+                            'pending' => 'Sedang Dalam Pengecekan Berkas',
                             'processing' => 'Lolos Pendataan',
                             'failure' => 'Gagal',
                             'accepted' => 'Diterima'
@@ -243,6 +244,11 @@ class DataCalonSiswaResource extends Resource
             ->searchPlaceholder('Cari data calon siswa...')
             ->emptyStateHeading('Tidak ada data calon siswa')
             ->columns([
+                Tables\Columns\TextColumn::make('nomor_urut')
+                    ->label('No')
+                    ->getStateUsing(function ($record, $rowLoop) {
+                        return $rowLoop->iteration;
+                    }),
                 Tables\Columns\TextColumn::make('nomor_urut')
                     ->label('No')
                     ->getStateUsing(function ($record, $rowLoop) {
