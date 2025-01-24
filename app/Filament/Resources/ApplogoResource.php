@@ -47,6 +47,11 @@ class ApplogoResource extends Resource
     {
         return $table
             ->columns([
+                Tables\Columns\TextColumn::make('nomor_urut')
+                    ->label('No')
+                    ->getStateUsing(function ($record, $rowLoop) {
+                        return $rowLoop->iteration;
+                    }),
                 TextColumn::make('editor')->searchable(),
                 ImageColumn::make('image_url')->size(50),
                 TextColumn::make('created_at')

@@ -56,6 +56,7 @@ Route::post('/ppdb/daftar', [PpdbController::class, 'saveBiodataSiswa'])->name('
 Route::get('/ppdb/index', [PpdbIndexController::class, 'showPpdbIndex'])->name('ppdb-index');
 Route::get('/ppdb/peringkat', [PpdbIndexController::class, 'listRangkingSiswa'])->name('rangking-siswa');
 Route::get('/ppdb/peringkat-prestasi', [PpdbIndexController::class, 'listRangkingSiswaPrestasi'])->name('rangking-siswa-prestasi');
+Route::get('/ppdb/peringkat-afirmasi', [PpdbIndexController::class, 'listRangkingSiswaAfirmasi'])->name('rangking-siswa-afirmasi');
 Route::get('/ppdb/bayar-daftar-ulang', [PpdbIndexController::class, 'showFormBayar'])->name('bayar-daftar-ulang');
 Route::post('/ppdb/bayar-daftar-ulang', [PpdbIndexController::class, 'saveBuktiBayar'])->name('upload-bukti-bayar');
 

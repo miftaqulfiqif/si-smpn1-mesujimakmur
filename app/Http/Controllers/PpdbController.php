@@ -10,6 +10,7 @@ use App\Models\DokumenCalonSiswa;
 use App\Models\DokumenPrestasi;
 use App\Models\NilaiRapot;
 use App\Models\PeringkatCalonSiswa;
+use App\Models\PeringkatCalonSiswaAfirmasi;
 use App\Models\PeringkatCalonSiswaPrestasi;
 use App\Models\PeriodeDaftar;
 use App\Models\StatusPendaftaran;
@@ -66,11 +67,6 @@ class PpdbController extends Controller
         $statusPendaftaran = StatusPendaftaran::where('id_data_calon_siswa', $biodata->id)->first();
 
         if ($statusPendaftaran) {
-            $periode = PeriodeDaftar::where('id', $biodata->id_periode)->first();
-            $curentDate = Carbon::now()->format('Y-m-d');
-            if ($curentDate > $periode->end_date) {
-                $peringkatSiswa = PeringkatCalonSiswaPrestasi::getPeringkat($biodata->id);
-            }
             if ($statusPendaftaran->status) {
                 return redirect()->route('ppdb-index');
             }

@@ -5,13 +5,12 @@ namespace App\Models;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 
-class PeringkatCalonSiswaPrestasi extends Model
+class PeringkatCalonSiswaAfirmasi extends Model
 {
     protected $fillable = [
         'id_data_calon_siswa',
         'id_nilai',
-        'id_periode',
-        'peringkat'
+        'id_periode'
     ];
 
     public function dataCalonSiswa()
@@ -43,7 +42,7 @@ class PeringkatCalonSiswaPrestasi extends Model
             $kuotaSiswa = $periodeSiswa->kuota_afirmasi;
         }
 
-        $peringkatSiswa = PeringkatCalonSiswaPrestasi::with(['dataCalonSiswa.user', 'nilaiSiswa'])
+        $peringkatSiswa = PeringkatCalonSiswaAfirmasi::with(['dataCalonSiswa.user', 'nilaiSiswa'])
             ->where('id_periode', $periodeSiswa->id)
             ->get()
             ->map(function ($siswa) {
@@ -61,7 +60,7 @@ class PeringkatCalonSiswaPrestasi extends Model
             ->sortByDesc('rata_rata_nilai'); // Mengurutkan berdasarkan rata-rata nilai
         $peringkat = array_search($idDataCalonSiswa, array_column($peringkatSiswa->toArray(), 'id_siswa')) + 1;
 
-        PeringkatCalonSiswaPrestasi::where('id_data_calon_siswa', $idDataCalonSiswa)->update([
+        PeringkatCalonSiswaAfirmasi::where('id_data_calon_siswa', $idDataCalonSiswa)->update([
             'peringkat' => $peringkat
         ]);
 

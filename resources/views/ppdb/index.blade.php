@@ -18,6 +18,8 @@
             </div>
         @endif
 
+
+
         <div class="my-5">
             <p>Selamat Datang</p>
             <p class="text-3xl font-bold">{{ $namaSiswa }}</p>
@@ -59,8 +61,12 @@
                         @else
                             <p class="text-lg font-bold">Tidak</p>
                         @endif
-
                     </div>
+                    @if ($peringkatExist)
+                        <div class="">
+                            <p class="text-md">Anda sekarng di Peringkat {{ $peringkatExist->peringkat }}</p>
+                        </div>
+                    @endif
                 </div>
                 <div class="mt-8 bg-white p-4 rounded-xl">
                     <p class="text-lg font-bold">Status Pendaftaran </p>

@@ -39,6 +39,11 @@ class BuktiPembayaranResource extends Resource
     {
         return $table
             ->columns([
+                Tables\Columns\TextColumn::make('nomor_urut')
+                    ->label('No')
+                    ->getStateUsing(function ($record, $rowLoop) {
+                        return $rowLoop->iteration;
+                    }),
                 Tables\Columns\TextColumn::make('dataCalonSiswa.user.name')
                     ->label('Nama Siswa')
                     ->searchable(),
