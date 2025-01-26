@@ -24,6 +24,7 @@ class DataCalonSiswa extends Model
         'zonasi',
         'foto',
         'notelp',
+        'peringkat'
     ];
 
     public function user()
