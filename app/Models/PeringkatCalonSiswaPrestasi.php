@@ -74,11 +74,11 @@ class PeringkatCalonSiswaPrestasi extends Model
         if (Carbon::now() > $periodeSiswa->end_date) {
             if ($kuotaSiswa >= $peringkat) {
                 $statusPendaftaran->update([
-                    'status' => 'accepted'
+                    'status' => 'diterima'
                 ]);
             } else {
                 $statusPendaftaran->update([
-                    'status' => 'rejected'
+                    'status' => 'ditolak'
                 ]);
             }
 

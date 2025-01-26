@@ -17,6 +17,7 @@ use App\Filament\Resources\DataOrangtuaResource\RelationManagers\DataOrangtuaRel
 use App\Models\DokumenCalonSiswa;
 use App\Models\DokumenPrestasi;
 use Filament\Forms\Components\Repeater;
+use Filament\Tables\View\TablesRenderHook;
 use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Validation\ConditionalRules;
 
@@ -228,12 +229,12 @@ class DataCalonSiswaResource extends Resource
                     Forms\Components\Select::make('status')
                         ->label('Status Pendaftaran')
                         ->options([
-                            'pending' => 'Sedang Dalam Pengecekan Berkas',
-                            'processing' => 'Lolos Pendataan',
-                            'failure' => 'Gagal',
-                            'accepted' => 'Diterima'
+                            'pengecekan_berkas' => 'Sedang Dalam Pengecekan Berkas',
+                            'proses_seleksi' => 'Proses Seleksi',
+                            'ditolak' => 'Ditolak',
+                            'diterima' => 'Diterima'
                         ])
-                        ->required()
+                        ->required(),
                 ]),
             ]);
     }
@@ -286,6 +287,8 @@ class DataCalonSiswaResource extends Resource
                     ->sortable(),
                 Tables\Columns\TextColumn::make('statusPendaftaran.status')
                     ->searchable()
+                    ->sortable(),
+                Tables\Columns\TextColumn::make('peringkat')
                     ->sortable(),
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()

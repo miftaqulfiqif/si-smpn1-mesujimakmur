@@ -509,15 +509,15 @@ class PpdbController extends Controller
 
             $statusPendaftaran = StatusPendaftaran::where('id_data_calon_siswa', $calonSiswa->id)->first();
 
-            if ($statusPendaftaran && $statusPendaftaran->status == 'processing') {
+            if ($statusPendaftaran && $statusPendaftaran->status == 'proses_seleksi') {
                 StatusPendaftaran::updateOrCreate([
                     'id_data_calon_siswa' => $calonSiswa->id,
-                    'status' => 'processing'
+                    'status' => 'proses_seleksi'
                 ]);
             } else {
                 StatusPendaftaran::updateOrCreate([
                     'id_data_calon_siswa' => $calonSiswa->id,
-                    'status' => 'pending'
+                    'status' => 'pengecekan_berkas'
                 ]);
 
                 $recipient = Auth::user();
@@ -597,15 +597,15 @@ class PpdbController extends Controller
 
             $statusPendaftaran = StatusPendaftaran::where('id_data_calon_siswa', $calonSiswa->id)->first();
 
-            if ($statusPendaftaran && $statusPendaftaran->status == 'processing') {
+            if ($statusPendaftaran && $statusPendaftaran->status == 'proses_seleksi') {
                 StatusPendaftaran::updateOrCreate([
                     'id_data_calon_siswa' => $calonSiswa->id,
-                    'status' => 'processing'
+                    'status' => 'proses_seleksi'
                 ]);
             } else {
                 StatusPendaftaran::updateOrCreate([
                     'id_data_calon_siswa' => $calonSiswa->id,
-                    'status' => 'pending'
+                    'status' => 'pengecekan_berkas'
                 ]);
 
                 $recipient = Auth::user();
@@ -683,15 +683,15 @@ class PpdbController extends Controller
 
             $statusPendaftaran = StatusPendaftaran::where('id_data_calon_siswa', $calonSiswa->id)->first();
 
-            if ($statusPendaftaran && $statusPendaftaran->status == 'processing') {
+            if ($statusPendaftaran && $statusPendaftaran->status == 'proses_seleksi') {
                 StatusPendaftaran::updateOrCreate([
                     'id_data_calon_siswa' => $calonSiswa->id,
-                    'status' => 'processing'
+                    'status' => 'proses_seleksi'
                 ]);
             } else {
                 StatusPendaftaran::updateOrCreate([
                     'id_data_calon_siswa' => $calonSiswa->id,
-                    'status' => 'pending'
+                    'status' => 'pengecekan_berkas'
                 ]);
 
                 $recipient = Auth::user();
