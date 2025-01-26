@@ -7,10 +7,13 @@ use Illuminate\Database\Eloquent\Model;
 
 class PeringkatCalonSiswaAfirmasi extends Model
 {
+    protected $table = 'peringkat_calon_siswa_afirmasi';
+
     protected $fillable = [
         'id_data_calon_siswa',
         'id_nilai',
-        'id_periode'
+        'id_periode',
+        'peringkat'
     ];
 
     public function dataCalonSiswa()
@@ -64,6 +67,9 @@ class PeringkatCalonSiswaAfirmasi extends Model
             'peringkat' => $peringkat
         ]);
 
+        DataCalonSiswa::where('id', $idDataCalonSiswa)->update([
+            'peringkat' => $peringkat
+        ]);
 
         $statusPendaftaran = StatusPendaftaran::where('id_data_calon_siswa', $idDataCalonSiswa)->first();
         if (Carbon::now() > $periodeSiswa->end_date) {

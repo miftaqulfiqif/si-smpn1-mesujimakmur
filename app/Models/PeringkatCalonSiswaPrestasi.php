@@ -65,6 +65,10 @@ class PeringkatCalonSiswaPrestasi extends Model
             'peringkat' => $peringkat
         ]);
 
+        DataCalonSiswa::where('id', $idDataCalonSiswa)->update([
+            'peringkat' => $peringkat
+        ]);
+
 
         $statusPendaftaran = StatusPendaftaran::where('id_data_calon_siswa', $idDataCalonSiswa)->first();
         if (Carbon::now() > $periodeSiswa->end_date) {

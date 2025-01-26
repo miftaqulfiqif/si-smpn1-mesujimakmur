@@ -64,7 +64,7 @@
                     </div>
                     @if ($peringkatExist)
                         <div class="">
-                            <p class="text-md">Anda sekarng di Peringkat {{ $peringkatExist->peringkat }}</p>
+                            <p class="text-md">Anda sekarng di Peringkat {{ $dataCalonSiswa->peringkat }}</p>
                         </div>
                     @endif
                 </div>
