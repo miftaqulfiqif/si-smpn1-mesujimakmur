@@ -47,7 +47,7 @@ class PpdbIndexController extends Controller
         $periodeDaftar = PeriodeDaftar::where('id', $dataCalonSiswa->id_periode)->first();
 
         $peringkatExist = null;
-        if ($statusPendaftaran && $statusPendaftaran->status == 'processing') {
+        if ($statusPendaftaran && $statusPendaftaran->status == 'proses_seleksi') {
 
             if ($jalurSiswa == 'zonasi') {
                 PeringkatCalonSiswa::getPeringkat($idDataCalonSiswa);
