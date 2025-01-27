@@ -5,33 +5,33 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    @vite('resources/css/app.css')
+    <link rel="stylesheet" href="{{ asset('assets/css/app.css') }}">
     <title>Document</title>
 </head>
 
 <body>
     @if ($content)
-        <div class="max-w-4xl flex flex-col gap-10 mx-10 my-20 lg:mx-auto">
-            <img src="{{ asset('storage/' . $content->main_image) }}" alt="Main Image" srcset="" class="max-w-full">
-            <div class="overflow-x-auto">
-                <div class="flex space-x-4">
+        <div class="container">
+            <img src="{{ asset('storage/' . $content->main_image) }}" alt="Main Image" class="main-image">
+            <div class="image-gallery">
+                <div class="image-wrapper">
                     @foreach ($content->images as $image)
                         <img src="{{ asset('storage/' . $image) }}" alt="Image {{ $loop->index }}"
-                            class="w-[340px] h-[200px] rounded-lg object-cover shadow-md">
+                            class="gallery-image">
                     @endforeach
                 </div>
             </div>
 
-            <div class="">
-                <p class="text-2xl font-bold"> {{ $content->nama }} </p>
-                <p class="text-md"> {{ $content->tanggal }} </p>
+            <div class="content-header">
+                <p class="content-title"> {{ $content->nama }} </p>
+                <p class="content-date"> {{ $content->tanggal }} </p>
             </div>
 
-            <div class="text-justify">
+            <div class="content-description">
                 @if ($content->deskripsi != null)
-                    <p> {{ $content->deskripsi }}</p>
+                    <p>{!! $content->deskripsi !!}</p>
                 @else
-                    <p> {{ $content->konten }}</p>
+                    <p>{{ $content->konten }}</p>
                 @endif
             </div>
         </div>

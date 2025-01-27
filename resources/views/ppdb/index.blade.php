@@ -64,7 +64,8 @@
                     </div>
                     @if ($peringkatExist)
                         <div class="">
-                            <p class="text-md">Anda sekarng di Peringkat {{ $dataCalonSiswa->peringkat }}</p>
+                            <p class="text-md">Anda sekarang di Peringkat</p>
+                            <p class="text-lg font-bold">{{ $peringkatExist->peringkat }}</p>
                         </div>
                     @endif
                 </div>
@@ -83,7 +84,7 @@
                         <p class="mt-4">Silahkan mengecek peringkat secara berkala</p>
                     @elseif ($statusPendaftaran->status == 'diterima')
                         <p class="text-lg bg-[#5cff3b65] px-4 py-2 rounded-2xl max-w-fit">Selamat Anda Diterima</p>
-                        <p class="mt-4">Silahkan melakuakan daftar ulang dengan datang ke Sekolah SMPN 1 Mesuji Makmur</p>
+                        <p class="mt-4">Silahkan melakukan daftar ulang dengan datang ke Sekolah SMPN 1 Mesuji Makmur</p>
                         {{-- <a href="#">
                             <p class="text-sm bg-blue-500 text-white px-3 py-2 rounded-2xl max-w-fit">Bayar Daftar Ulang</p>
                         </a> --}}

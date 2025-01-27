@@ -35,7 +35,7 @@ class PrestasiResource extends Resource
                             ->placeholder('Masukkan judul prestasi')
                             ->required()
                             ->maxLength(255),
-                        Forms\Components\Textarea::make('konten')
+                        Forms\Components\RichEditor::make('konten')
                             ->placeholder('Masukkan deskripsi')
                             ->required()
                             ->columnSpanFull(),
@@ -62,8 +62,10 @@ class PrestasiResource extends Resource
                     }),
                 TextColumn::make('editor')->sortable(),
                 TextColumn::make('nama')->searchable(),
-                TextColumn::make('konten')->searchable(),
-                //GAMBAR
+                TextColumn::make('konten')
+                    ->html()
+                    ->searchable()
+                    ->limit(50),
                 TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()

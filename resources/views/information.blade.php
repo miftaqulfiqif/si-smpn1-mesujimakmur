@@ -43,7 +43,7 @@
                     <p class="text-3xl font-bold mb-4 font-[#2E073F]">{{ $newInformation->nama }}</p>
                     <p class="font-semibold mb-4">{{ $newInformation->editor }}</p>
                     <p>
-                        {{ $newInformation->deskripsi }}
+                        {!! Str::limit($newInformation->deskripsi, 200) !!}
                     </p>
                     <div class="absolute flex items-center bottom-0">
                         <a
@@ -85,7 +85,7 @@
                                     <p class="font-bold text-xl py-2">{{ $information->nama }}</p>
                                     <p class="font-semibold text-sm pb-2">{{ $information->editor }}</p>
                                     <p class="text-sm mb-8">
-                                        {{ $information->deskripsi }}
+                                        {!! Str::limit($information->deskripsi, 50) !!}
                                     </p>
                                 </div>
                             </div>

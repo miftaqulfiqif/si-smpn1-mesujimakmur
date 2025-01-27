@@ -183,10 +183,13 @@ class PeriodeDaftarResource extends Resource
                     ->sortable(),
                 Tables\Columns\IconColumn::make('status')
                     ->boolean(),
-                Tables\Columns\TextColumn::make('jml_pendaftar')
+                Tables\Columns\TextColumn::make('kuota')
                     ->numeric()
                     ->sortable(),
-                Tables\Columns\TextColumn::make('kuota')
+                Tables\Columns\TextColumn::make('kuota_prestasi')
+                    ->numeric()
+                    ->sortable(),
+                Tables\Columns\TextColumn::make('kuota_afirmasi')
                     ->numeric()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('created_at')

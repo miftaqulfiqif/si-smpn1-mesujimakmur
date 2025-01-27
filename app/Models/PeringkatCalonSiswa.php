@@ -67,12 +67,24 @@ class PeringkatCalonSiswa extends Model
             'peringkat' => $peringkat
         ]);
 
-        DataCalonSiswa::where('id', $idDataCalonSiswa)->update([
-            'peringkat' => $peringkat
-        ]);
+        DataCalonSiswa::where('id_periode', $periodeSiswa->id)
+            ->whereHas('user', function ($q) {
+                $q->where('jalur', 'zonasi');
+            })
+            ->get()
+            ->each(function ($item) use ($peringkatSiswa) {
+                $peringkat = array_search($item->id, array_column($peringkatSiswa->toArray(), 'id_siswa')) + 1;
+                $item->update([
+                    'peringkat' => $peringkat
+                ]);
+            });
 
         $statusPendaftaran = StatusPendaftaran::where('id_data_calon_siswa', $idDataCalonSiswa)->first();
-        if (Carbon::now() > $periodeSiswa->end_date) {
+
+        $currentDate = Carbon::now()->format('Y-m-d');
+        $periodeEnd = $periodeSiswa->end_date;
+
+        if ($currentDate > $periodeEnd) {
             if ($kuotaSiswa >= $peringkat) {
                 $statusPendaftaran->update([
                     'status' => 'diterima'

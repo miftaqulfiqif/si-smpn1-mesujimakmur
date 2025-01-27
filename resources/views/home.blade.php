@@ -83,7 +83,7 @@
             <div class="flex justify-end right-0">
                 <img src="{{ asset('assets/images/Group.svg') }}" alt="" class="w-16 mr-28">
                 <img src="{{ asset('assets/images/Ellipse 28.svg') }}" alt="" srcset="" class="w-12">
-                <p class="font-bold text-3xl">50 +<br><span class="font-normal text-xl">Achievments in the school</span>
+                <p class="font-bold text-3xl">50 +<br><span class="font-normal text-xl">Pencapaian di sekolah</span>
                 </p>
             </div>
         </div>
@@ -94,8 +94,8 @@
                     SMP Negeri 1 Mesuji Makmur
                 </p>
                 <p class="mt-6 text-xl">
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Id voluptates blanditiis, facilis dolor
-                    consectetur ullam magnam vel ducimus dolorem reiciendis.
+                    Pembukaan masa pendaftaran online. Ayo Segerakan Daftarkan Diri Anda !!! dan pastikan anda akan
+                    mendapatkan pendidikan yang unggul dan berkualitas.
                 </p>
             </div>
             @if ($fotoSekolah)
@@ -179,7 +179,7 @@
                                             class="h-8">
                                         <div class="ml-2">
                                             <p class="text-xl">{{ Str::limit($prestasi->nama, 50) }}</p>
-                                            <p class="text-sm text-justify">{{ Str::limit($prestasi->konten, 80) }}</p>
+                                            <p class="text-sm text-justify">{!! Str::limit($prestasi->konten, 80) !!}</p>
                                         </div>
                                     </div>
                                 </div>
@@ -221,7 +221,7 @@
                                     <p class="text-sm font-bold mb-2">{{ Str::limit($informasi->nama, 50) }}</p>
                                     <div class="relative flex h-12">
                                         <p class="text-xs w-[80%] text-justify">
-                                            {{ Str::limit($informasi->deskripsi, 80) }}
+                                            {!! strip_tags(Str::limit($informasi->deskripsi, 80)) !!}
                                         </p>
                                         <img src="{{ asset('assets/images/arrow-square-right.svg') }}" alt=""
                                             class="absolute bottom-0 right-0">
