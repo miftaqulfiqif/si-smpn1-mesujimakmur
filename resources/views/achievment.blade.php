@@ -32,7 +32,7 @@
                             </span>
                         </div>
                     </a>
-                    <a href="#" class="flex mt-10 mb-[80px] max-w-max rounded-full">
+                    <a href="/ppdb/login" class="flex mt-10 mb-[80px] max-w-max rounded-full">
                         <div
                             class="py-4 mx-auto flex px-6 bg-gradient-to-b from-[#7A1CAC] to-[#4D0E69] rounded-full gap-x-6 shadow-xl">
                             <p class="text-white font-bold mx-auto">Daftar Sekarang</p><span>

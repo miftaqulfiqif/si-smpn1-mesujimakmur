@@ -7,6 +7,7 @@ use App\Models\StatusPendaftaran;
 use App\Models\User;
 use Illuminate\Database\Console\Migrations\StatusCommand;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
@@ -27,9 +28,14 @@ class AuthController extends Controller
         return view('auth.login', compact('applogo'));
     }
 
+    public function showRegisterForm()
+    {
+        $applogo = Applogo::first();
+        return view('auth.register', compact('applogo'));
+    }
+
     public function register(Request $request)
     {
-
         $request->validate([
             'name' => 'required|string|max:255',
             'nisn' => 'required|string|unique:users,nisn',

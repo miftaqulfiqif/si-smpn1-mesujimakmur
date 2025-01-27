@@ -26,7 +26,7 @@ return new class extends Migration
         Schema::create('misi', function (Blueprint $table) {
             $table->id();
             $table->string('editor');
-            $table->json('konten');
+            $table->text('konten');
             $table->timestamps();
         });
     }

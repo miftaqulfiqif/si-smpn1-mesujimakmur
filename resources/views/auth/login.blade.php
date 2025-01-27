@@ -32,7 +32,7 @@
                 @enderror
             </div>
 
-            <p class="text-[#AAA9A9] text-sm mb-4">Lupa password?</p>
+            {{-- <p class="text-[#AAA9A9] text-sm mb-4">Lupa password?</p> --}}
             <button type="submit" class="bg-[#2E073F] p-4 text-white w-full rounded-xl font-bold mb-5">Log In</button>
         </form>
 
@@ -40,11 +40,11 @@
             <button type="button" class="font-[#2E073F] font-normal w-full text-center">Buat Akun</button>
         </a>
 
-        <div class="flex mt-[20px]">
+        {{-- <div class="flex mt-[20px]">
             <input type="checkbox" checked="checked"
                 class="checkbox border-[#B38DDB] [--chkbg:theme(colors.indigo.600)] [--chkfg:[#B38DDB]] checked:border-[#B38DDB]" />
             <p class="ml-2 text-[#B38DDB]">Ingat Saya</p>
-        </div>
+        </div> --}}
     </div>
 </body>
 
