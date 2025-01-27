@@ -35,7 +35,7 @@ class InformasiResource extends Resource
                             ->placeholder('Masukkan judul informasi')
                             ->required()
                             ->maxLength(255),
-                        Forms\Components\Textarea::make('deskripsi')
+                        Forms\Components\RichEditor::make('deskripsi')
                             ->placeholder('Masukkan deskripsi')
                             ->required()
                             ->columnSpanFull(),
@@ -63,7 +63,10 @@ class InformasiResource extends Resource
                     }),
                 TextColumn::make('editor')->sortable(),
                 TextColumn::make('nama')->searchable(),
-                TextColumn::make('deskripsi')->searchable(),
+                TextColumn::make('deskripsi')
+                    ->html()
+                    ->searchable()
+                    ->limit(50),
                 TextColumn::make('tanggal')->sortable(),
                 //GAMBAR
                 TextColumn::make('created_at')

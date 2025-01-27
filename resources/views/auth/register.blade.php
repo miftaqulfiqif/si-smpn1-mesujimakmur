@@ -11,7 +11,8 @@
 
 <body>
     <div class="w-[577px] h-auto mx-auto border border-[#BB97CB] p-[53px] rounded-2xl bg-[#F9EEFF]">
-        <img src="{{ asset('assets/images/logo_login.png') }}" alt="" class="h-[206px] mx-auto mb-4">
+        <img src="{{ $applogo ? asset('storage/' . $applogo->image_url) : asset('assets/images/logo_login.png') }}"
+            alt="" class="h-[206px] mx-auto mb-4">
         <form action="/ppdb/register" method="POST">
             @csrf
             <div class="flex flex-col mb-4">

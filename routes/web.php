@@ -32,6 +32,7 @@ Route::post('/ppdb/register', [AuthController::class, 'register'])->name('regist
 
 // ROUTE AUTH PPDB
 Route::get('/ppdb/login', [AuthController::class, 'showLoginForm'])->name('ppdb.login');
+Route::get('/ppdb/register', [AuthController::class, 'showRegisterForm'])->name('ppdb.register');
 Route::post('/login', [AuthController::class, 'login'])->name('login');
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 

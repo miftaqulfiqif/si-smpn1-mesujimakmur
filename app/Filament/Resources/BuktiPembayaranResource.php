@@ -14,7 +14,7 @@ use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 
-class BuktiPembayaranResource extends Resource
+class BuktiPembayaranResources extends Resource
 {
     protected static ?string $model = BuktiPembayaran::class;
 
