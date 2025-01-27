@@ -10,6 +10,7 @@ use App\Models\DokumenCalonSiswa;
 use App\Models\DokumenPrestasi;
 use App\Models\NilaiRapot;
 use App\Models\PeringkatCalonSiswa;
+use App\Models\PeringkatCalonSiswaAfirmasi;
 use App\Models\PeringkatCalonSiswaPrestasi;
 use App\Models\PeriodeDaftar;
 use App\Models\StatusPendaftaran;
@@ -66,11 +67,6 @@ class PpdbController extends Controller
         $statusPendaftaran = StatusPendaftaran::where('id_data_calon_siswa', $biodata->id)->first();
 
         if ($statusPendaftaran) {
-            $periode = PeriodeDaftar::where('id', $biodata->id_periode)->first();
-            $curentDate = Carbon::now()->format('Y-m-d');
-            if ($curentDate > $periode->end_date) {
-                $peringkatSiswa = PeringkatCalonSiswaPrestasi::getPeringkat($biodata->id);
-            }
             if ($statusPendaftaran->status) {
                 return redirect()->route('ppdb-index');
             }
@@ -467,12 +463,12 @@ class PpdbController extends Controller
 
         $errors = [];
         foreach ($documents as $document) {
-            if ($document->isRequired) {
+            if ($document->isRequired && (!isset($uploadedFiles[$document->id]) || !$uploadedFiles[$document->id]->isValid())) {
                 $existingDocument = DokumenCalonSiswa::where('id_data_calon_siswa', $calonSiswa->id)
                     ->where('id_dokumen', $document->id)
                     ->first();
 
-                if (!isset($uploadedFiles[$document->id]) && !$existingDocument) {
+                if (!$existingDocument) {
                     $errors["files.{$document->id}"] = "Dokumen {$document->nama} wajib diunggah.";
                 }
             }
@@ -491,38 +487,37 @@ class PpdbController extends Controller
 
                 if ($file && $file->isValid()) {
                     $newFilePath = $file->store('uploads/documents', 'public');
-                } else {
-                    $existingDocument = DokumenCalonSiswa::where('id_data_calon_siswa', $calonSiswa->id)
-                        ->where('id_dokumen', $document->id)
-                        ->first();
-
-                    $newFilePath = $existingDocument ? $existingDocument->path_url : null;
                 }
 
-                if ($newFilePath) {
-                    DokumenCalonSiswa::updateOrCreate(
-                        [
-                            'id_data_calon_siswa' => $calonSiswa->id,
-                            'id_dokumen' => $document->id,
-                        ],
-                        [
-                            'path_url' => $newFilePath,
-                        ]
-                    );
+                $existingDocument = DokumenCalonSiswa::where('id_data_calon_siswa', $calonSiswa->id)
+                    ->where('id_dokumen', $document->id)
+                    ->first();
+
+                if ($existingDocument) {
+                    $existingDocument->update([
+                        'path_url' => $newFilePath ?? $existingDocument->path_url
+                    ]);
+                } else if ($newFilePath) {
+                    DokumenCalonSiswa::create([
+                        'id_data_calon_siswa' => $calonSiswa->id,
+                        'id_dokumen' => $document->id,
+                        'nama_dokumen' => $document->nama ?? '',
+                        'path_url' => $newFilePath
+                    ]);
                 }
             }
 
             $statusPendaftaran = StatusPendaftaran::where('id_data_calon_siswa', $calonSiswa->id)->first();
 
-            if ($statusPendaftaran && $statusPendaftaran->status == 'processing') {
+            if ($statusPendaftaran && $statusPendaftaran->status == 'proses_seleksi') {
                 StatusPendaftaran::updateOrCreate([
                     'id_data_calon_siswa' => $calonSiswa->id,
-                    'status' => 'processing'
+                    'status' => 'proses_seleksi'
                 ]);
             } else {
                 StatusPendaftaran::updateOrCreate([
                     'id_data_calon_siswa' => $calonSiswa->id,
-                    'status' => 'pending'
+                    'status' => 'pengecekan_berkas'
                 ]);
 
                 $recipient = Auth::user();
@@ -556,12 +551,12 @@ class PpdbController extends Controller
 
         $errors = [];
         foreach ($documents as $document) {
-            if ($document->isRequired) {
+            if ($document->isRequired && (!isset($uploadedFiles[$document->id]) || !$uploadedFiles[$document->id]->isValid())) {
                 $existingDocument = DokumenCalonSiswa::where('id_data_calon_siswa', $calonSiswa->id)
                     ->where('id_dokumen', $document->id)
                     ->first();
 
-                if (!isset($uploadedFiles[$document->id]) && !$existingDocument) {
+                if (!$existingDocument) {
                     $errors["files.{$document->id}"] = "Dokumen {$document->nama} wajib diunggah.";
                 }
             }
@@ -580,38 +575,37 @@ class PpdbController extends Controller
 
                 if ($file && $file->isValid()) {
                     $newFilePath = $file->store('uploads/documents', 'public');
-                } else {
-                    $existingDocument = DokumenCalonSiswa::where('id_data_calon_siswa', $calonSiswa->id)
-                        ->where('id_dokumen', $document->id)
-                        ->first();
-
-                    $newFilePath = $existingDocument ? $existingDocument->path_url : null;
                 }
 
-                if ($newFilePath) {
-                    DokumenCalonSiswa::updateOrCreate(
-                        [
-                            'id_data_calon_siswa' => $calonSiswa->id,
-                            'id_dokumen' => $document->id,
-                        ],
-                        [
-                            'path_url' => $newFilePath,
-                        ]
-                    );
+                $existingDocument = DokumenCalonSiswa::where('id_data_calon_siswa', $calonSiswa->id)
+                    ->where('id_dokumen', $document->id)
+                    ->first();
+
+                if ($existingDocument) {
+                    $existingDocument->update([
+                        'path_url' => $newFilePath ?? $existingDocument->path_url
+                    ]);
+                } else if ($newFilePath) {
+                    DokumenCalonSiswa::create([
+                        'id_data_calon_siswa' => $calonSiswa->id,
+                        'id_dokumen' => $document->id,
+                        'nama_dokumen' => $document->nama ?? '',
+                        'path_url' => $newFilePath
+                    ]);
                 }
             }
 
             $statusPendaftaran = StatusPendaftaran::where('id_data_calon_siswa', $calonSiswa->id)->first();
 
-            if ($statusPendaftaran && $statusPendaftaran->status == 'processing') {
+            if ($statusPendaftaran && $statusPendaftaran->status == 'proses_seleksi') {
                 StatusPendaftaran::updateOrCreate([
                     'id_data_calon_siswa' => $calonSiswa->id,
-                    'status' => 'processing'
+                    'status' => 'proses_seleksi'
                 ]);
             } else {
                 StatusPendaftaran::updateOrCreate([
                     'id_data_calon_siswa' => $calonSiswa->id,
-                    'status' => 'pending'
+                    'status' => 'pengecekan_berkas'
                 ]);
 
                 $recipient = Auth::user();
@@ -643,12 +637,12 @@ class PpdbController extends Controller
 
         $errors = [];
         foreach ($documents as $document) {
-            if ($document->isRequired) {
+            if ($document->isRequired && (!isset($uploadedFiles[$document->id]) || !$uploadedFiles[$document->id]->isValid())) {
                 $existingDocument = DokumenCalonSiswa::where('id_data_calon_siswa', $calonSiswa->id)
                     ->where('id_dokumen', $document->id)
                     ->first();
 
-                if (!isset($uploadedFiles[$document->id]) && !$existingDocument) {
+                if (!$existingDocument) {
                     $errors["files.{$document->id}"] = "Dokumen {$document->nama} wajib diunggah.";
                 }
             }
@@ -667,38 +661,37 @@ class PpdbController extends Controller
 
                 if ($file && $file->isValid()) {
                     $newFilePath = $file->store('uploads/documents', 'public');
-                } else {
-                    $existingDocument = DokumenCalonSiswa::where('id_data_calon_siswa', $calonSiswa->id)
-                        ->where('id_dokumen', $document->id)
-                        ->first();
-
-                    $newFilePath = $existingDocument ? $existingDocument->path_url : null;
                 }
 
-                if ($newFilePath) {
-                    DokumenCalonSiswa::updateOrCreate(
-                        [
-                            'id_data_calon_siswa' => $calonSiswa->id,
-                            'id_dokumen' => $document->id,
-                        ],
-                        [
-                            'path_url' => $newFilePath,
-                        ]
-                    );
+                $existingDocument = DokumenCalonSiswa::where('id_data_calon_siswa', $calonSiswa->id)
+                    ->where('id_dokumen', $document->id)
+                    ->first();
+
+                if ($existingDocument) {
+                    $existingDocument->update([
+                        'path_url' => $newFilePath ?? $existingDocument->path_url
+                    ]);
+                } else if ($newFilePath) {
+                    DokumenCalonSiswa::create([
+                        'id_data_calon_siswa' => $calonSiswa->id,
+                        'id_dokumen' => $document->id,
+                        'nama_dokumen' => $document->nama ?? '',
+                        'path_url' => $newFilePath
+                    ]);
                 }
             }
 
             $statusPendaftaran = StatusPendaftaran::where('id_data_calon_siswa', $calonSiswa->id)->first();
 
-            if ($statusPendaftaran && $statusPendaftaran->status == 'processing') {
+            if ($statusPendaftaran && $statusPendaftaran->status == 'proses_seleksi') {
                 StatusPendaftaran::updateOrCreate([
                     'id_data_calon_siswa' => $calonSiswa->id,
-                    'status' => 'processing'
+                    'status' => 'proses_seleksi'
                 ]);
             } else {
                 StatusPendaftaran::updateOrCreate([
                     'id_data_calon_siswa' => $calonSiswa->id,
-                    'status' => 'pending'
+                    'status' => 'pengecekan_berkas'
                 ]);
 
                 $recipient = Auth::user();

@@ -15,6 +15,11 @@ use Illuminate\Database\Eloquent\SoftDeletingScope;
 use App\Filament\Resources\DataCalonSiswaResource\RelationManagers\DataOrangtuaRelationManager;
 use App\Filament\Resources\DataOrangtuaResource\RelationManagers\DataOrangtuaRelationManager as RelationManagersDataOrangtuaRelationManager;
 use App\Models\DokumenCalonSiswa;
+use App\Models\DokumenPrestasi;
+use Filament\Forms\Components\Repeater;
+use Filament\Tables\View\TablesRenderHook;
+use Illuminate\Database\Eloquent\Relations\Relation;
+use Illuminate\Validation\ConditionalRules;
 
 class DataCalonSiswaResource extends Resource
 {
@@ -29,13 +34,20 @@ class DataCalonSiswaResource extends Resource
         return $form
             ->schema([
                 Forms\Components\Section::make()->columns(2)->schema([
+                    Forms\Components\Section::make()
+                        ->relationship('user')
+                        ->schema([
+                            Forms\Components\TextInput::make('jalur')
+                                ->disabled()
+                                ->reactive()
+                        ]),
                     Forms\Components\Fieldset::make('Data Calon Siswa')
                         ->extraAttributes([
                             'class' => 'bg-white shadow overflow-hidden sm:rounded-lg',
                         ])
                         ->schema([
                             Forms\Components\Select::make('id_periode')
-                                ->label('Periode')
+                                ->label('Tahun Ajaran')
                                 ->relationship('periode', 'name')
                                 ->required()
                                 ->disabled(),
@@ -199,14 +211,16 @@ class DataCalonSiswaResource extends Resource
                         ->relationship('dokumenCalonSiswa')
                         ->columns(2)
                         ->schema([
-                            Forms\Components\TextInput::make('nama_dokumen  ')
+                            Forms\Components\TextInput::make('nama_dokumen')
                                 ->label('Nama Dokumen')
                                 ->disabled(),
                             Forms\Components\FileUpload::make('path_url')
                                 ->required()
                                 ->downloadable()
                                 ->disabled(),
-                        ]),
+                        ])
+                        ->disableItemCreation()
+                        ->disableItemDeletion(),
                 ]),
                 Forms\Components\Section::make()->relationship('statusPendaftaran')->schema([
                     Forms\Components\TextInput::make('status')
@@ -215,11 +229,12 @@ class DataCalonSiswaResource extends Resource
                     Forms\Components\Select::make('status')
                         ->label('Status Pendaftaran')
                         ->options([
-                            'processing' => 'Lolos Pendataan',
-                            'failure' => 'Gagal',
-                            'accepted' => 'Diterima'
+                            'pengecekan_berkas' => 'Sedang Dalam Pengecekan Berkas',
+                            'proses_seleksi' => 'Proses Seleksi',
+                            'ditolak' => 'Ditolak',
+                            'diterima' => 'Diterima'
                         ])
-                        ->required()
+                        ->required(),
                 ]),
             ]);
     }
@@ -230,7 +245,18 @@ class DataCalonSiswaResource extends Resource
             ->searchPlaceholder('Cari data calon siswa...')
             ->emptyStateHeading('Tidak ada data calon siswa')
             ->columns([
+                Tables\Columns\TextColumn::make('nomor_urut')
+                    ->label('No')
+                    ->getStateUsing(function ($record, $rowLoop) {
+                        return $rowLoop->iteration;
+                    }),
+                Tables\Columns\TextColumn::make('nomor_urut')
+                    ->label('No')
+                    ->getStateUsing(function ($record, $rowLoop) {
+                        return $rowLoop->iteration;
+                    }),
                 Tables\Columns\TextColumn::make('periode.name')
+                    ->label('Tahun Ajaran')
                     ->sortable(),
                 Tables\Columns\TextColumn::make('user.name')
                     ->label('Name')
@@ -262,6 +288,8 @@ class DataCalonSiswaResource extends Resource
                 Tables\Columns\TextColumn::make('statusPendaftaran.status')
                     ->searchable()
                     ->sortable(),
+                Tables\Columns\TextColumn::make('peringkat')
+                    ->sortable(),
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()
@@ -273,11 +301,8 @@ class DataCalonSiswaResource extends Resource
             ])
             ->filters([])
             ->actions([
-                Tables\Actions\ViewAction::make()
-                    ->label('Lihat')
-                    ->icon('heroicon-s-eye'),
                 Tables\Actions\EditAction::make()
-                    ->label('Edit')
+                    ->label('Update Status')
                     ->icon('heroicon-s-pencil'),
             ])
             ->bulkActions([
@@ -301,6 +326,27 @@ class DataCalonSiswaResource extends Resource
             'create' => Pages\CreateDataCalonSiswa::route('/create'),
             'view' => Pages\ViewDataCalonSiswa::route('/{record}'),
             'edit' => Pages\EditDataCalonSiswa::route('/{record}/edit'),
+        ];
+    }
+
+    private function getRepeaterSchema($relationshipName)
+    {
+        return [
+            Forms\Components\Repeater::make('Dokumen Persyaratan')
+                ->relationship('dokumenCalonSiswa')
+                ->columns(2)
+                ->schema([
+                    Forms\Components\Select::make('id_dokumen')
+                        ->relationship($relationshipName, 'nama')
+                        ->label('Nama Dokumen')
+                        ->disabled(),
+                    Forms\Components\FileUpload::make('path_url')
+                        ->required()
+                        ->downloadable()
+                        ->disabled(),
+                ])
+                ->disableItemCreation()
+                ->disableItemDeletion(),
         ];
     }
 }

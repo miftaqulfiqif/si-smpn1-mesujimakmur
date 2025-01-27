@@ -24,6 +24,7 @@ class DataCalonSiswa extends Model
         'zonasi',
         'foto',
         'notelp',
+        'peringkat'
     ];
 
     public function user()
@@ -48,6 +49,21 @@ class DataCalonSiswa extends Model
     public function dokumenCalonSiswa()
     {
         return $this->hasMany(DokumenCalonSiswa::class, 'id_data_calon_siswa');
+    }
+
+    public function dokumenZonasi()
+    {
+        return $this->dokumenCalonSiswa()->whereHas('dokumen', fn($query) => $query->where('jalur', 'zonasi'));
+    }
+
+    public function dokumenPrestasi()
+    {
+        return $this->dokumenCalonSiswa()->whereHas('dokumen', fn($query) => $query->where('jalur', 'prestasi'));
+    }
+
+    public function dokumenAfirmasi()
+    {
+        return $this->dokumenCalonSiswa()->whereHas('dokumen', fn($query) => $query->where('jalur', 'afirmasi'));
     }
 
     public function statusPendaftaran()

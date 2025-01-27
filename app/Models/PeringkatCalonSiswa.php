@@ -12,7 +12,8 @@ class PeringkatCalonSiswa extends Model
     protected $fillable = [
         'id_data_calon_siswa',
         'id_nilai',
-        'id_periode'
+        'id_periode',
+        'peringkat'
     ];
 
     public function dataCalonSiswa()
@@ -33,8 +34,16 @@ class PeringkatCalonSiswa extends Model
     public static function getPeringkat($idDataCalonSiswa)
     {
         $siswa = DataCalonSiswa::where('id', $idDataCalonSiswa)->first();
+        $jalurSiswa = $siswa->user->jalur;
+
         $periodeSiswa = PeriodeDaftar::where('id', $siswa->id_periode)->first();
-        $statusPendaftaran = StatusPendaftaran::where('id_data_calon_siswa', $idDataCalonSiswa)->first();
+        if ($jalurSiswa == 'zonasi') {
+            $kuotaSiswa = $periodeSiswa->kuota;
+        } else if ($jalurSiswa == 'prestasi') {
+            $kuotaSiswa = $periodeSiswa->kuota_prestasi;
+        } else if ($jalurSiswa == 'afirmasi') {
+            $kuotaSiswa = $periodeSiswa->kuota_afirmasi;
+        }
 
         $peringkatSiswa = PeringkatCalonSiswa::with(['dataCalonSiswa.user', 'nilaiSiswa'])
             ->where('id_periode', $periodeSiswa->id)
@@ -52,22 +61,30 @@ class PeringkatCalonSiswa extends Model
                 ];
             })
             ->sortByDesc('rata_rata_nilai'); // Mengurutkan berdasarkan rata-rata nilai
-
         $peringkat = array_search($idDataCalonSiswa, array_column($peringkatSiswa->toArray(), 'id_siswa')) + 1;
 
-        if (Carbon::now() > $periodeSiswa->end_date) {
+        PeringkatCalonSiswa::where('id_data_calon_siswa', $idDataCalonSiswa)->update([
+            'peringkat' => $peringkat
+        ]);
 
-            if ($periodeSiswa->kuota > $peringkat) {
+        DataCalonSiswa::where('id', $idDataCalonSiswa)->update([
+            'peringkat' => $peringkat
+        ]);
+
+        $statusPendaftaran = StatusPendaftaran::where('id_data_calon_siswa', $idDataCalonSiswa)->first();
+        if (Carbon::now() > $periodeSiswa->end_date) {
+            if ($kuotaSiswa >= $peringkat) {
                 $statusPendaftaran->update([
-                    'status' => 'accepted'
+                    'status' => 'diterima'
                 ]);
             } else {
                 $statusPendaftaran->update([
-                    'status' => 'rejected'
+                    'status' => 'ditolak'
                 ]);
             }
 
             return redirect()->route('ppdb-index');
         }
+        return $peringkat;
     }
 }

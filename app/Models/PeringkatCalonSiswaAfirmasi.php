@@ -5,8 +5,10 @@ namespace App\Models;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 
-class PeringkatCalonSiswaPrestasi extends Model
+class PeringkatCalonSiswaAfirmasi extends Model
 {
+    protected $table = 'peringkat_calon_siswa_afirmasi';
+
     protected $fillable = [
         'id_data_calon_siswa',
         'id_nilai',
@@ -43,7 +45,7 @@ class PeringkatCalonSiswaPrestasi extends Model
             $kuotaSiswa = $periodeSiswa->kuota_afirmasi;
         }
 
-        $peringkatSiswa = PeringkatCalonSiswaPrestasi::with(['dataCalonSiswa.user', 'nilaiSiswa'])
+        $peringkatSiswa = PeringkatCalonSiswaAfirmasi::with(['dataCalonSiswa.user', 'nilaiSiswa'])
             ->where('id_periode', $periodeSiswa->id)
             ->get()
             ->map(function ($siswa) {
@@ -61,14 +63,13 @@ class PeringkatCalonSiswaPrestasi extends Model
             ->sortByDesc('rata_rata_nilai'); // Mengurutkan berdasarkan rata-rata nilai
         $peringkat = array_search($idDataCalonSiswa, array_column($peringkatSiswa->toArray(), 'id_siswa')) + 1;
 
-        PeringkatCalonSiswaPrestasi::where('id_data_calon_siswa', $idDataCalonSiswa)->update([
+        PeringkatCalonSiswaAfirmasi::where('id_data_calon_siswa', $idDataCalonSiswa)->update([
             'peringkat' => $peringkat
         ]);
 
         DataCalonSiswa::where('id', $idDataCalonSiswa)->update([
             'peringkat' => $peringkat
         ]);
-
 
         $statusPendaftaran = StatusPendaftaran::where('id_data_calon_siswa', $idDataCalonSiswa)->first();
         if (Carbon::now() > $periodeSiswa->end_date) {

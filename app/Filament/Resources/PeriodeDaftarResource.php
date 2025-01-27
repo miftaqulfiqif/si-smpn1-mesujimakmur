@@ -166,6 +166,11 @@ class PeriodeDaftarResource extends Resource
         return $table
             ->emptyStateHeading(heading: 'Belum ada periode pendaftaran')
             ->columns([
+                Tables\Columns\TextColumn::make('nomor_urut')
+                    ->label('No')
+                    ->getStateUsing(function ($record, $rowLoop) {
+                        return $rowLoop->iteration;
+                    }),
                 Tables\Columns\TextColumn::make('editor.name')
                     ->sortable(),
                 Tables\Columns\TextColumn::make('name')

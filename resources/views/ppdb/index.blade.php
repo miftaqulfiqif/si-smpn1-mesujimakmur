@@ -18,6 +18,8 @@
             </div>
         @endif
 
+
+
         <div class="my-5">
             <p>Selamat Datang</p>
             <p class="text-3xl font-bold">{{ $namaSiswa }}</p>
@@ -59,8 +61,12 @@
                         @else
                             <p class="text-lg font-bold">Tidak</p>
                         @endif
-
                     </div>
+                    @if ($peringkatExist)
+                        <div class="">
+                            <p class="text-md">Anda sekarng di Peringkat {{ $dataCalonSiswa->peringkat }}</p>
+                        </div>
+                    @endif
                 </div>
                 <div class="mt-8 bg-white p-4 rounded-xl">
                     <p class="text-lg font-bold">Status Pendaftaran </p>
@@ -68,20 +74,20 @@
                             class="font-bold">{{ $periodeDaftar->name }}</span>
                     </p>
 
-                    @if ($statusPendaftaran->status == 'pending')
+                    @if ($statusPendaftaran->status == 'pengecekan_berkas')
                         <p class="text-lg bg-[#e1ff0065] px-4 py-2 rounded-2xl max-w-fit">Sedang Dalam Pengecekan Berkas ...
                         </p>
-                    @elseif ($statusPendaftaran->status == 'processing')
+                    @elseif ($statusPendaftaran->status == 'proses_seleksi')
                         <p class="text-lg bg-[#fff20065] px-4 py-2 rounded-2xl max-w-fit">Sedang Dalam Proses Perangkingan
                         </p>
                         <p class="mt-4">Silahkan mengecek peringkat secara berkala</p>
-                    @elseif ($statusPendaftaran->status == 'accepted')
+                    @elseif ($statusPendaftaran->status == 'diterima')
                         <p class="text-lg bg-[#5cff3b65] px-4 py-2 rounded-2xl max-w-fit">Selamat Anda Diterima</p>
                         <p class="mt-4">Silahkan melakuakan daftar ulang dengan datang ke Sekolah SMPN 1 Mesuji Makmur</p>
                         {{-- <a href="#">
                             <p class="text-sm bg-blue-500 text-white px-3 py-2 rounded-2xl max-w-fit">Bayar Daftar Ulang</p>
                         </a> --}}
-                    @elseif ($statusPendaftaran->status == 'rejected')
+                    @elseif ($statusPendaftaran->status == 'ditolak')
                         <p class="text-lg bg-[#fa000485] px-4 py-2 rounded-2xl max-w-fit">Maaf, Anda belum di terima</p>
                         <p class="mt-4">Tetap Semangat dan Jangan Putus Asa </p>
                     @else
