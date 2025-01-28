@@ -5,6 +5,7 @@ use App\Http\Controllers\ActivityController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DetailContentController;
 use App\Http\Controllers\InformationController;
+use App\Http\Controllers\MainInformationController;
 use App\Http\Controllers\PpdbController;
 use App\Http\Controllers\PpdbIndexController;
 use App\Http\Controllers\SistemInformasiController;
@@ -22,6 +23,7 @@ Route::get('/activities', [ActivityController::class, "showActivity"])->name('ac
 Route::get('/information', [InformationController::class, 'showInformation'])->name('information');
 
 Route::get('detail-content/{content}/{id}', [DetailContentController::class, 'showContent'])->name('detail-content');
+Route::get('main-information', [MainInformationController::class, 'showMainInformation'])->name('main-information');
 
 
 // ROUTE DAFTAR SISWA
