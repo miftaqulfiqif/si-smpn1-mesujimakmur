@@ -40,7 +40,7 @@
                     <p class="text-3xl font-bold mb-4 font-[#2E073F]">{{ $mainInformation->title }}</p>
                     <p class="font-semibold mb-4">{{ $mainInformation->editor }}</p>
                     <p>
-                        {!! Str::limit($mainInformation->content, 800) !!}
+                        {!! Str::limit($mainInformation->content, 500) !!}
                     </p>
                     <div class="absolute flex items-center bottom-0">
                         <a href="{{ route('main-information') }}">
