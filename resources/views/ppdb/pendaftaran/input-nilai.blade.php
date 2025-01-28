@@ -116,9 +116,9 @@
                                     <p class="text-sm text-red-500 pt-1">*</p>
                                 @enderror
                             </div>
-                            <input type="number" id="semester_ganjil_kelas_4" name="semester_ganjil_kelas_4"
+                            <input type="text" id="semester_ganjil_kelas_4" name="semester_ganjil_kelas_4"
                                 value="{{ old('semester_ganjil_kelas_4', $data->semester_ganjil_kelas_4 ?? '') }}"
-                                class="input bg-white input-bordered w-full" required>
+                                class="input bg-white input-bordered w-full" required pattern="^\d+(\.\d+)?$">
                         </li>
                         <li class="form-control gap-1">
                             <div class="flex">
@@ -128,9 +128,9 @@
                                     <p class="text-sm text-red-500 pt-1">*</p>
                                 @enderror
                             </div>
-                            <input type="number" id="semester_genap_kelas_4" name="semester_genap_kelas_4"
+                            <input type="text" id="semester_genap_kelas_4" name="semester_genap_kelas_4"
                                 value="{{ old('semester_genap_kelas_4', $data->semester_genap_kelas_4 ?? '') }}"
-                                class="input bg-white input-bordered w-full" required maxlength="255">
+                                class="input bg-white input-bordered w-full" required pattern="^\d+(\.\d+)?$">
                         </li>
                     </div>
 
@@ -144,9 +144,9 @@
                                     <p class="text-sm text-red-500 pt-1">*</p>
                                 @enderror
                             </div>
-                            <input type="number" id="semester_ganjil_kelas_5" name="semester_ganjil_kelas_5"
+                            <input type="text" id="semester_ganjil_kelas_5" name="semester_ganjil_kelas_5"
                                 value="{{ old('semester_ganjil_kelas_5', $data->semester_ganjil_kelas_5 ?? '') }}"
-                                class="input bg-white input-bordered w-full" required maxlength="255">
+                                class="input bg-white input-bordered w-full" required pattern="^\d+(\.\d+)?$">
                         </li>
                         <li class="form-control gap-1">
                             <div class="flex">
@@ -156,9 +156,9 @@
                                     <p class="text-sm text-red-500 pt-1">*</p>
                                 @enderror
                             </div>
-                            <input type="number" id="semester_genap_kelas_5" name="semester_genap_kelas_5"
+                            <input type="text" id="semester_genap_kelas_5" name="semester_genap_kelas_5"
                                 value="{{ old('semester_genap_kelas_5', $data->semester_genap_kelas_5 ?? '') }}"
-                                class="input bg-white input-bordered w-full" required maxlength="255">
+                                class="input bg-white input-bordered w-full" required pattern="^\d+(\.\d+)?$">
                         </li>
                     </div>
 
@@ -172,9 +172,9 @@
                                     <p class="text-sm text-red-500 pt-1">*</p>
                                 @enderror
                             </div>
-                            <input type="number" id="semester_ganjil_kelas_6" name="semester_ganjil_kelas_6"
+                            <input type="text" id="semester_ganjil_kelas_6" name="semester_ganjil_kelas_6"
                                 value="{{ old('semester_ganjil_kelas_6', $data->semester_ganjil_kelas_6 ?? '') }}"
-                                class="input bg-white input-bordered w-full" required maxlength="255">
+                                class="input bg-white input-bordered w-full" required pattern="^\d+(\.\d+)?$">
                         </li>
                     </div>
                     <div class="flex justify-center gap-2 mt-5">

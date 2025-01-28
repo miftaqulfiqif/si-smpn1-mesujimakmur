@@ -34,20 +34,16 @@
 <body>
     <x-navbar />
     <section class="my-20">
-        @if ($newInformation)
+        @if ($mainInformation)
             <div class="flex mx-20 items-center gap-4">
-                <div class="bg-cover bg-center w-[600px] h-[400px] my-auto basis-1/2 rounded-xl"
-                    style="background-image: url('{{ asset('storage/' . $newInformation->main_image) }}')">
-                </div>
                 <div class="relative justify-center h-96 max-h-full basis-1/2">
-                    <p class="text-3xl font-bold mb-4 font-[#2E073F]">{{ $newInformation->nama }}</p>
-                    <p class="font-semibold mb-4">{{ $newInformation->editor }}</p>
+                    <p class="text-3xl font-bold mb-4 font-[#2E073F]">{{ $mainInformation->title }}</p>
+                    <p class="font-semibold mb-4">{{ $mainInformation->editor }}</p>
                     <p>
-                        {!! Str::limit($newInformation->deskripsi, 200) !!}
+                        {!! Str::limit($mainInformation->content, 800) !!}
                     </p>
                     <div class="absolute flex items-center bottom-0">
-                        <a
-                            href="{{ route('detail-content', ['content' => 'informasi', 'id' => $newInformation->id]) }}">
+                        <a href="{{ route('main-information') }}">
                             <p class="mr-4">Baca Selengkapnya</p>
 
                         </a>
