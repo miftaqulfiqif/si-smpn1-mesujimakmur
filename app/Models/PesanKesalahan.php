@@ -13,7 +13,8 @@ class PesanKesalahan extends Model
         'pesan'
     ];
 
-    public function dataCalonSiswa(){
-        return $this->belongsTo(DataCalonSiswa::class, 'id');
+    public function dataCalonSiswa()
+    {
+        return $this->belongsTo(DataCalonSiswa::class, 'id_data_calon_siswa');
     }
 }
