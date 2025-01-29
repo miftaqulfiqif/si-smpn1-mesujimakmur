@@ -80,7 +80,11 @@ class PeringkatCalonSiswaAfirmasi extends Model
             });
 
         $statusPendaftaran = StatusPendaftaran::where('id_data_calon_siswa', $idDataCalonSiswa)->first();
-        if (Carbon::now() > $periodeSiswa->end_date) {
+
+        $currentDate = Carbon::now()->format('Y-m-d');
+        $periodeEnd = $periodeSiswa->end_date;
+
+        if ($currentDate > $periodeEnd) {
             if ($kuotaSiswa >= $peringkat) {
                 $statusPendaftaran->update([
                     'status' => 'diterima'
