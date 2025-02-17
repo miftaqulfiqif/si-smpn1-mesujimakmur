@@ -16,6 +16,8 @@ use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Route;
 use League\Csv\Query\Row;
 
+
+
 // ROUTE SISTEM INFORMASI
 Route::get('/', [SistemInformasiController::class, 'showData'])->name('moto');
 Route::get('/achievment', [AchievmentController::class, "showPrestasi"])->name('prestasi');
