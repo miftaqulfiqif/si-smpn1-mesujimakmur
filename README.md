@@ -27,4 +27,4 @@
 Setelah instalasi project masuk ke halaman admin filament dan login dengan data berikut:
 ```base
 > Email : admin@gmail.com
-> Password : password
+> Password : password123
